@@ -1,0 +1,145 @@
+/* ==========================================
+   Google Font & Global Styles
+========================================== */
+
+/* Reset default browser spacing */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Smooth scrolling */
+html{
+    scroll-behavior: smooth;
+}
+
+/* Body */
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #F8F9FA;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Remove underline from links */
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Remove bullets */
+ul{
+    list-style: none;
+}
+
+/* Responsive images */
+img{
+    width: 100%;
+    display: block;
+}
+/* ==========================================
+   Navigation Bar
+========================================== */
+
+header{
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.navbar{
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 80px;
+}
+/* Logo */
+
+.logo a{
+
+    font-size: 1.8rem;
+
+    font-weight: 700;
+
+    color: #0B3D91;
+
+}
+.nav-links{
+
+    display:flex;
+
+    gap:30px;
+
+}
+
+.nav-links a{
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover{
+
+    color:#0D6EFD;
+
+}
+/* ==========================================
+   Authentication Buttons
+========================================== */
+
+.auth-menu{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.dropdown{
+    position: relative;
+}
+
+.dropdown button{
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.dropdown-btn{
+    background: transparent;
+    color: #333;
+}
+
+.register-btn{
+    background: #0D6EFD;
+    color: white;
+}
+
+.dropdown-btn:hover{
+    color: #0D6EFD;
+}
+
+.register-btn:hover{
+    background: #0B5ED7;
+}
+.dropdown-content{
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+}
+
+.dropdown:hover .dropdown-content{
+    display: block;
+}

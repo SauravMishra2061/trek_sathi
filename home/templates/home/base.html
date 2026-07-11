@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            Trek Sathi
+        {% endblock %}
+    </title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- Navigation Bar -->
+    <!-- ========================= -->
+
+    <header>
+        <nav class="navbar">
+
+            <!-- Logo -->
+            <div class="logo">
+                <a href="{% url 'home' %}">Trek Sathi</a>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links">
+
+                <li><a href="{% url 'home' %}">Home</a></li>
+
+                <li><a href="#">Packages</a></li>
+
+                <li><a href="#">Companies</a></li>
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Contact</a></li>
+
+            </ul>
+
+            <!-- Authentication Buttons -->
+            <div class="auth-menu">
+
+                <div class="dropdown">
+
+                    <button class="dropdown-btn">
+                        Login
+                        <i class="fa-solid fa-caret-down"></i>
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <a href="#">Trekker</a>
+
+                        <a href="#">Company</a>
+
+                    </div>
+
+                </div>
+
+                <div class="dropdown">
+
+                    <button class="register-btn">
+                        Register
+                        <i class="fa-solid fa-caret-down"></i>
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <a href="#">Trekker</a>
+
+                        <a href="#">Company</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- ========================= -->
+    <!-- Main Content -->
+    <!-- ========================= -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- ========================= -->
+    <!-- Footer -->
+    <!-- ========================= -->
+
+    <footer>
+
+        <p>
+            &copy; 2026 Trek Sathi. All Rights Reserved.
+        </p>
+
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="{% static 'js/script.js' %}"></script>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+
+</html>
