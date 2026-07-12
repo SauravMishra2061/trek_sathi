@@ -1,0 +1,127 @@
+===========================================
+TREK SATHI - IMAGE DOWNLOAD LIST
+===========================================
+
+1. HERO IMAGE
+-------------------------------------------
+Save as:
+hero.jpg
+
+Description:
+High-quality panoramic mountain landscape of the Himalayas with blue sky.
+Used for the homepage hero section.
+
+-------------------------------------------
+
+2. LATEST PACKAGE IMAGES
+-------------------------------------------
+
+Save as:
+everest-package.jpg
+
+Description:
+Everest Base Camp trekking group on the trail with mountains in the background.
+
+
+Save as:
+annapurna-package.jpg
+
+Description:
+Annapurna Circuit trekking trail with snow-capped mountains.
+
+
+Save as:
+langtang-package.jpg
+
+Description:
+Langtang Valley trekking route with forests and Himalayan scenery.
+
+-------------------------------------------
+
+3. DESTINATION IMAGES
+-------------------------------------------
+
+Save as:
+everest-region.jpg
+
+Description:
+Beautiful panoramic view of Mount Everest and Everest region.
+
+
+Save as:
+annapurna-region.jpg
+
+Description:
+Annapurna mountain range during sunrise or sunset.
+
+
+Save as:
+langtang-region.jpg
+
+Description:
+Langtang Valley landscape with mountains and greenery.
+
+
+Save as:
+manaslu-region.jpg
+
+Description:
+Mount Manaslu with trekking trail and suspension bridge.
+
+
+Save as:
+mustang-region.jpg
+
+Description:
+Upper Mustang desert landscape with cliffs and traditional village.
+
+
+Save as:
+kanchenjunga-region.jpg
+
+Description:
+Kanchenjunga mountain range with snowy peaks.
+
+-------------------------------------------
+
+4. TESTIMONIAL PROFILE IMAGES
+-------------------------------------------
+
+Save as:
+user1.jpg
+Description:
+Male trekker portrait smiling.
+
+Save as:
+user2.jpg
+Description:
+Female trekker portrait with mountain background.
+
+Save as:
+user3.jpg
+Description:
+Group of trekkers or solo hiker portrait.
+
+===========================================
+IMAGE SIZE RECOMMENDATION
+===========================================
+
+Hero:
+1920 × 1080
+
+Destination Cards:
+1200 × 800
+
+Package Cards:
+1200 × 800
+
+Testimonials:
+500 × 500
+
+Format:
+JPG
+
+Quality:
+High
+
+===========================================

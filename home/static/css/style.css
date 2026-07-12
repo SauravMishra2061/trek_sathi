@@ -103,43 +103,648 @@ header{
     gap: 15px;
 }
 
-.dropdown{
-    position: relative;
+/* ==========================================
+   Authentication Buttons
+========================================== */
+
+.auth-menu{
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.dropdown button{
-    padding: 10px 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: 0.3s;
-}
+/* Login Button */
 
-.dropdown-btn{
-    background: transparent;
+.login-btn{
+
+    padding: 10px 22px;
+
     color: #333;
+
+    font-weight: 500;
+
+    transition: .3s;
 }
+
+.login-btn:hover{
+    background: #EAF3FF;
+    color: #0D6EFD;
+    border-radius: 6px;
+}
+
+/* Register Button */
 
 .register-btn{
-    background: #0D6EFD;
-    color: white;
-}
 
-.dropdown-btn:hover{
-    color: #0D6EFD;
+    padding: 10px 22px;
+
+    background: #0D6EFD;
+
+    color: white;
+
+    border-radius: 6px;
+
+    font-weight: 500;
+
+    transition: .3s;
 }
 
 .register-btn:hover{
+
     background: #0B5ED7;
+
+    transform: translateY(-2px);
+
 }
-.dropdown-content{
-    display: none;
-    position: absolute;
-    background: white;
-    border: 1px solid #ccc;
+
+.dropdown-content a{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 18px;
+
+    font-size: 15px;
+    color: #333;
+
+    transition: 0.3s;
+}
+
+.dropdown-content a:hover{
+    background: #F1F6FF;
+    color: #0D6EFD;
 }
 
 .dropdown:hover .dropdown-content{
     display: block;
+}
+/* ==========================================
+   Hero Section
+========================================== */
+/* ==========================================
+   Container
+========================================== */
+
+.container{
+
+    width: 95%;
+
+    max-width: 1400px;
+   
+    margin: 0 auto;
+
+}
+.hero{
+
+    height: calc(100vh - 80px);
+
+    background-image: url("../images/hero.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    position: relative;
+
+}
+.hero-overlay{
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(0,0,0,.55);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+.hero-content{
+
+    width:90%;
+
+    max-width:900px;
+
+    text-align:center;
+
+    color:white;
+
+}
+.hero-content{
+
+    width:90%;
+
+    max-width:900px;
+
+    text-align:center;
+
+    color:white;
+
+}
+.hero-content h1{
+
+    font-size:4rem;
+
+    line-height:1.2;
+
+    margin-bottom:25px;
+
+    font-weight:700;
+
+}
+
+.hero-content span{
+
+    color:#4DA3FF;
+
+}
+.hero-content p{
+
+    font-size:1.2rem;
+
+    max-width:700px;
+
+    margin:0 auto 40px;
+
+    color:#E8E8E8;
+
+}
+.hero-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+}
+.primary-btn{
+
+    background:#0D6EFD;
+
+    color:white;
+
+    padding:15px 35px;
+
+    border-radius:8px;
+
+    transition:.3s;
+
+}
+
+.primary-btn:hover{
+
+    background:#0B5ED7;
+
+    transform:translateY(-3px);
+
+}
+.secondary-btn{
+
+    border:2px solid white;
+
+    color:white;
+
+    padding:15px 35px;
+
+    border-radius:8px;
+
+    transition:.3s;
+
+}
+
+.secondary-btn:hover{
+
+    background:white;
+
+    color:#0B3D91;
+
+}
+/* ==========================================
+   Hero Search
+========================================== */
+
+.hero-search{
+    width: 100%;
+    max-width: 700px;
+
+    margin: 40px auto;
+
+    display: flex;
+    align-items: center;
+
+    height: 60px;
+
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 50px;
+
+    overflow: hidden;
+}
+.hero-search input{
+    flex: 1;
+    height: 100%;
+
+    border: none;
+    outline: none;
+
+    padding: 0 25px;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 16px;
+}
+.hero-search input::placeholder{
+
+    color: rgba(255,255,255,.85);
+
+}
+.hero-search button{
+    height: 100%;
+
+    padding: 0 30px;
+
+    border: none;
+
+    background: #0D6EFD;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.hero-search button:hover{
+    background: #0B5ED7;
+}
+/* ==========================================
+   Featured Packages
+========================================== */
+
+.featured-packages{
+
+    padding: 80px 0;
+
+    background: #F8F9FA;
+
+}
+
+.featured-packages h2{
+
+    text-align: center;
+
+    color: #0B3D91;
+
+    font-size: 2.2rem;
+
+    margin-bottom: 10px;
+
+}
+
+.featured-packages p{
+
+    text-align: center;
+
+    color: #666;
+
+    margin-bottom: 45px;
+
+}
+.package-grid{
+
+    display: grid;
+
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 30px;
+
+}
+.package-card{
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+
+    transition: .3s;
+
+}
+.package-card:hover{
+
+    transform: translateY(-10px);
+
+    box-shadow: 0 18px 40px rgba(0,0,0,.15);
+
+}
+.package-card img{
+
+    height: 220px;
+
+    object-fit: cover;
+
+}
+
+
+.package-info{
+
+    padding: 20px;
+
+}
+
+.package-info h3{
+
+    margin-bottom: 15px;
+
+    color: #0B3D91;
+
+}
+
+.duration{
+
+    color: #666;
+
+    margin-bottom: 12px;
+
+}
+
+.price{
+
+    color: #0D6EFD;
+
+    font-size: 1.2rem;
+
+    font-weight: 600;
+
+    margin-bottom: 20px;
+
+}
+.details-btn{
+
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    background: #0D6EFD;
+
+    color: white;
+
+    border-radius: 6px;
+
+    transition: .3s;
+
+}
+
+.details-btn:hover{
+
+    background: #0B5ED7;
+
+}
+/* ==========================================
+   Popular Destinations
+========================================== */
+
+.destinations{
+
+    padding:90px 0;
+
+    background:white;
+
+}
+.section-header{
+
+    text-align:center;
+
+    margin-bottom:50px;
+
+}
+
+.section-header h2{
+
+    font-size:2.3rem;
+
+    color:#0B3D91;
+
+    margin-bottom:15px;
+
+}
+
+.section-header p{
+
+    color:#666;
+
+    max-width:700px;
+
+    margin:auto;
+
+}
+.destination-grid{
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+
+}
+.destination-card{
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+    
+    height: 380px;
+    
+    cursor: pointer;
+
+}
+.destination-card img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.5s;
+
+}
+.destination-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+   background: linear-gradient(
+    to top,
+    rgba(0,0,0,.82),
+    rgba(0,0,0,.35),
+    rgba(0,0,0,.05)
+    );
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+
+    padding:25px;
+
+    color:white;
+
+}
+.destination-overlay h3{
+
+    font-size:1.6rem;
+
+    margin-bottom:8px;
+
+}
+
+.destination-overlay p{
+
+    margin-bottom:18px;
+
+}
+.destination-overlay a{
+
+    color:white;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.destination-overlay a:hover{
+
+    color:#4DA3FF;
+
+.destination-card{
+    transition: transform .35s ease;
+}
+}
+.destination-card:hover{
+    transform: translateY(-8px);
+}
+
+.destination-card:hover img{
+    transform: scale(1.08);
+}
+.view-all{
+
+    text-align:center;
+
+    margin-top:50px;
+
+}
+
+.view-all a{
+
+    display:inline-block;
+
+    padding:14px 28px;
+
+    border:2px solid #0D6EFD;
+
+    color:#0D6EFD;
+
+    border-radius:40px;
+
+    transition:.3s;
+
+    font-weight:600;
+
+}
+
+.view-all a:hover{
+
+    background:#0D6EFD;
+
+    color:white;
+
+}
+/* ==========================================
+   Why Choose Trek Sathi
+========================================== */
+
+.why-us{
+
+    padding:90px 0;
+
+    background:#F4F9FF;
+
+}
+
+.features-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:25px;
+
+}
+
+.feature-card{
+
+    background:white;
+
+    padding:35px 25px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.feature-card i{
+
+    font-size:50px;
+
+    color:#0D6EFD;
+
+    margin-bottom:20px;
+
+}
+
+.feature-card h3{
+
+    color:#0B3D91;
+
+    margin-bottom:15px;
+
+}
+
+.feature-card p{
+
+    color:#666;
+
+    font-size:15px;
+
 }
