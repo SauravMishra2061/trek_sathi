@@ -16,7 +16,7 @@
         <h1>Register Your Company</h1>
 
         <p class="subtitle">
-            Join Trek Sathi and showcase your trekking adventures.
+            Create your company account and start your verification process.
         </p>
 
         <form method="POST">
@@ -25,45 +25,59 @@
 
             <div class="input-group">
                 <i class="fa-solid fa-building"></i>
-                <input type="text" placeholder="Company Name">
+                <input
+                    type="text"
+                    name="company_name"
+                    placeholder="Company Name"
+                    required>
             </div>
 
             <div class="input-group">
                 <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="Owner / Manager Name">
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required>
             </div>
 
             <div class="input-group">
                 <i class="fa-solid fa-envelope"></i>
-                <input type="email" placeholder="Company Email">
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    required>
             </div>
 
             <div class="input-group">
                 <i class="fa-solid fa-phone"></i>
-                <input type="tel" placeholder="Phone Number">
-            </div>
-
-            <div class="input-group">
-                <i class="fa-solid fa-location-dot"></i>
-                <input type="text" placeholder="Office Address">
-            </div>
-
-            <div class="input-group">
-                <i class="fa-solid fa-user-tag"></i>
-                <input type="text" placeholder="Username">
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone Number"
+                    required>
             </div>
 
             <div class="input-group">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" placeholder="Password">
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required>
             </div>
 
             <div class="input-group">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" placeholder="Confirm Password">
+                <input
+                    type="password"
+                    name="confirm_password"
+                    placeholder="Confirm Password"
+                    required>
             </div>
 
-            <button class="auth-btn" type="submit">
+            <button type="submit" class="auth-btn">
                 Register Company
             </button>
 
