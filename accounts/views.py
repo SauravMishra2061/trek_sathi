@@ -18,3 +18,9 @@ def trekker_register(request):
 
 def company_register(request):
     return render(request, "accounts/company_register.html")
+
+def trekker_login(request):
+    return render(request,"accounts/trekker_login.html")
+
+def company_login(request):
+    return render(request, "accounts/company_login.html")

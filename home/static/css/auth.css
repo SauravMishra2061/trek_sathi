@@ -25,6 +25,7 @@
 .auth-card,
 .choice-box {
   width: 100%;
+  
   max-width: 500px;
 
   padding: 45px;

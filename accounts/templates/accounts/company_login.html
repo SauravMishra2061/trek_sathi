@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Company Login
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <h1>Company Login</h1>
+
+        <p class="subtitle">
+            Sign in to manage your trekking company and packages.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required>
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Login
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Forgot your password?
+            <a href="#">
+                Reset Password
+            </a>
+        </p>
+
+        <p class="bottom-text">
+            Don't have a company account?
+            <a href="{% url 'company_register' %}">
+                Register Your Company
+            </a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}
