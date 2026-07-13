@@ -214,7 +214,7 @@
 @media (max-width: 576px) {
   .auth-card,
   .choice-box {
-    padding: 30px 25px;
+    padding: 50px 45px;
 
     border-radius: 18px;
   }
@@ -262,4 +262,13 @@
   transform: translateY(-3px);
 
   box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
+}
+.auth-card {
+  transition: 0.35s;
+}
+
+.auth-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
