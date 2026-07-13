@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Trekker Registration{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <h1>Join Trek Sathi</h1>
+
+        <p class="subtitle">
+            Discover Nepal, One Trek at a Time.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="Full Name">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-user-tag"></i>
+                <input type="text" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" placeholder="Email Address">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel" placeholder="Phone Number">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Confirm Password">
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login_choice' %}">Login</a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

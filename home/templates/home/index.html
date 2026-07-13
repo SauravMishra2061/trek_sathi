@@ -1,9 +1,9 @@
-{% extends "home/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 Home | Trek Sathi
 {% endblock %}
-
+{% load static %}
 {% block content %}
 
 <!-- Hero Section -->
@@ -365,20 +365,269 @@ Home | Trek Sathi
     </div>
 
 </section>
-
-<!-- Popular Trek Routes -->
-<section class="popular-treks">
-
-</section>
-
 <!-- Testimonials -->
+<!-- ==========================================
+     Testimonials
+========================================== -->
+
 <section class="testimonials">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <h2>What Trekkers Say</h2>
+
+            <p>
+                Hear from trekkers who explored Nepal through Trek Sathi.
+            </p>
+
+        </div>
+
+        <div class="testimonial-grid">
+
+            <div class="testimonial-card">
+
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+
+                <p class="review">
+                    "Booking my Everest Base Camp trek through Trek Sathi was
+                    incredibly simple. Comparing different companies helped me
+                    choose the perfect package."
+                </p>
+
+                <div class="reviewer">
+
+                    <img src="{% static 'images/testimonials/user1.jpg' %}" alt="Reviewer">
+
+                    <div>
+                        <h4>Alex Johnson</h4>
+                        <span>Everest Base Camp Trek</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="testimonial-card">
+
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+
+                <p class="review">
+                    "The platform made finding an Annapurna package easy.
+                    Everything was organized in one place."
+                </p>
+
+                <div class="reviewer">
+
+                    <img src="{% static 'images/testimonials/user2.jpg' %}" alt="Reviewer">
+
+                    <div>
+                        <h4>Sarah Williams</h4>
+                        <span>Annapurna Circuit</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="testimonial-card">
+
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+
+                <p class="review">
+                    "Excellent experience from start to finish. I highly
+                    recommend Trek Sathi for anyone planning a trek."
+                </p>
+
+                <div class="reviewer">
+
+                    <img src="{% static 'images/testimonials/user3.jpg' %}" alt="Reviewer">
+
+                    <div>
+                        <h4>Rahul Sharma</h4>
+                        <span>Langtang Valley Trek</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
 <!-- Call To Action -->
-<section class="cta">
+<!-- ==========================================
+     Company CTA
+========================================== -->
+
+<section class="company-cta">
+
+    <div class="cta-overlay">
+
+        <div class="container">
+
+            <div class="cta-content">
+
+                <h2>Grow Your Trekking Business with Trek Sathi</h2>
+
+                <p>
+                    Connect with thousands of trekkers searching for their next
+                    Himalayan adventure. Showcase your trekking packages,
+                    receive bookings, and grow your business through Nepal's
+                    trusted trekking marketplace.
+                </p>
+
+                <div class="cta-buttons">
+
+                    <a href="#" class="cta-btn-primary">
+                        Register Your Company
+                    </a>
+
+                    <a href="#" class="cta-btn-secondary">
+                        Learn More
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
+<!-- ==========================================
+     Statistics
+========================================== -->
+
+<section class="statistics">
+
+    <div class="container">
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <i class="fa-solid fa-route"></i>
+                <h2>500+</h2>
+                <p>Trek Packages</p>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-building"></i>
+                <h2>120+</h2>
+                <p>Verified Companies</p>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-mountain"></i>
+                <h2>20+</h2>
+                <p>Destinations</p>
+            </div>
+
+            <div class="stat-card">
+                <i class="fa-solid fa-users"></i>
+                <h2>10K+</h2>
+                <p>Happy Trekkers</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+
+                <h3>Trek Sathi</h3>
+
+                <p>
+                    Nepal's trusted platform for discovering, comparing,
+                    and booking trekking adventures.
+                </p>
+
+            </div>
+
+            <div>
+
+                <h4>Quick Links</h4>
+
+                <ul>
+
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Packages</a></li>
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Companies</a></li>
+
+                </ul>
+
+            </div>
+
+            <div>
+
+                <h4>Popular Regions</h4>
+
+                <ul>
+
+                    <li>Everest</li>
+                    <li>Annapurna</li>
+                    <li>Langtang</li>
+                    <li>Mustang</li>
+
+                </ul>
+
+            </div>
+
+            <div>
+
+                <h4>Contact</h4>
+
+                <p>Jhapa, Nepal</p>
+
+                <p>info@treksathi.com</p>
+
+                <p>+977-XXXXXXXXXX</p>
+
+            </div>
+
+        </div>
+
+        <hr>
+        
+        <p>
+            &copy; 2026 Trek Sathi. All Rights Reserved.
+        </p>
+
+
+
+    </div>
+
+</footer>
 
 {% endblock %}

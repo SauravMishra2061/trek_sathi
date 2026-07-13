@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="choice-box">
+
+        <h1>Join Trek Sathi</h1>
+
+        <p class="subtitle">
+            Choose how you would like to join Nepal's trusted trekking platform.
+        </p>
+
+        <a href="{% url 'trekker_register' %}" class="choice-btn">
+            <i class="fa-solid fa-user"></i>
+            Register as Trekker
+        </a>
+
+        <a href="{% url 'company_register' %}" class="choice-btn" class="choice-btn">
+            <i class="fa-solid fa-building"></i>
+            Register as Company
+        </a>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login_choice' %}">
+                Login
+            </a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

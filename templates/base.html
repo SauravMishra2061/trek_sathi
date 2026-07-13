@@ -54,15 +54,17 @@
                 <li><a href="#">Contact</a></li>
 
             </ul>
-
+            <div class="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+            </div>
             <!-- Authentication Buttons -->
            <div class="auth-menu">
 
-    <a href="#" class="login-btn">
+    <a href="{% url 'login_choice' %}" class="login-btn" class="login-btn">
         Login
     </a>
 
-    <a href="#" class="register-btn">
+    <a href="{% url 'register_choice' %}" class="register-btn" class="register-btn">
         Register
     </a>
 
@@ -88,13 +90,7 @@
     <!-- Footer -->
     <!-- ========================= -->
 
-    <footer>
 
-        <p>
-            &copy; 2026 Trek Sathi. All Rights Reserved.
-        </p>
-
-    </footer>
 
     <!-- Main JavaScript -->
     <script src="{% static 'js/script.js' %}"></script>

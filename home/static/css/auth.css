@@ -1,0 +1,265 @@
+/* ==========================================
+   Authentication Pages
+========================================== */
+
+.auth-section {
+  min-height: calc(100vh - 80px);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 60px 20px;
+
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url('../images/hero.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.auth-card,
+.choice-box {
+  width: 100%;
+  max-width: 500px;
+
+  padding: 45px;
+
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+
+  animation: fadeIn 0.5s ease;
+}
+
+.auth-card h1,
+.choice-box h1 {
+  color: #fff;
+
+  text-align: center;
+
+  margin-bottom: 10px;
+
+  font-size: 2rem;
+}
+
+.subtitle,
+.choice-box p {
+  color: #eaeaea;
+
+  text-align: center;
+
+  margin-bottom: 35px;
+
+  line-height: 1.6;
+}
+
+/* ==========================
+   Input Fields
+========================== */
+
+.input-group {
+  display: flex;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  border-radius: 10px;
+
+  transition: 0.3s;
+}
+
+.input-group i {
+  width: 55px;
+
+  color: #fff;
+
+  text-align: center;
+
+  font-size: 16px;
+}
+
+.input-group input {
+  flex: 1;
+
+  border: none;
+
+  background: transparent;
+
+  color: white;
+
+  padding: 15px 10px;
+
+  outline: none;
+
+  font-size: 15px;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.input-group:focus-within {
+  border-color: #4da3ff;
+
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+.auth-btn,
+.choice-btn {
+  display: block;
+
+  width: 100%;
+
+  padding: 15px;
+
+  margin-top: 10px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #0d6efd;
+
+  color: white;
+
+  text-align: center;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+}
+
+.auth-btn:hover,
+.choice-btn:hover {
+  background: #0b5ed7;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
+}
+
+/* Space between buttons on choice pages */
+
+.choice-btn + .choice-btn {
+  margin-top: 15px;
+}
+
+/* ==========================
+   Footer Text
+========================== */
+
+.bottom-text {
+  margin-top: 30px;
+
+  text-align: center;
+
+  color: #fff;
+}
+
+.bottom-text a {
+  color: #7ec8ff;
+
+  font-weight: 600;
+}
+
+.bottom-text a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================
+   Animation
+========================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media (max-width: 576px) {
+  .auth-card,
+  .choice-box {
+    padding: 30px 25px;
+
+    border-radius: 18px;
+  }
+
+  .auth-card h1,
+  .choice-box h1 {
+    font-size: 1.7rem;
+  }
+}
+.choice-btn {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 16px;
+
+  margin-bottom: 15px;
+
+  border-radius: 10px;
+
+  background: #0d6efd;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+}
+
+.choice-btn i {
+  font-size: 18px;
+}
+
+.choice-btn:hover {
+  background: #0b5ed7;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
+}

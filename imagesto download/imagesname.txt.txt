@@ -125,3 +125,30 @@ Quality:
 High
 
 ===========================================
+home
+└── static
+    └── images
+        └── testimonials
+            ├── user1.jpg
+            ├── user2.jpg
+            └── user3.jpg
+            Search for:
+
+Male hiker portrait
+Female trekker portrait
+Mountain traveler portrait
+
+on Unsplash or Pexels, then save them as:
+user1.jpg
+user2.jpg
+user3.jpg
+
+home
+└── static
+    └── images
+        └── company-bg.jpg
+
+
+
+
+        company-bg.jpg

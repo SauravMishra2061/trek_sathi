@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Company Registration{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <h1>Register Your Company</h1>
+
+        <p class="subtitle">
+            Join Trek Sathi and showcase your trekking adventures.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+                <i class="fa-solid fa-building"></i>
+                <input type="text" placeholder="Company Name">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="Owner / Manager Name">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" placeholder="Company Email">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel" placeholder="Phone Number">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot"></i>
+                <input type="text" placeholder="Office Address">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-user-tag"></i>
+                <input type="text" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Confirm Password">
+            </div>
+
+            <button class="auth-btn" type="submit">
+                Register Company
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login_choice' %}">
+                Login
+            </a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

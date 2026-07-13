@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="choice-box">
+
+        <h1>Welcome Back</h1>
+
+        <p>Choose how you want to login.</p>
+
+        <a href="#" class="choice-btn">
+            <i class="fa-solid fa-user"></i>
+            Login as Trekker
+        </a>
+
+        <a href="#" class="choice-btn">
+            <i class="fa-solid fa-building"></i>
+            Login as Company
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
