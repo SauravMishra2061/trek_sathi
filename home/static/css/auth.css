@@ -25,7 +25,7 @@
 .auth-card,
 .choice-box {
   width: 100%;
-  
+
   max-width: 500px;
 
   padding: 45px;
@@ -181,13 +181,19 @@
 }
 
 .bottom-text a {
-  color: #7ec8ff;
+  display: block;
+
+  margin-top: 8px;
+
+  color: #4da3ff;
 
   font-weight: 600;
+
+  transition: 0.3s;
 }
 
 .bottom-text a:hover {
-  text-decoration: underline;
+  color: #80c4ff;
 }
 
 /* ==========================
