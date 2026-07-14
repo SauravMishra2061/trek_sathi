@@ -60,11 +60,11 @@
             <!-- Authentication Buttons -->
            <div class="auth-menu">
 
-    <a href="{% url 'login_choice' %}" class="login-btn" class="login-btn">
+    <a href="{% url 'login_choice' %}" class="login-btn">
         Login
     </a>
 
-    <a href="{% url 'register_choice' %}" class="register-btn" class="register-btn">
+    <a href="{% url 'register_choice' %}" class="register-btn">
         Register
     </a>
 
@@ -79,13 +79,15 @@
     <!-- ========================= -->
 
     <main>
-        {% if messages %}
-        {% for message in messages %}
+       {% if messages %}
+<div class="messages">
+    {% for message in messages %}
         <div class="message {{ message.tags }}">
             {{ message }}
         </div>
-        {% endfor %}
-        {% endif %} 
+    {% endfor %}
+</div>
+{% endif %}
 
         {% block content %}
        

@@ -144,7 +144,7 @@ header {
 
   transform: translateY(-2px);
 }
-
+/* 
 .dropdown-content a {
   display: flex;
   align-items: center;
@@ -165,7 +165,7 @@ header {
 
 .dropdown:hover .dropdown-content {
   display: block;
-}
+} */
 /* ==========================================
    Hero Section
 ========================================== */
@@ -544,11 +544,11 @@ header {
 
 .destination-overlay a:hover {
   color: #4da3ff;
-
-  .destination-card {
-    transition: transform 0.35s ease;
-  }
 }
+.destination-card {
+  transition: transform 0.35s ease;
+}
+
 .destination-card:hover {
   transform: translateY(-8px);
 }
@@ -1071,4 +1071,45 @@ footer {
 
 .choice-box input:focus {
   border-color: #0d6efd;
+}
+/* =========================
+   Django Flash Messages
+========================= */
+
+.messages {
+  position: fixed !important;
+  top: 90px !important;
+  right: 480px !important;
+  z-index: 99999 !important;
+}
+
+.messages .message {
+  display: block !important;
+  min-width: 320px;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  color: #fff !important;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.messages .success {
+  background: rgba(40, 167, 69, 0.95) !important;
+}
+
+.messages .error {
+  background: rgba(220, 53, 69, 0.95) !important;
+}
+
+.messages .warning {
+  background: rgba(255, 193, 7, 0.95) !important;
+  color: #222 !important;
+}
+
+.messages .info {
+  background: rgba(13, 110, 253, 0.95) !important;
 }

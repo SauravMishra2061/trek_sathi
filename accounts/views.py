@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 from django.shortcuts import render
 
@@ -69,12 +67,13 @@ def company_login(request):
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
 def trekker_register(request):
     if request.method == "POST":
-        full_name = request.POST["full_name"],
-        username = request.POST["username"],
+        full_name = request.POST["full_name"]
+        username = request.POST["username"]
         email = request.POST["email"]
         password = request.POST["password"]
         confirm_password = request.POST["confirm_password"]
@@ -107,3 +106,28 @@ def trekker_register(request):
 
         return redirect("trekker_login")
     return render(request, "accounts/trekker_register.html")
+    
+def trekker_login(request):
+    if request.method == "POST":
+
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(
+            username=username,
+            password=password
+        )
+        if user is not None:
+
+         login(request, user)
+
+         messages.success(request, "Welcome back!")
+
+         return redirect("home")
+
+        else:
+
+         messages.error(request, "Invalid username or password.")
+
+         return redirect("trekker_login")
+
+    return render(request, "accounts/trekker_login.html")
