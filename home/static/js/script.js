@@ -6,10 +6,10 @@ menuToggle.addEventListener('click', () => {
 })
 //auth message
 setTimeout(() => {
-  document.querySelectorAll('.alert').forEach((alert) => {
-    alert.style.transition = 'opacity 0.5s ease'
-    alert.style.opacity = '0'
+  document.querySelectorAll('.message').forEach((msg) => {
+    msg.style.transition = 'opacity 0.5s ease'
+    msg.style.opacity = '0'
 
-    setTimeout(() => alert.remove(), 500)
+    setTimeout(() => message.remove(), 500)
   })
 }, 3000)

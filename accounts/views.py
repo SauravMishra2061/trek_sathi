@@ -131,3 +131,11 @@ def trekker_login(request):
          return redirect("trekker_login")
 
     return render(request, "accounts/trekker_login.html")
+from django.contrib.auth import logout
+from django.contrib import messages
+from django.shortcuts import redirect
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, "Logged out successfully.")
+    return redirect("home")

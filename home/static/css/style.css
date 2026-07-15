@@ -1113,3 +1113,75 @@ footer {
 .messages .info {
   background: rgba(13, 110, 253, 0.95) !important;
 }
+/* ==========================
+   Logged-in User Menu
+========================== */
+
+.user-menu {
+  position: relative;
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 20px;
+
+  background: #0d6efd;
+  color: white;
+
+  border: none;
+  border-radius: 30px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.user-btn:hover {
+  background: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.35);
+}
+
+.user-menu .dropdown-content {
+  position: absolute;
+  right: 0;
+  top: 115%;
+
+  min-width: 220px;
+
+  background: rgba(63, 62, 62, 0.15);
+  backdrop-filter: blur(18px);
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  display: none;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.user-menu .dropdown-content a {
+  display: block;
+
+  padding: 14px 18px;
+
+  color: white;
+  text-decoration: none;
+
+  transition: 0.3s;
+}
+
+.user-menu .dropdown-content a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #4da3ff;
+}
+
+.user-menu:hover .dropdown-content {
+  display: block;
+}
