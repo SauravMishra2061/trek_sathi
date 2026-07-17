@@ -1,0 +1,50 @@
+<aside class="dashboard-sidebar">
+
+            <div class="profile-box">
+
+                <div class="profile-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <h3>{{ request.user.username }}</h3>
+
+                <span>Trekker</span>
+
+            </div>
+
+            <nav class="dashboard-nav">
+
+              <a href="{% url 'trekker_dashboard' %}" 
+              class="{%if request.resolver_match.url_name == 'trekker_dashboard'%}active{% endif %}">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+</a>
+                <a href="{% url 'profile' %}"
+   class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+    <i class="fa-solid fa-user"></i>
+    My Profile
+</a>
+                <a href="{% url 'my_bookings' %}"
+                    class="{% if request.resolver_match.url_name == 'my_bookings' %}active{% endif %}">
+                <i class="fa-solid fa-calendar-check"></i>
+                    My Bookings
+                </a>
+
+               <a href="{% url 'saved_packages' %}"
+               class="{% if request.resolver_match.url_name == 'saved_packages' %}active{% endif %}">
+    <i class="fa-solid fa-heart"></i>
+    <span>Saved Packages</span>
+</a>
+
+            </nav>
+
+            <div class="logout-btn">
+
+                <a href="{% url 'logout' %}">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>

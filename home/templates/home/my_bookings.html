@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+My Bookings
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/my_bookings.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        {% include "home/sidebar.html" %}
+
+        <section class="dashboard-main">
+
+            <!-- Header -->
+
+            <div class="bookings-header">
+
+                <div>
+
+                    <h1>My Bookings</h1>
+
+                    <p>View all your trekking reservations.</p>
+
+                </div>
+
+            </div>
+
+            <!-- Upcoming -->
+
+            <div class="booking-section">
+
+               <div class="booking-section">
+
+    <h2>Completed Treks (2)</h2>
+
+    <div class="booking-grid">
+
+        <div class="booking-card">
+
+            <div class="booking-image">
+                <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+
+            <div class="booking-content">
+
+                <h3>Annapurna Base Camp Trek</h3>
+
+                <p class="booking-date">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Completed on 12 March 2026
+                </p>
+
+                <span class="booking-status completed">
+                    Completed
+                </span>
+
+                <a href="#" class="view-btn">
+                    View Details
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="booking-card">
+
+            <div class="booking-image">
+                <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+
+            <div class="booking-content">
+
+                <h3>Mardi Himal Trek</h3>
+
+                <p class="booking-date">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Completed on 28 September 2025
+                </p>
+
+                <span class="booking-status completed">
+                    Completed
+                </span>
+
+                <a href="#" class="view-btn">
+                    View Details
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+            <!-- Completed -->
+
+           <div class="booking-section">
+
+    <h2>Completed Treks (2)</h2>
+
+    <div class="booking-grid">
+
+        <div class="booking-card">
+
+            <div class="booking-image completed">
+                <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+
+            <div class="booking-content">
+
+                <h3>Annapurna Base Camp Trek</h3>
+
+                <p class="booking-date">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    12 March 2026
+                </p>
+
+                <span class="booking-status completed">
+                    Completed
+                </span>
+
+                <a href="#" class="view-btn">
+                    View Details
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="booking-card">
+
+            <div class="booking-image completed">
+                <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+
+            <div class="booking-content">
+
+                <h3>Mardi Himal Trek</h3>
+
+                <p class="booking-date">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    28 September 2025
+                </p>
+
+                <span class="booking-status completed">
+                    Completed
+                </span>
+
+                <a href="#" class="view-btn">
+                    View Details
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+        </section>
+
+    </div>
+
+</section>
+
+{% endblock %}

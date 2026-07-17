@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+  <div class="dashboard-container">
+
+    {% include "home/sidebar.html" %}
+
+    <section class="dashboard-main">
+      {% if edit %}
+      <form method="POST">{% csrf_token %}
+      {% endif %}
+
+      <div class="dashboard-content">
+        <div class="profile-header">
+
+          <div class="profile-left">
+            <div class="profile-avatar-large">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="profile-user">
+              <h1>{{ request.user.username }}</h1>
+              <p>Trekker</p>
+              <span>Member since July 2026</span>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            {% if edit %}
+              <a href="{% url 'profile' %}" class="cancel-btn">Cancel</a>
+              <button type="submit" class="save-btn">Save Changes</button>
+            {% else %}
+              <a href="?edit=true" class="edit-profile-btn">Edit Profile</a>
+            {% endif %}
+          </div>
+
+        </div>
+
+        <div class="profile-card">
+          <div class="card-header">
+            <h2>Personal Information</h2>
+          </div>
+
+          <div class="profile-grid">
+
+            <div class="profile-item">
+              <label>First Name</label>
+              {% if edit %}
+                {{ user_form.first_name }}
+              {% else %}
+                <p>{{ request.user.first_name|default:"Not provided" }}</p>
+              {% endif %}
+            </div>
+
+            <div class="profile-item">
+              <label>Last Name</label>
+              {% if edit %}
+                {{ user_form.last_name }}
+              {% else %}
+                <p>{{ request.user.last_name|default:"Not provided" }}</p>
+              {% endif %}
+            </div>
+
+            <div class="profile-item">
+              <label>Username</label>
+              <p>{{ request.user.username }}</p>
+            </div>
+
+            <div class="profile-item">
+              <label>Email</label>
+              {% if edit %}
+                {{ user_form.email }}
+              {% else %}
+                <p>{{ request.user.email|default:"Not provided" }}</p>
+              {% endif %}
+            </div>
+
+            <div class="profile-item">
+              <label>Phone Number</label>
+              {% if edit %}
+                {{ profile_form.phone }}
+              {% else %}
+                <p>{{ profile.phone|default:"Not provided" }}</p>
+              {% endif %}
+            </div>
+
+            <div class="profile-item">
+              <label>Date of Birth</label>
+              {% if edit %}
+                {{ profile_form.date_of_birth }}
+              {% else %}
+                <p>{{ profile.date_of_birth|default:"Not provided" }}</p>
+              {% endif %}
+            </div>
+
+            <div class="profile-item">
+              <label>Gender</label>
+              {% if edit %}
+                {{ profile_form.gender }}
+              {% else %}
+                <p>{{ profile.gender|default:"Not provided" }}</p>
+              {% endif %}
+            </div>
+
+            <div class="profile-item profile-item-full">
+              <label>Address</label>
+              {% if edit %}
+                {{ profile_form.address }}
+              {% else %}
+                <p>{{ profile.address|default:"Not provided" }}</p>
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {% if edit %}
+      </form>
+      {% endif %}
+    </section>
+
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Saved Packages
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/saved_packages.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        {% include "home/sidebar.html" %}
+
+        <section class="dashboard-main">
+
+            <div class="bookings-header">
+
+                <div>
+
+                    <h1>Saved Packages</h1>
+
+                    <p>Your wishlist of trekking adventures.</p>
+
+                </div>
+
+            </div>
+
+            <div class="booking-grid">
+
+                <div class="booking-card">
+
+                    <div class="booking-image">
+                        <i class="fa-solid fa-mountain-sun"></i>
+                    </div>
+
+                    <div class="booking-content">
+
+                        <h3>Everest Base Camp Trek</h3>
+
+                        <p class="booking-date">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Everest Region
+                        </p>
+
+                        <a href="#" class="view-btn">
+                            View Package
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="booking-card">
+
+                    <div class="booking-image">
+                        <i class="fa-solid fa-mountain-sun"></i>
+                    </div>
+
+                    <div class="booking-content">
+
+                        <h3>Langtang Valley Trek</h3>
+
+                        <p class="booking-date">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Langtang Region
+                        </p>
+
+                        <a href="#" class="view-btn">
+                            View Package
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</section>
+
+{% endblock %}
