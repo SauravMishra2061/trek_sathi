@@ -65,11 +65,9 @@
 .booking-grid {
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 
-  gap: 25px;
-
-  margin-top: 20px;
+  gap: 24px;
 }
 
 /* ===============================
@@ -102,7 +100,7 @@
 ================================ */
 
 .booking-image {
-  height: 140px;
+  height: 90px;
 
   background: linear-gradient(135deg, #315c8b, #4d7fb5);
 
@@ -124,15 +122,14 @@
 ================================ */
 
 .booking-content {
-  padding: 25px;
+  padding: 18px;
 }
 
 .booking-content h3 {
   color: #234a72;
 
-  margin-bottom: 18px;
-
-  font-size: 1.25rem;
+  font-size: 1.35rem;
+  margin-bottom: 12px;
 }
 
 .booking-date {
@@ -162,7 +159,7 @@
 
   font-weight: 600;
 
-  margin-bottom: 25px;
+  margin: 16px 0;
 }
 
 .booking-image.upcoming {
@@ -188,7 +185,7 @@
 
   text-align: center;
 
-  padding: 13px;
+  padding: 10px;
 
   background: #315c8b;
 
