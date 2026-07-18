@@ -15,123 +15,84 @@ Dashboard
     <div class="dashboard-container">
 
         <!-- Sidebar -->
-    <div class="dashboard-container">
-
-    {% include "home/sidebar.html" %}
-
-
-
-
+        {% include "home/sidebar.html" %}
 
         <!-- Main Area -->
+        <section class="dashboard-main">
+            <div class="dashboard-content">
 
-       <section class="dashboard-main">
-          <div class="dashboard-content">
+                <!-- Welcome -->
+                <div class="welcome-card">
 
-    <!-- Welcome -->
+                    <div class="welcome-text">
+                        <h1>Hello, {{ request.user.username }} 👋</h1>
+                        <p>
+                            Welcome back to Trek Sathi. Manage your trekking journey,
+                            bookings and discover your next adventure.
+                        </p>
+                    </div>
 
-    <div class="welcome-card">
+                    <div class="welcome-icon">
+                        <i class="fa-solid fa-mountain-sun"></i>
+                    </div>
 
-        <div class="welcome-text">
+                </div>
 
-            <h1>Hello, {{ request.user.username }} 👋</h1>
+                <!-- Statistics -->
+                <div class="stats-grid">
 
-            <p>
-                Welcome back to Trek Sathi. Manage your trekking journey,
-                bookings and discover your next adventure.
-            </p>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <h2>0</h2>
+                        <span>Bookings</span>
+                    </div>
 
-        </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-heart"></i>
+                        <h2>0</h2>
+                        <span>Saved Packages</span>
+                    </div>
 
-        <div class="welcome-icon">
-            <i class="fa-solid fa-mountain-sun"></i>
-        </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-star"></i>
+                        <h2>0</h2>
+                        <span>Reviews</span>
+                    </div>
 
+                </div>
+
+                <!-- Bottom Section -->
+                <div class="dashboard-bottom">
+
+                    <!-- Upcoming Bookings -->
+                   <div class="dashboard-card empty-dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-suitcase-rolling"></i>
     </div>
 
+    <h3>Upcoming Bookings</h3>
 
-    <!-- Statistics -->
+    <p>No upcoming bookings yet.</p>
 
-    <div class="stats-grid">
+</div>
+                    <!-- Saved Packages -->
+                    <div class="dashboard-card empty-dashboard-card">
 
-        <div class="stat-card">
-
-            <i class="fa-solid fa-calendar-check"></i>
-
-            <h2>0</h2>
-
-            <span>Bookings</span>
-
-        </div>
-
-        <div class="stat-card">
-
-            <i class="fa-solid fa-heart"></i>
-
-            <h2>0</h2>
-
-            <span>Saved Packages</span>
-
-        </div>
-
-        <div class="stat-card">
-
-            <i class="fa-solid fa-star"></i>
-
-            <h2>0</h2>
-
-            <span>Reviews</span>
-
-        </div>
-
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-heart"></i>
     </div>
 
+    <h3>Saved Packages</h3>
 
-    <!-- Bottom Section -->
+    <p>No saved packages yet.</p>
 
-    <div class="dashboard-bottom">
-
-        <!-- Upcoming Bookings -->
-
-        <div class="dashboard-card">
-
-            <h2>Upcoming Bookings</h2>
-
-            <div class="empty-state">
-
-                <i class="fa-solid fa-tent"></i>
-
-                <p>No upcoming bookings yet.</p>
-
-            </div>
-
-        </div>
-
-
-        <!-- Saved Packages -->
-
-        <div class="dashboard-card">
-
-            <h2>Saved Packages</h2>
-
-            <div class="empty-state">
-
-                <i class="fa-solid fa-heart-circle-check"></i>
-
-                <p>No saved packages yet.</p>
-
-            </div>
-
-        </div>
-
-    </div>
 </div>
 
-</section>
-</div>
+            </div>
+        </section>
+
     </div>
 
-
 </section>
-
 {% endblock %}

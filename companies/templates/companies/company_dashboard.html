@@ -1,0 +1,162 @@
+{% extends "companies/company_base.html" %}
+
+{% block company_content %}
+
+<div class="company-dashboard">
+
+    <!-- Welcome Section -->
+    <div class="company-dashboard-header">
+
+        <h1>Welcome back, {{ request.user.first_name }}!</h1>
+
+        <p>
+            Here's a quick overview of your trekking business.
+        </p>
+
+    </div>
+
+    <!-- Statistics -->
+    <div class="company-stats-grid">
+
+        <div class="company-card company-stat-card">
+
+            <div class="company-card-icon">
+                <i class="fa-solid fa-box"></i>
+            </div>
+
+            <h3>Packages</h3>
+
+            <h2>0</h2>
+
+        </div>
+
+        <div class="company-card company-stat-card">
+
+            <div class="company-card-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <h3>Pending Bookings</h3>
+
+            <h2>0</h2>
+
+        </div>
+
+        <div class="company-card company-stat-card">
+
+            <div class="company-card-icon">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+
+            <h3>Revenue</h3>
+
+            <h2>Rs. 0</h2>
+
+        </div>
+
+        <div class="company-card company-stat-card">
+
+            <div class="company-card-icon">
+                <i class="fa-solid fa-star"></i>
+            </div>
+
+            <h3>Reviews</h3>
+
+            <h2>0.0</h2>
+
+        </div>
+
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="company-bottom">
+
+        <!-- Recent Packages -->
+
+        <div class="company-card">
+
+            <div class="company-card-icon">
+                <i class="fa-solid fa-mountain"></i>
+            </div>
+
+            <h2>Recent Packages</h2>
+
+            <div class="company-empty-state">
+
+                <i class="fa-solid fa-box-open"></i>
+
+                <p>No packages created yet.</p>
+
+            </div>
+
+        </div>
+
+        <!-- Recent Booking Requests -->
+
+        <div class="company-card">
+
+            <div class="company-card-icon">
+                <i class="fa-solid fa-user-check"></i>
+            </div>
+
+            <h2>Recent Booking Requests</h2>
+
+            <div class="company-empty-state">
+
+                <i class="fa-solid fa-calendar-xmark"></i>
+
+                <p>No booking requests yet.</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+
+    <div class="company-card company-quick-actions">
+
+        <h2>Quick Actions</h2>
+
+        <div class="company-quick-action-grid">
+
+            <a href="{% url 'company_packages' %}" class="company-action-btn">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>Add Package</span>
+
+            </a>
+
+            <a href="{% url 'company_packages' %}" class="company-action-btn">
+
+                <i class="fa-solid fa-box"></i>
+
+                <span>Manage Packages</span>
+
+            </a>
+
+            <a href="{% url 'company_bookings' %}" class="company-action-btn">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <span>Bookings</span>
+
+            </a>
+
+            <a href="{% url 'company_profile' %}" class="company-action-btn">
+
+                <i class="fa-solid fa-building"></i>
+
+                <span>Company Profile</span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

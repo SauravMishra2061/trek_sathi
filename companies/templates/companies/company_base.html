@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Company Dashboard
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/company_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="company-page">
+
+    <div class="company-container">
+
+        {% include "companies/partials/company_sidebar.html" %}
+
+        <section class="company-main">
+            <div class="company-content">
+                {% block company_content %}
+                {% endblock %}
+            </div>
+        </section>
+
+    </div>
+
+</section>
+{% endblock %}

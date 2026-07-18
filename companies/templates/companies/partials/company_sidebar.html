@@ -1,0 +1,70 @@
+<aside class="company-sidebar">
+
+    <div class="company-sidebar-header">
+
+        <div class="company-sidebar-avatar">
+            <i class="fa-solid fa-building"></i>
+        </div>
+
+        <h2>{{ request.user.first_name }}</h2>
+
+        <p>Company Account</p>
+
+    </div>
+
+    <nav class="company-sidebar-nav">
+
+        <a href="{% url 'company_dashboard' %}"
+           class="{% if request.resolver_match.url_name == 'company_dashboard' %}active{% endif %}">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{% url 'company_packages' %}"
+           class="{% if request.resolver_match.url_name == 'company_packages' %}active{% endif %}">
+            <i class="fa-solid fa-box"></i>
+            <span>Packages</span>
+        </a>
+
+        <a href="{% url 'company_bookings' %}"
+           class="{% if request.resolver_match.url_name == 'company_bookings' %}active{% endif %}">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Bookings</span>
+        </a>
+
+        <a href="{% url 'company_messages' %}"
+           class="{% if request.resolver_match.url_name == 'company_messages' %}active{% endif %}">
+            <i class="fa-solid fa-envelope"></i>
+            <span>Messages</span>
+        </a>
+
+        <a href="{% url 'company_earnings' %}"
+           class="{% if request.resolver_match.url_name == 'company_earnings' %}active{% endif %}">
+            <i class="fa-solid fa-wallet"></i>
+            <span>Earnings</span>
+        </a>
+
+        <a href="{% url 'company_reviews' %}"
+           class="{% if request.resolver_match.url_name == 'company_reviews' %}active{% endif %}">
+            <i class="fa-solid fa-star"></i>
+            <span>Reviews</span>
+        </a>
+
+        <a href="{% url 'company_profile' %}"
+           class="{% if request.resolver_match.url_name == 'company_profile' %}active{% endif %}">
+            <i class="fa-solid fa-building-user"></i>
+            <span>Company Profile</span>
+        </a>
+
+    </nav>
+
+    <div class="company-sidebar-footer">
+
+        <a href="{% url 'logout' %}">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>

@@ -1,0 +1,466 @@
+/* =====================================
+   Company Dashboard Background
+===================================== */
+
+.company-page {
+  height: calc(100vh - 80px);
+
+  padding: 11px 16px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url('../images/hero.jpg');
+
+  background-size: cover;
+  background-position: center;
+}
+
+/* =====================================
+   Main Container
+===================================== */
+.company-container {
+  display: flex;
+  height: calc(100vh - 80px);
+  gap: 24px;
+
+  padding: 20px;
+
+  height: 100%;
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+}
+
+/* =====================================
+   Sidebar
+===================================== */
+
+.company-sidebar {
+  width: 270px;
+
+  background: #315c8b;
+
+  display: sticky;
+
+  flex-direction: column;
+
+  flex-shrink: 0;
+
+  height: 100%;
+
+  overflow-y: auto;
+
+  color: white;
+
+  height: 100%;
+}
+
+.company-sidebar-header {
+  padding: 35px 20px;
+
+  text-align: center;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.company-sidebar-avatar {
+  width: 90px;
+
+  height: 90px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  color: #315c8b;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  margin: auto;
+
+  font-size: 35px;
+
+  margin-bottom: 15px;
+}
+
+.company-sidebar-header h2 {
+  font-size: 1.15rem; /* explicit, so it can't inherit a page-wide h2 default */
+  font-weight: 700;
+  line-height: 1.3;
+
+  color: white;
+
+  margin: 0 0 6px 0;
+}
+
+.company-sidebar-header p {
+  font-size: 0.85rem;
+
+  margin: 0;
+
+  opacity: 0.8;
+}
+
+.company-sidebar-nav {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-top: 20px;
+}
+
+.company-sidebar-nav a {
+  color: white;
+
+  text-decoration: none;
+
+  padding: 16px 25px;
+
+  transition: 0.3s;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+.company-sidebar-nav a:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.company-sidebar-nav .active {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.company-sidebar-footer {
+  margin-top: auto;
+
+  padding: 20px;
+}
+
+.company-sidebar-footer a {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  text-decoration: none;
+
+  color: white;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  transition: 0.3s;
+}
+
+.company-sidebar-footer a:hover {
+  background: #d9534f;
+}
+/* sidebar scrool bar */
+
+.company-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.company-sidebar::-webkit-scrollbar-thumb {
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.company-sidebar:hover::-webkit-scrollbar-thumb {
+  background: #4f79a8;
+}
+
+.company-sidebar::-webkit-scrollbar-track {
+  background: #315c8b;
+}
+
+/* =====================================
+   Main Content
+===================================== */
+.company-main {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  overflow-y: auto;
+}
+
+.company-content {
+  height: 100%;
+
+  overflow-y: auto;
+
+  padding: 30px;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(49, 92, 139, 0.35) transparent;
+}
+
+.company-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.company-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.company-content::-webkit-scrollbar-thumb {
+  background: rgba(49, 92, 139, 0.35);
+  border-radius: 20px;
+}
+
+.company-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(49, 92, 139, 0.6);
+}
+
+/* =====================================
+   Header
+===================================== */
+.company-dashboard-header {
+  margin-bottom: 30px;
+}
+
+.company-dashboard-header h1 {
+  font-size: 2rem;
+
+  color: #234a72;
+
+  margin-bottom: 8px;
+}
+
+.company-dashboard-header p {
+  color: #444;
+
+  line-height: 1.6;
+}
+
+/* =====================================
+   Shared Card Base
+===================================== */
+.company-card {
+  position: relative;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  backdrop-filter: blur(12px);
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  transition: 0.3s;
+}
+
+.company-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.company-card-icon {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: #315c8b;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+
+  margin: 0 auto 10px;
+}
+
+/* =====================================
+   Statistics
+===================================== */
+.company-stats-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+
+  margin-bottom: 30px;
+}
+
+.company-stat-card {
+  text-align: center;
+}
+
+.company-stat-card h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  color: #666;
+
+  margin-bottom: 8px;
+}
+
+.company-stat-card h2 {
+  font-size: 1.8rem;
+
+  color: #234a72;
+}
+
+/* =====================================
+   Bottom Cards
+===================================== */
+.company-bottom {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 25px;
+
+  margin-bottom: 30px;
+}
+
+.company-bottom .company-card {
+  height: 220px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+.company-bottom .company-card > * {
+  flex-shrink: 0;
+}
+
+.company-bottom .company-card h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+
+  color: #234a72;
+
+  text-align: center;
+
+  margin: 0 0 12px 0;
+  padding-bottom: 12px;
+
+  border-bottom: 1px solid rgba(49, 92, 139, 0.15);
+}
+
+/* =====================================
+   Empty State
+===================================== */
+.company-empty-state {
+  display: flex;
+
+  flex: 1;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: #888;
+}
+
+.company-empty-state i {
+  font-size: 40px;
+
+  margin-bottom: 14px;
+
+  color: #315c8b;
+
+  opacity: 0.35;
+}
+
+.company-empty-state p {
+  font-size: 14px;
+
+  margin: 0;
+}
+
+/* =====================================
+   Quick Actions
+===================================== */
+.company-quick-actions h2 {
+  font-size: 1.2rem;
+
+  color: #234a72;
+
+  margin-bottom: 20px;
+}
+
+.company-quick-action-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 16px;
+}
+
+.company-action-btn {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px;
+
+  text-decoration: none;
+
+  color: #234a72;
+
+  background: rgba(49, 92, 139, 0.08);
+
+  border-radius: 14px;
+
+  padding: 20px 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: 0.3s;
+}
+
+.company-action-btn i {
+  font-size: 22px;
+
+  color: #315c8b;
+}
+
+.company-action-btn:hover {
+  background: #315c8b;
+
+  color: white;
+}
+
+.company-action-btn:hover i {
+  color: white;
+}
