@@ -4,10 +4,9 @@ env/
 .venv/
 
 # Python
-_pycache_/
+__pycache__/
 *.pyc
 *.pyo
-__pycache__/
 *.py[cod]
 *$py.class
 
@@ -16,7 +15,6 @@ db.sqlite3
 
 # Environment variables
 .env
-.venv
 
 # Media
 media/
