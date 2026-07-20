@@ -1,0 +1,33 @@
+<header class="admin-header">
+
+    <div class="admin-header-left">
+
+        <h2>
+            {% block page_title %}
+            Admin Dashboard
+            {% endblock %}
+        </h2>
+
+    </div>
+
+    <div class="admin-header-right">
+
+        <div class="admin-user">
+
+            <div class="admin-user-icon">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+
+            <div>
+
+                <h4>{{ request.user.username }}</h4>
+
+                <span>Administrator</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>

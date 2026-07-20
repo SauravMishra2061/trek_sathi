@@ -1,0 +1,53 @@
+<aside class="admin-sidebar">
+
+    <div class="sidebar-header">
+
+        <div class="sidebar-avatar">
+            <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <h2>Administrator</h2>
+
+        <p>Platform Admin</p>
+
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <a href="{% url 'admin_dashboard' %}">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{% url 'region_list' %}">
+            <i class="fa-solid fa-mountain"></i>
+            <span>Regions</span>
+        </a>
+
+        <a href="{% url 'trek_list' %}">
+            <i class="fa-solid fa-route"></i>
+            <span>Treks</span>
+        </a>
+
+        <a href="{% url 'company_list' %}">
+            <i class="fa-solid fa-building"></i>
+            <span>Companies</span>
+        </a>
+
+        <a href="{% url 'admin_users' %}">
+            <i class="fa-solid fa-users"></i>
+            <span>Users</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+
+        <a href="{% url 'logout' %}">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>

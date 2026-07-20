@@ -1,0 +1,117 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block page_title %}
+{{ title }}
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>{{ title }}</h1>
+        <p>{{ subtitle }}</p>
+    </div>
+
+    <a href="{% url 'company_detail' company.pk %}" class="secondary-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+    </a>
+
+</div>
+
+<div class="table-card">
+
+    <div class="company-summary">
+
+    <div class="info-row">
+
+        <strong>Company</strong>
+
+        <span>{{ company.company_name }}</span>
+
+    </div>
+
+    <div class="info-row status-row">
+
+        <strong>Current Status</strong>
+
+        <div>
+
+            <span class="status-badge
+                {% if company.status == 'Approved' %}
+                    status-active
+                {% elif company.status == 'Pending' %}
+                    status-pending
+                {% elif company.status == 'Rejected' %}
+                    status-rejected
+                {% else %}
+                    status-inactive
+                {% endif %}
+            ">
+                {{ company.status }}
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+    {% if show_feedback %}
+
+    <div class="feedback-note">
+
+        <i class="fa-solid fa-circle-info"></i>
+
+        <span>
+            This message will be visible to the company after this action.
+        </span>
+
+    </div>
+
+    {% endif %}
+
+    <form method="POST" class="admin-form">
+
+        {% csrf_token %}
+
+        {% if show_feedback %}
+
+        <div class="form-group">
+
+            <label>
+                Reason / Feedback
+            </label>
+
+            {{ form.admin_feedback }}
+
+        </div>
+
+        {% endif %}
+
+        <div class="company-actions">
+
+            <a href="{% url 'company_detail' company.pk %}" class="secondary-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="{{ button_class }}">
+
+                <i class="{{ button_icon }}"></i>
+
+                {{ button_text }}
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -26,4 +26,11 @@ urlpatterns = [
    # path('reviews/', include('reviews.urls')),
     path('home/', include('home.urls')),
     path("dashboard/", include("dashboard.urls")),
+    path("adminpanel/", include("adminpanel.urls")),
+    path("regions/", include("regions.urls")),
+    path("treks/", include("treks.urls")),
 ]
+from django.conf import settings
+from django.conf.urls.static import static
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,79 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block page_title %}
+Dashboard
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-mountain"></i>
+        </div>
+
+        <h3>Regions</h3>
+
+        <h2>0</h2>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-route"></i>
+        </div>
+
+        <h3>Treks</h3>
+
+        <h2>0</h2>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-building"></i>
+        </div>
+
+        <h3>Companies</h3>
+
+        <h2>0</h2>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+        <h3>Users</h3>
+
+        <h2>0</h2>
+
+    </div>
+
+</div>
+
+<div class="dashboard-card recent-card">
+
+    <h3>Recent Activity</h3>
+
+    <div class="empty-state">
+
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+        <p>No recent activity yet.</p>
+
+    </div>
+
+</div>
+
+{% endblock %}

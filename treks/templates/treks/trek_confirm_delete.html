@@ -1,0 +1,48 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block title %}
+Delete Region
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="table-card">
+
+    <div class="delete-container">
+
+        <i class="fa-solid fa-triangle-exclamation delete-icon"></i>
+
+        <h2>Delete Region?</h2>
+
+        <p>
+            Are you sure you want to delete
+            <strong>{{ region.name }}</strong>?
+        </p>
+
+        <p class="delete-warning">
+            This action cannot be undone.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="delete-actions">
+
+                <a href="{% url 'region_list' %}" class="edit-btn">
+                   <i class="fa-solid fa-xmark"></i>
+                </a>
+
+                <button type="submit" class="delete-btn">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

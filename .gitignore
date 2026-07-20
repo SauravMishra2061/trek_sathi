@@ -34,3 +34,6 @@ staticfiles/
 # OS files
 .DS_Store
 Thumbs.db
+
+# pictures
+imagesto download/

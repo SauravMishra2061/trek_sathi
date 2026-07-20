@@ -1,0 +1,149 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block title %}
+Company Details
+{% endblock %}
+
+{% block page_title %}
+Company Details
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>{{ company.company_name }}</h1>
+        <p>Review company information.</p>
+    </div>
+
+    <a href="{% url 'company_list' %}" class="secondary-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+    </a>
+
+</div>
+
+<div class="table-card">
+
+    <div class="company-profile">
+
+        <div class="company-logo">
+
+            {% if company.logo %}
+                <img src="{{ company.logo.url }}" alt="{{ company.company_name }}">
+            {% else %}
+                <div class="company-placeholder large">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="company-info">
+
+            <div class="info-row">
+                <strong>Company Name</strong>
+                <span>{{ company.company_name }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Owner</strong>
+                <span>{{ company.user.get_full_name|default:company.user.username }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Email</strong>
+                <span>{{ company.email|default:"-" }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Phone</strong>
+                <span>{{ company.phone }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Registration No.</strong>
+                <span>{{ company.registration_number }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Address</strong>
+                <span>{{ company.address|default:"-" }}</span>
+            </div>
+
+            <div class="info-row">
+                <strong>Description</strong>
+                <span>{{ company.description|default:"-" }}</span>
+            </div>
+
+            <div class="info-row status-row">
+
+    <strong>Status</strong>
+
+    <div>
+
+        {% if company.status == "Approved" %}
+            <span class="status-badge status-active">Approved</span>
+
+        {% elif company.status == "Pending" %}
+            <span class="status-badge status-pending">Pending</span>
+
+        {% elif company.status == "Rejected" %}
+            <span class="status-badge status-rejected">Rejected</span>
+
+        {% else %}
+            <span class="status-badge status-inactive">Suspended</span>
+
+        {% endif %}
+
+    </div>
+
+</div>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="company-actions">
+
+    {% if company.status == "Pending" %}
+
+        <a href="{% url 'approve_company' company.pk %}" class="approve-btn">
+            <i class="fa-solid fa-check"></i>
+            Approve
+        </a>
+
+        <a href="{% url 'reject_company' company.pk %}" class="reject-btn">
+            <i class="fa-solid fa-xmark"></i>
+            Reject
+        </a>
+
+    {% elif company.status == "Approved" %}
+
+        <a href="{% url 'suspend_company' company.pk %}" class="suspend-btn">
+            <i class="fa-solid fa-ban"></i>
+            Suspend
+        </a>
+
+    {% elif company.status == "Rejected" %}
+
+        <a href="{% url 'approve_company' company.pk %}" class="approve-btn">
+            <i class="fa-solid fa-check"></i>
+            Approve
+        </a>
+
+    {% elif company.status == "Suspended" %}
+
+        <a href="{% url 'approve_company' company.pk %}" class="approve-btn">
+            <i class="fa-solid fa-check"></i>
+            Approve
+        </a>
+
+    {% endif %}
+
+</div>
+</div>
+
+{% endblock %}

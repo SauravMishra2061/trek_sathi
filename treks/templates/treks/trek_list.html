@@ -1,0 +1,152 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block title %}
+Treks
+{% endblock %}
+
+{% block page_title %}
+Treks
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Treks</h1>
+
+        <p>Manage trekking destinations.</p>
+
+    </div>
+
+    <a href="{% url 'add_trek' %}" class="primary-btn">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Add Trek
+
+    </a>
+
+</div>
+
+<div class="table-card">
+
+    {% if treks %}
+
+        <table class="admin-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Image</th>
+
+                    <th>Name</th>
+
+                    <th>Region</th>
+
+                    <th>Altitude</th>
+
+                    <th>Difficulty</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for trek in treks %}
+
+                <tr>
+
+                    <td>
+
+                        {% if trek.image %}
+
+                            <img
+                                src="{{ trek.image.url }}"
+                                alt="{{ trek.name }}"
+                                class="region-thumbnail">
+
+                        {% else %}
+
+                            No Image
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ trek.name }}</td>
+
+                    <td>{{ trek.region.name }}</td>
+
+                    <td>{{ trek.altitude }} m</td>
+
+                    
+
+                    <td>{{ trek.difficulty }}</td>
+
+                    <td>
+
+                        {% if trek.is_active %}
+
+                            <span class="status-badge status-active">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-badge status-inactive">
+                                Inactive
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="table-actions">
+
+                            <a href="{% url 'edit_trek' trek.pk %}" class="edit-btn">
+                                <i class="fa-solid fa-pen"></i>
+                               
+                            </a>
+
+                            <a href="{% url 'delete_trek' trek.pk %}" class="delete-btn">
+                                <i class="fa-solid fa-trash"></i>
+                              
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% else %}
+
+        <div class="empty-table">
+
+            <i class="fa-solid fa-person-hiking"></i>
+
+            <p>No treks created yet.</p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

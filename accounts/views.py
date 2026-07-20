@@ -74,13 +74,15 @@ def company_login(request):
         )
 
         if user is not None:
-
+            login(request, user)
+            if user.is_staff:
+                return redirect("admin_dashboard")
             # Only company accounts are allowed
             if not hasattr(user, "company"):
                 messages.error(request, "Please use the Trekker Login.")
                 return redirect("company_login")
 
-            login(request, user)
+            
             messages.success(request, "Welcome back!")
             return redirect("company_dashboard")
 
@@ -133,13 +135,16 @@ def trekker_login(request):
         )
 
         if user is not None:
+            login(request, user)
+            if user.is_staff:
+                return redirect("admin_dashboard")
 
             # Prevent company accounts from logging in here
             if hasattr(user, "company"):
                 messages.error(request, "Please use the Company Login.")
                 return redirect("trekker_login")
 
-            login(request, user)
+            
             messages.success(request, "Welcome back!")
             return redirect("home")
 
