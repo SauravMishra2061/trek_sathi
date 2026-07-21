@@ -17,6 +17,13 @@ urlpatterns = [
     path("<int:pk>/reject/", views.reject_company, name="reject_company"),
 
     path("<int:pk>/suspend/", views.suspend_company, name="suspend_company"),
-    
 
-]
+    path("approval-message-dismiss/",views.dismiss_approval_message,name="dismiss_approval_message",),
+    
+    path("verification/",views.company_verification,name="company_verification",),
+
+    path("profile/edit/",views.edit_company_profile,name="edit_company_profile",),
+   
+    path("verification/replace-document/",views.replace_company_document,name="replace_company_document",),
+    
+    ]

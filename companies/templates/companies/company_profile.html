@@ -1,5 +1,107 @@
 {% extends "companies/company_base.html" %}
 
+{% block title %}
+Company Profile
+{% endblock %}
+
 {% block company_content %}
-<h1>Company Dashboard</h1>
+
+<div class="page-header">
+
+    <div class="header-icon">
+        <i class="fa-solid fa-building"></i>
+    </div>
+
+    <div>
+
+        <h1>Company Profile</h1>
+
+        <p>Manage and update your business information.</p>
+
+    </div>
+
+</div>
+
+<div class="profile-card">
+
+    <div class="profile-header">
+
+        {% if company.logo %}
+
+            <img src="{{ company.logo.url }}"
+                 class="company-logo">
+
+        {% else %}
+
+            <div class="company-logo-placeholder">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+        {% endif %}
+
+        <div>
+
+            <h2>{{ company.company_name }}</h2>
+
+            <span class="status-badge {{ company.status|lower }}">
+                {{ company.status }}
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="profile-grid">
+
+        <div class="profile-item">
+
+            <label>Email</label>
+
+            <p>{{ company.email }}</p>
+
+        </div>
+
+        <div class="profile-item">
+
+            <label>Phone</label>
+
+            <p>{{ company.phone }}</p>
+
+        </div>
+
+        <div class="profile-item">
+
+            <label>Address</label>
+
+            <p>{{ company.address }}</p>
+
+        </div>
+
+        <div class="profile-item full-width">
+
+            <label>Description</label>
+
+            <p>{{ company.description }}</p>
+
+        </div>
+
+    </div>
+
+    <div class="profile-actions">
+
+        <a href="{% url 'edit_company_profile' %}"
+           class="primary-btn">
+
+            <i class="fa-solid fa-pen"></i>
+
+            Edit Profile
+
+        </a>
+
+    </div>
+
+</div>
+
 {% endblock %}

@@ -62,11 +62,13 @@ class Company(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.company_name
-    
-admin_feedback = models.TextField(
+    admin_feedback = models.TextField(
     blank=True,
     null=True,
     help_text="Admin remarks for approval, rejection or suspension."
-)
+    )
+
+    approval_message_seen = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.company_name

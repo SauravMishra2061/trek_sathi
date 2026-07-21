@@ -1,159 +1,201 @@
 {% extends "companies/company_base.html" %}
 
+{% block title %}
+Company Dashboard
+{% endblock %}
+
 {% block company_content %}
 
-<div class="company-dashboard">
+<div class="page-header">
 
-    <!-- Welcome Section -->
-    <div class="company-dashboard-header">
+    <div>
 
-        <h1>Welcome back, {{ request.user.first_name }}!</h1>
+       <h1>Welcome Back 👋</h1>
+
+<h2 class="company-name">
+    {{ company.company_name }}
+</h2>
+
+<p class="company-subtitle">
+    Company Dashboard
+</p>
+    </div>
+
+</div>
+{% if show_approval_popup %}
+
+<div class="approval-popup">
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <h2>Congratulations!</h2>
+
+    <p>
+
+        Your company has been approved.
+
+        You can now create trekking packages.
+
+    </p>
+
+    <a href="{% url 'dismiss_approval_message' %}"
+       class="primary-btn">
+
+        Got it
+
+    </a>
+
+</div>
+
+{% endif %}
+
+<!-- Status Card -->
+ 
+
+{% if company.status == "Pending" or company.status == "Rejected" or company.status == "Suspended" %}
+
+
+
+<div class="status-card">
+
+    {% if company.status == "Approved" %}
+
+        <div class="status-icon approved">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h2>Approved</h2>
 
         <p>
-            Here's a quick overview of your trekking business.
+            Your company has been verified.
+            You can now create trekking packages.
         </p>
 
-    </div>
+    {% elif company.status == "Pending" %}
 
-    <!-- Statistics -->
-    <div class="company-stats-grid">
-
-        <div class="company-card company-stat-card">
-
-            <div class="company-card-icon">
-                <i class="fa-solid fa-box"></i>
-            </div>
-
-            <h3>Packages</h3>
-
-            <h2>0</h2>
-
+        <div class="status-icon pending">
+            <i class="fa-solid fa-clock"></i>
         </div>
 
-        <div class="company-card company-stat-card">
+        <h2>Pending Verification</h2>
 
-            <div class="company-card-icon">
-                <i class="fa-solid fa-calendar-check"></i>
-            </div>
+        <p>
+            Your registration is currently under review.
+        </p>
 
-            <h3>Pending Bookings</h3>
+    {% elif company.status == "Rejected" %}
 
-            <h2>0</h2>
-
+        <div class="status-icon rejected">
+            <i class="fa-solid fa-circle-xmark"></i>
         </div>
 
-        <div class="company-card company-stat-card">
+        <h2>Registration Rejected</h2>
 
-            <div class="company-card-icon">
-                <i class="fa-solid fa-wallet"></i>
-            </div>
+        <p>{{ company.admin_feedback }}</p>
 
-            <h3>Revenue</h3>
+    {% elif company.status == "Suspended" %}
 
-            <h2>Rs. 0</h2>
-
+        <div class="status-icon suspended">
+            <i class="fa-solid fa-ban"></i>
         </div>
 
-        <div class="company-card company-stat-card">
+        <h2>Suspended</h2>
 
-            <div class="company-card-icon">
-                <i class="fa-solid fa-star"></i>
-            </div>
+        <p>{{ company.admin_feedback }}</p>
 
-            <h3>Reviews</h3>
+    {% endif %}
 
-            <h2>0.0</h2>
+</div>
 
-        </div>
+{% endif %}
+
+<!-- Statistics -->
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-box"></i>
+
+        <h3>{{ package_count }}</h3>
+
+        <p>Packages</p>
 
     </div>
 
-    <!-- Bottom Section -->
-    <div class="company-bottom">
+    <div class="stat-card">
 
-        <!-- Recent Packages -->
+        <i class="fa-solid fa-calendar-check"></i>
 
-        <div class="company-card">
+        <h3>{{ booking_count }}</h3>
 
-            <div class="company-card-icon">
-                <i class="fa-solid fa-mountain"></i>
-            </div>
-
-            <h2>Recent Packages</h2>
-
-            <div class="company-empty-state">
-
-                <i class="fa-solid fa-box-open"></i>
-
-                <p>No packages created yet.</p>
-
-            </div>
-
-        </div>
-
-        <!-- Recent Booking Requests -->
-
-        <div class="company-card">
-
-            <div class="company-card-icon">
-                <i class="fa-solid fa-user-check"></i>
-            </div>
-
-            <h2>Recent Booking Requests</h2>
-
-            <div class="company-empty-state">
-
-                <i class="fa-solid fa-calendar-xmark"></i>
-
-                <p>No booking requests yet.</p>
-
-            </div>
-
-        </div>
+        <p>Bookings</p>
 
     </div>
 
-    <!-- Quick Actions -->
+    <div class="stat-card">
 
-    <div class="company-card company-quick-actions">
+        <i class="fa-solid fa-star"></i>
 
-        <h2>Quick Actions</h2>
+        <h3>{{ review_count }}</h3>
 
-        <div class="company-quick-action-grid">
+        <p>Reviews</p>
 
-            <a href="{% url 'company_packages' %}" class="company-action-btn">
+    </div>
+
+    <div class="stat-card">
+
+        <i class="fa-solid fa-ranking-star"></i>
+
+        <h3>{{ average_rating }}</h3>
+
+        <p>Rating</p>
+
+    </div>
+
+</div>
+
+<!-- Quick Actions -->
+
+<div class="table-card">
+
+    <h2>Quick Actions</h2>
+
+    <div class="quick-actions">
+
+        {% if company.status == "Approved" %}
+
+            <a href="{% url 'company_packages' %}" class="primary-btn">
 
                 <i class="fa-solid fa-plus"></i>
 
-                <span>Add Package</span>
+                Create Package
 
             </a>
 
-            <a href="{% url 'company_packages' %}" class="company-action-btn">
+            <a href="#" class="secondary-btn">
 
-                <i class="fa-solid fa-box"></i>
+                <i class="fa-solid fa-mountain"></i>
 
-                <span>Manage Packages</span>
-
-            </a>
-
-            <a href="{% url 'company_bookings' %}" class="company-action-btn">
-
-                <i class="fa-solid fa-calendar-check"></i>
-
-                <span>Bookings</span>
+                Request Trek
 
             </a>
 
-            <a href="{% url 'company_profile' %}" class="company-action-btn">
+        {% else %}
 
-                <i class="fa-solid fa-building"></i>
+            <button class="primary-btn" disabled>
 
-                <span>Company Profile</span>
+                Create Package
 
-            </a>
+            </button>
 
-        </div>
+            <button class="secondary-btn" disabled>
+
+                Request Trek
+
+            </button>
+
+        {% endif %}
 
     </div>
 

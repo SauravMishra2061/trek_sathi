@@ -1,0 +1,59 @@
+{% extends "companies/company_base.html" %}
+
+{% block title %}
+Replace Registration Document
+{% endblock %}
+
+{% block company_content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Replace Registration Document</h1>
+
+        <p>Upload a new government registration document.</p>
+
+    </div>
+
+</div>
+
+<div class="profile-card">
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <label>Registration Document</label>
+
+            {{ form.registration_document }}
+
+        </div>
+
+        <div class="profile-actions">
+
+            <a href="{% url 'company_verification' %}"
+               class="secondary-btn">
+
+                Cancel
+
+            </a>
+
+            <button type="submit"
+                    class="primary-btn">
+
+                <i class="fa-solid fa-upload"></i>
+
+                Submit for Review
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
