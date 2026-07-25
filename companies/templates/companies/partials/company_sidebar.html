@@ -1,76 +1,82 @@
 <aside class="company-sidebar">
-
-    <div class="company-sidebar-header">
-
-        <div class="company-sidebar-avatar">
-            <i class="fa-solid fa-building"></i>
-        </div>
-
-        <h2>{{ request.user.first_name }}</h2>
-
-        <p>Company Account</p>
-
+  <div class="company-sidebar-header">
+    <div class="company-sidebar-avatar">
+      <i class="fa-solid fa-building"></i>
     </div>
 
-    <nav class="company-sidebar-nav">
+    <h2>{{ request.user.first_name }}</h2>
 
-        <a href="{% url 'company_dashboard' %}"
-           class="{% if request.resolver_match.url_name == 'company_dashboard' %}active{% endif %}">
-            <i class="fa-solid fa-house"></i>
-            <span>Dashboard</span>
-        </a>
+    <p>Company Account</p>
+  </div>
 
-        <a href="{% url 'company_packages' %}"
-           class="{% if request.resolver_match.url_name == 'company_packages' %}active{% endif %}">
-            <i class="fa-solid fa-box"></i>
-            <span>Packages</span>
-        </a>
-
-        <a href="{% url 'company_bookings' %}"
-           class="{% if request.resolver_match.url_name == 'company_bookings' %}active{% endif %}">
-            <i class="fa-solid fa-calendar-check"></i>
-            <span>Bookings</span>
-        </a>
-
-        <a href="{% url 'company_messages' %}"
-           class="{% if request.resolver_match.url_name == 'company_messages' %}active{% endif %}">
-            <i class="fa-solid fa-envelope"></i>
-            <span>Messages</span>
-        </a>
-
-        <a href="{% url 'company_earnings' %}"
-           class="{% if request.resolver_match.url_name == 'company_earnings' %}active{% endif %}">
-            <i class="fa-solid fa-wallet"></i>
-            <span>Earnings</span>
-        </a>
-
-        <a href="{% url 'company_reviews' %}"
-           class="{% if request.resolver_match.url_name == 'company_reviews' %}active{% endif %}">
-            <i class="fa-solid fa-star"></i>
-            <span>Reviews</span>
-        </a>
-
-        <a href="{% url 'company_profile' %}"
-           class="{% if request.resolver_match.url_name == 'company_profile' %}active{% endif %}">
-            <i class="fa-solid fa-building-user"></i>
-            <span>Company Profile</span>
-        </a>
-        <li>
-    <a href="{% url 'company_verification' %}">
-        <i class="fa-solid fa-shield-halved"></i>
-        <span>Verification</span>
+  <nav class="company-sidebar-nav">
+    <a
+      href="{% url 'company_dashboard' %}"
+      class="{% if request.resolver_match.url_name == 'company_dashboard' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-house"></i>
+      <span>Dashboard</span>
     </a>
-</li>
 
-    </nav>
+    <a
+      href="{% url 'package_list' %}"
+      class="{% if request.resolver_match.url_name == 'package_list' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-box"></i>
+      <span>Packages</span>
+    </a>
 
-    <div class="company-sidebar-footer">
+    <a
+      href="{% url 'company_bookings' %}"
+      class="{% if request.resolver_match.url_name == 'company_bookings' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-calendar-check"></i>
+      <span>Bookings</span>
+    </a>
+    <li>
+      <a href="{% url 'trek_requests' %}">
+        <i class="fa-solid fa-mountain"></i>
+        Trek Requests
+      </a>
+    </li>
+    <a
+      href="{% url 'company_messages' %}"
+      class="{% if request.resolver_match.url_name == 'company_messages' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-envelope"></i>
+      <span>Messages</span>
+    </a>
 
-        <a href="{% url 'logout' %}">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
-        </a>
+    <a
+      href="{% url 'company_reviews' %}"
+      class="{% if request.resolver_match.url_name == 'company_reviews' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-star"></i>
 
-    </div>
+      <span>Reviews</span>
+    </a>
 
+    <a
+      href="{% url 'company_profile' %}"
+      class="{% if request.resolver_match.url_name == 'company_profile' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-building-user"></i>
+      <span>Profile</span>
+    </a>
+
+    <a
+      href="{% url 'company_verification' %}"
+      class="{% if request.resolver_match.url_name == 'company_verification' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Verification</span>
+    </a>
+  </nav>
+
+  <div class="company-sidebar-footer">
+    <a href="{% url 'logout' %}">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <span>Logout</span>
+    </a>
+  </div>
 </aside>

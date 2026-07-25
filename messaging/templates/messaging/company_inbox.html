@@ -1,0 +1,86 @@
+{% extends "companies/company_base.html" %}
+
+{% block title %}
+Messages
+{% endblock %}
+
+{% block company_content %}
+
+<div class="page-header">
+
+    <h1>Messages</h1>
+
+    <p>Manage inquiries from trekkers.</p>
+
+</div>
+
+{% if conversations %}
+
+<div class="conversation-list">
+
+{% for conversation in conversations %}
+
+<div class="conversation-card">
+
+    <div class="conversation-top">
+
+        <div>
+
+            <h3>{{ conversation.trekker.get_full_name|default:conversation.trekker.username }}</h3>
+
+            <p>{{ conversation.package.title }}</p>
+
+        </div>
+
+        <span class="conversation-status">
+            {{ conversation.status }}
+        </span>
+
+    </div>
+
+    <div class="conversation-subject">
+
+        <strong>Subject:</strong>
+
+        {{ conversation.subject }}
+
+    </div>
+
+    <div class="conversation-footer">
+
+        <small>
+
+            {{ conversation.created_at|date:"d M Y" }}
+
+        </small>
+
+        <a href="{% url 'conversation_detail' conversation.pk %}"
+           class="primary-btn">
+
+            Open Conversation
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="company-empty-state">
+
+    <i class="fa-solid fa-comments"></i>
+
+    <h2>No Messages Yet</h2>
+
+    <p>Trekkers haven't contacted you yet.</p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

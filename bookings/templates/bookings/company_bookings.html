@@ -1,0 +1,71 @@
+{% extends "companies/company_base.html" %} 
+{% block title %} Bookings 
+{%endblock%} {% block company_content %}
+
+<div class="page-header">
+  <div>
+    <h1>Bookings</h1>
+
+    <p>Manage customer bookings.</p>
+  </div>
+</div>
+
+{% if bookings %}
+
+<div class="table-card">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Package</th>
+
+        <th>Customer</th>
+
+        <th>People</th>
+
+        <th>Booking Date</th>
+
+        <th>Status</th>
+
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for booking in bookings %}
+
+      <tr>
+        <td>{{ booking.package.title }}</td>
+
+        <td>
+          {{ booking.trekker.get_full_name|default:booking.trekker.username }}
+        </td>
+
+        <td>{{ booking.number_of_people }}</td>
+
+        <td>{{ booking.booking_date|date:"M d, Y" }}</td>
+
+        <td>
+          <span class="status-badge"> {{ booking.status }} </span>
+        </td>
+
+        <td>
+          <a href="{% url 'booking_detail' booking.pk %}" class="edit-btn">
+            <i class="fa-solid fa-eye"></i>
+          </a>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+
+<div class="company-empty-state">
+  <i class="fa-solid fa-calendar-check"></i>
+
+  <p>No bookings yet.</p>
+</div>
+
+{% endif %} {% endblock %}

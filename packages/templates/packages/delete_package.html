@@ -1,0 +1,56 @@
+{% extends "companies/company_base.html" %}
+
+{% block title %}
+Delete Package
+{% endblock %}
+
+{% block company_content %}
+
+<div class="delete-card">
+
+    <i class="fa-solid fa-triangle-exclamation"></i>
+
+    <h1>Delete Package</h1>
+
+    <p>
+
+        Are you sure you want to delete
+
+        <strong>{{ package.title }}</strong>?
+
+    </p>
+
+    <p>
+
+        This action cannot be undone.
+
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="delete-actions">
+
+            <a href="{% url 'package_detail' package.pk %}"
+               class="secondary-btn">
+
+                Cancel
+
+            </a>
+
+            <button
+                type="submit"
+                class="delete-btn">
+
+                Delete Permanently
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

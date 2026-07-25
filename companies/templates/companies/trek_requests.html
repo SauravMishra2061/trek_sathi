@@ -1,0 +1,206 @@
+{% extends "companies/company_base.html" %} {% load static %} {% block title %}
+Trek Requests {% endblock %} {% block company_content %}
+
+<div class="page-header">
+  <div>
+    <h1>Trek Requests</h1>
+
+    <p>Request new treks and track their approval status.</p>
+  </div>
+
+  <button id="openRequestModal" class="primary-btn">
+    <i class="fa-solid fa-plus"></i>
+
+    Request New Trek
+  </button>
+</div>
+
+{% if requests %}
+
+<div class="request-grid">
+  {% for request in requests %}
+
+  <div class="request-card">
+    <div class="request-header">
+      <h3>{{ request.trek_name }}</h3>
+
+      {% if request.status == "Pending" %}
+
+      <span class="status-badge pending">
+        <i class="fa-solid fa-clock"></i>
+        Pending
+      </span>
+
+      {% elif request.status == "Approved" %}
+
+      <span class="status-badge approved">
+        <i class="fa-solid fa-circle-check"></i>
+        Approved
+      </span>
+
+      {% else %}
+
+      <span class="status-badge rejected">
+        <i class="fa-solid fa-circle-xmark"></i>
+        Rejected
+      </span>
+
+      {% endif %}
+    </div>
+
+    <div class="request-details">
+      <div>
+        <strong>📍 Region</strong>
+        <p>{{ request.region.name }}</p>
+      </div>
+
+      <div>
+        <strong>⛰ Difficulty</strong>
+        <p>{{ request.difficulty }}</p>
+      </div>
+
+      <div>
+        <strong>▲ Altitude</strong>
+        <p>{{ request.estimated_altitude }} m</p>
+      </div>
+
+      <div>
+        <strong>📅 Requested</strong>
+        <p>{{ request.created_at|date:"M d, Y" }}</p>
+      </div>
+    </div>
+
+    {% if request.description %}
+
+    <div class="request-description">
+      <strong>Description</strong>
+
+      <p>{{ request.description }}</p>
+    </div>
+
+    {% endif %} {% if request.admin_feedback %}
+
+    <div class="request-footer">
+      <button class="secondary-btn">
+        <i class="fa-solid fa-comment"></i>
+        View Feedback
+      </button>
+    </div>
+
+    {% endif %}
+  </div>
+
+  {% endfor %}
+</div>
+
+{% else %}
+
+<div class="empty-state">
+  <i class="fa-solid fa-mountain"></i>
+
+  <h2>No trek requests yet.</h2>
+
+  <p>Click <strong>"Request New Trek"</strong> to submit your first request.</p>
+</div>
+
+{% endif %} {% endblock %}
+
+<!-- ================= Modal ================= -->
+{% block company_modals %}
+<div id="requestModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Request New Trek</h2>
+
+      <button type="button" id="closeModal" class="close-btn">&times;</button>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Basic Information -->
+
+      <div class="form-card">
+        <div class="form-card-header">
+          <i class="fa-solid fa-mountain"></i>
+
+          <h2>Basic Information</h2>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label>Trek Name</label>
+
+            {{ form.trek_name }}
+          </div>
+
+          <div>
+            <label>Region</label>
+
+            {{ form.region }}
+          </div>
+
+          <div>
+            <label>Difficulty</label>
+
+            {{ form.difficulty }}
+          </div>
+
+          <div>
+            <label>Estimated Altitude</label>
+
+            {{ form.estimated_altitude }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+
+      <div class="form-card">
+        <div class="form-card-header">
+          <i class="fa-solid fa-file-lines"></i>
+
+          <h2>Description</h2>
+        </div>
+
+        <div>
+          <label>Description</label>
+
+          {{ form.description }}
+        </div>
+      </div>
+
+      <!-- Reference -->
+
+      <div class="form-card">
+        <div class="form-card-header">
+          <i class="fa-solid fa-image"></i>
+
+          <h2>Reference Image</h2>
+        </div>
+
+        <div>
+          <label>Reference Image</label>
+
+          {{ form.reference_image }}
+        </div>
+      </div>
+
+      <!-- Buttons -->
+
+      <div class="modal-actions">
+        <button type="button" id="cancelModal" class="secondary-btn">
+          Cancel
+        </button>
+
+        <button type="submit" class="primary-btn">
+          <i class="fa-solid fa-paper-plane"></i>
+
+          Submit Request
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

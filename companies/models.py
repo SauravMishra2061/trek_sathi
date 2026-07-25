@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from regions.models import Region
+from treks.models import Trek
 
 
 class Company(models.Model):
@@ -72,3 +74,50 @@ class Company(models.Model):
 
     def __str__(self):
         return self.company_name
+
+
+class TrekRequest(models.Model):
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="trek_requests"
+    )
+
+    trek_name = models.CharField(max_length=150)
+
+    region = models.ForeignKey(
+        Region,
+        on_delete=models.CASCADE
+    )
+
+    description = models.TextField(blank=True)
+
+    estimated_altitude = models.PositiveIntegerField(
+        blank=True,
+        null=True
+    )
+
+    difficulty = models.CharField(
+        max_length=20,
+        choices=Trek.DIFFICULTY_CHOICES
+    )
+
+    reference_image = models.ImageField(
+        upload_to="trek_requests/",
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ("Pending", "Pending"),
+            ("Approved", "Approved"),
+            ("Rejected", "Rejected"),
+        ],
+        default="Pending"
+    )
+
+    admin_feedback = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)

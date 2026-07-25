@@ -5,6 +5,14 @@ from django.contrib import messages
 from .forms import CompanyFeedbackForm
 from .forms import CompanyProfileForm
 from .forms import CompanyDocumentForm
+from bookings.models import Booking
+from packages.models import Package
+from django.db.models import Sum, F
+from reviews.models import Review
+from .forms import TrekRequestForm
+from .models import TrekRequest
+from django.contrib import messages
+
 
 
 @login_required
@@ -15,28 +23,68 @@ def company_dashboard(request):
 
     company = request.user.company
 
+    package_count = Package.objects.filter(
+        company=company
+    ).count()
+
+    published_packages = Package.objects.filter(
+        company=company,
+        status="Published"
+    ).count()
+
+    booking_count = Booking.objects.filter(
+        package__company=company
+    ).count()
+
+    estimated_revenue = (
+        Booking.objects.filter(package__company=company)
+        .aggregate(total=Sum(F("package__price_per_person")))
+    )["total"] or 0
+
+    # Temporary until Review model is connected
+    review_count = 0
+    average_rating = 0
+
     context = {
+
         "company": company,
+
         "show_approval_popup": (
-        company.status == "Approved"
-        and not company.approval_message_seen
+            company.status == "Approved"
+            and not company.approval_message_seen
         ),
 
+        "package_count": package_count,
+        "published_packages": published_packages,
+        "booking_count": booking_count,
+        "review_count": review_count,
+        "average_rating": average_rating,
+        "estimated_revenue": estimated_revenue,
 
-        # Statistics (temporary)
-        "package_count": 0,
-        "booking_count": 0,
-        "review_count": 0,
-        "average_rating": 0,
     }
+    recent_bookings = Booking.objects.filter(
+       package__company=company
+        ).select_related(
+        "trekker",
+        "package"
+        ).order_by("-booking_date")[:5]
+
+    recent_reviews = (
+        Review.objects.filter(
+        package__company=company
+        )
+        .select_related(
+        "trekker",
+        "package"
+        )
+        .order_by("-created_at")[:5]
+    )
 
     return render(
         request,
         "companies/company_dashboard.html",
         context,
     )
-
-
 @login_required
 def company_packages(request):
 
@@ -347,5 +395,49 @@ def replace_company_document(request):
         {
             "form": form,
             "company": company,
+        },
+    )
+@login_required
+def trek_requests(request):
+
+    if not hasattr(request.user, "company"):
+        return redirect("trekker_dashboard")
+
+    company = request.user.company
+
+    requests = company.trek_requests.all().order_by("-created_at")
+
+    if request.method == "POST":
+
+        form = TrekRequestForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            trek_request = form.save(commit=False)
+
+            trek_request.company = company
+
+            trek_request.save()
+
+            messages.success(
+                request,
+                "Your trek request has been submitted successfully."
+            )
+
+            return redirect("trek_requests")
+
+    else:
+
+        form = TrekRequestForm()
+
+    return render(
+        request,
+        "companies/trek_requests.html",
+        {
+            "form": form,
+            "requests": requests,
         },
     )

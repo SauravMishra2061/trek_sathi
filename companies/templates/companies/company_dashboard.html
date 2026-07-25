@@ -1,110 +1,76 @@
-{% extends "companies/company_base.html" %}
-
-{% block title %}
-Company Dashboard
-{% endblock %}
-
-{% block company_content %}
+{% extends "companies/company_base.html" %} {% block title %} Company Dashboard
+{% endblock %} {% block company_content %}
 
 <div class="page-header">
+  <div>
+    <h1>Welcome Back 👋</h1>
 
-    <div>
+    <h2 class="company-name">{{ company.company_name }}</h2>
 
-       <h1>Welcome Back 👋</h1>
-
-<h2 class="company-name">
-    {{ company.company_name }}
-</h2>
-
-<p class="company-subtitle">
-    Company Dashboard
-</p>
-    </div>
-
+    <p class="company-subtitle">Company Dashboard</p>
+  </div>
 </div>
 {% if show_approval_popup %}
 
 <div class="approval-popup">
+  <i class="fa-solid fa-circle-check"></i>
 
-    <i class="fa-solid fa-circle-check"></i>
+  <h2>Congratulations!</h2>
 
-    <h2>Congratulations!</h2>
+  <p>Your company has been approved. You can now create trekking packages.</p>
 
-    <p>
-
-        Your company has been approved.
-
-        You can now create trekking packages.
-
-    </p>
-
-    <a href="{% url 'dismiss_approval_message' %}"
-       class="primary-btn">
-
-        Got it
-
-    </a>
-
+  <a href="{% url 'dismiss_approval_message' %}" class="primary-btn">
+    Got it
+  </a>
 </div>
 
-{% endif %}
-
 <!-- Status Card -->
- 
 
-{% if company.status == "Pending" or company.status == "Rejected" or company.status == "Suspended" %}
-
-
+{% if company.status == "Pending" or company.status == "Rejected" or
+company.status == "Suspended" %}
 
 <div class="status-card">
+  {% if company.status == "Approved" %}
 
-    {% if company.status == "Approved" %}
+  <div class="status-icon approved">
+    <i class="fa-solid fa-circle-check"></i>
+  </div>
 
-        <div class="status-icon approved">
-            <i class="fa-solid fa-circle-check"></i>
-        </div>
+  <h2>Approved</h2>
 
-        <h2>Approved</h2>
+  <p>Your company has been verified. You can now create trekking packages.</p>
 
-        <p>
-            Your company has been verified.
-            You can now create trekking packages.
-        </p>
+  {% elif company.status == "Pending" %}
 
-    {% elif company.status == "Pending" %}
+  <div class="status-icon pending">
+    <i class="fa-solid fa-clock"></i>
+  </div>
 
-        <div class="status-icon pending">
-            <i class="fa-solid fa-clock"></i>
-        </div>
+  <h2>Pending Verification</h2>
 
-        <h2>Pending Verification</h2>
+  <p>Your registration is currently under review.</p>
 
-        <p>
-            Your registration is currently under review.
-        </p>
+  {% elif company.status == "Rejected" %}
 
-    {% elif company.status == "Rejected" %}
+  <div class="status-icon rejected">
+    <i class="fa-solid fa-circle-xmark"></i>
+  </div>
 
-        <div class="status-icon rejected">
-            <i class="fa-solid fa-circle-xmark"></i>
-        </div>
+  <h2>Registration Rejected</h2>
 
-        <h2>Registration Rejected</h2>
+  <p>{{ company.admin_feedback }}</p>
 
-        <p>{{ company.admin_feedback }}</p>
+  {% elif company.status == "Suspended" %}
 
-    {% elif company.status == "Suspended" %}
+  <div class="status-icon suspended">
+    <i class="fa-solid fa-ban"></i>
+  </div>
 
-        <div class="status-icon suspended">
-            <i class="fa-solid fa-ban"></i>
-        </div>
+  <h2>Suspended</h2>
 
-        <h2>Suspended</h2>
+  <p>{{ company.admin_feedback }}</p>
 
-        <p>{{ company.admin_feedback }}</p>
-
-    {% endif %}
-
+  {% endif %}
 </div>
 
 {% endif %}
@@ -112,93 +78,65 @@ Company Dashboard
 <!-- Statistics -->
 
 <div class="stats-grid">
+  <div class="stat-card">
+    <i class="fa-solid fa-box"></i>
+    <h3>{{ package_count }}</h3>
+    <p>Packages</p>
+  </div>
 
-    <div class="stat-card">
+  <div class="stat-card">
+    <i class="fa-solid fa-calendar-check"></i>
+    <h3>{{ booking_count }}</h3>
+    <p>Bookings</p>
+  </div>
 
-        <i class="fa-solid fa-box"></i>
+  <div class="stat-card">
+    <i class="fa-solid fa-money-bill-wave"></i>
+    <h3>NPR {{ estimated_revenue }}</h3>
+    <p>Estimated Revenue</p>
+  </div>
 
-        <h3>{{ package_count }}</h3>
+  <div class="stat-card">
+    <i class="fa-solid fa-star"></i>
+    <h3>{{ review_count }}</h3>
+    <p>Reviews</p>
+  </div>
 
-        <p>Packages</p>
-
-    </div>
-
-    <div class="stat-card">
-
-        <i class="fa-solid fa-calendar-check"></i>
-
-        <h3>{{ booking_count }}</h3>
-
-        <p>Bookings</p>
-
-    </div>
-
-    <div class="stat-card">
-
-        <i class="fa-solid fa-star"></i>
-
-        <h3>{{ review_count }}</h3>
-
-        <p>Reviews</p>
-
-    </div>
-
-    <div class="stat-card">
-
-        <i class="fa-solid fa-ranking-star"></i>
-
-        <h3>{{ average_rating }}</h3>
-
-        <p>Rating</p>
-
-    </div>
-
+  <div class="stat-card">
+    <i class="fa-solid fa-ranking-star"></i>
+    <h3>{{ average_rating }}</h3>
+    <p>Rating</p>
+  </div>
 </div>
 
 <!-- Quick Actions -->
 
 <div class="table-card">
+  <h2>Quick Actions</h2>
 
-    <h2>Quick Actions</h2>
+  <div class="quick-actions">
+    {% if company.status == "Approved" %}
 
-    <div class="quick-actions">
+    <a href="{% url 'company_packages' %}" class="primary-btn">
+      <i class="fa-solid fa-plus"></i>
 
-        {% if company.status == "Approved" %}
+      Create Package
+    </a>
 
-            <a href="{% url 'company_packages' %}" class="primary-btn">
+    <a href="#" class="secondary-btn">
+      <i class="fa-solid fa-mountain"></i>
 
-                <i class="fa-solid fa-plus"></i>
+      Request Trek
+    </a>
 
-                Create Package
+    {% else %}
 
-            </a>
+    <button class="primary-btn" disabled>Create Package</button>
 
-            <a href="#" class="secondary-btn">
+    <button class="secondary-btn" disabled>Request Trek</button>
 
-                <i class="fa-solid fa-mountain"></i>
-
-                Request Trek
-
-            </a>
-
-        {% else %}
-
-            <button class="primary-btn" disabled>
-
-                Create Package
-
-            </button>
-
-            <button class="secondary-btn" disabled>
-
-                Request Trek
-
-            </button>
-
-        {% endif %}
-
-    </div>
-
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     "dashboard",
     "adminpanel",
     "regions",
-    "treks"
+    "treks",
+    "messaging",
 ]
 
 MIDDLEWARE = [

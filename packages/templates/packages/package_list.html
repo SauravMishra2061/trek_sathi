@@ -1,0 +1,138 @@
+{% extends "companies/company_base.html" %}
+
+{% block title %}
+My Packages
+{% endblock %}
+
+{% block company_content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>My Packages</h1>
+
+        <p>Manage your trekking packages.</p>
+
+    </div>
+
+    {% if has_packages %}
+
+    <a href="{% url 'add_package' %}" class="primary-btn">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Add Package
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+{% if packages %}
+
+<div class="package-grid">
+
+    {% for package in packages %}
+
+    <div class="package-card">
+
+        <div class="package-image">
+
+            {% if package.cover_image %}
+
+                <img src="{{ package.cover_image.url }}"
+                     alt="{{ package.title }}">
+
+            {% else %}
+
+                <div class="package-placeholder">
+
+                    <i class="fa-solid fa-mountain"></i>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <div class="package-body">
+
+            <h3>{{ package.title }}</h3>
+
+            <p class="package-trek">{{ package.trek.name }}</p>
+
+            <div class="package-meta">
+
+                <span>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    {{ package.duration }} Days
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-users"></i>
+                    {{ package.max_participants }}
+                </span>
+
+            </div>
+
+            <div class="package-price">
+
+                NPR {{ package.price_per_person }}
+
+            </div>
+
+        </div>
+
+        <div class="package-footer">
+
+            <a href="{% url 'package_detail' package.pk %}" class="view-btn">
+
+                <i class="fa-solid fa-eye"></i>
+
+            </a>
+
+            <a href="{% url 'edit_package' package.pk %}" class="edit-btn">
+
+                <i class="fa-solid fa-pen"></i>
+
+            </a>
+
+            <a href="{% url 'delete_package' package.pk %}"
+               class="delete-btn"
+               onclick="return confirm('Delete this package?');">
+
+                <i class="fa-solid fa-trash"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="company-empty-state">
+
+    <i class="fa-solid fa-box-open"></i>
+
+    <h2>No Packages Yet</h2>
+
+    <p>Create your first trekking package.</p>
+
+    <a href="{% url 'add_package' %}" class="primary-btn">
+
+        Add Package
+
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

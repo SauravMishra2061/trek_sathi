@@ -6,8 +6,9 @@ from treks.models import Trek
 class Package(models.Model):
 
     STATUS_CHOICES = [
-        ("Active", "Active"),
-        ("Inactive", "Inactive"),
+        ("Draft", "Draft"),
+        ("Published", "Published"),
+        ("Hidden", "Hidden"),
     ]
 
     DIFFICULTY_CHOICES = [
@@ -28,9 +29,16 @@ class Package(models.Model):
         related_name="packages"
     )
 
+    # Main Cover Image
+    cover_image = models.ImageField(
+        upload_to="package_cover/",
+        blank=True,
+        null=True,
+    )
+
     title = models.CharField(max_length=200)
 
-    price = models.DecimalField(
+    price_per_person = models.DecimalField(
         max_digits=10,
         decimal_places=2
     )
@@ -39,7 +47,9 @@ class Package(models.Model):
         help_text="Duration in days"
     )
 
-    available_slots = models.PositiveIntegerField()
+    max_participants = models.PositiveIntegerField()
+
+    is_featured = models.BooleanField(default=False)
 
     start_date = models.DateField()
 
@@ -63,7 +73,7 @@ class Package(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default="Active"
+        default="Draft"
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -72,7 +82,9 @@ class Package(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.company.company_name}"
-    
+
+
+# Gallery feature (Later)
 class PackageImage(models.Model):
 
     package = models.ForeignKey(

@@ -23,9 +23,11 @@ Verification Center
 
             <label>Status</label>
 
-            <span class="status-badge status-{{ company.status|lower }}">
-                {{ company.status }}
-            </span>
+            <p>
+    <span class="status-badge status-{{ request.user.company.status|lower }}">
+        {{ request.user.company.status }}
+    </span>
+</p>
 
         </div>
 

@@ -21,14 +21,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('companies/', include('companies.urls')),
-    # path('packages/', include('packages.urls')),
-   # path('bookings/', include('bookings.urls')),
-   # path('reviews/', include('reviews.urls')),
+    path('packages/', include('packages.urls')),
+    path('bookings/', include('bookings.urls')),
+    path('reviews/', include('reviews.urls')),
     path('home/', include('home.urls')),
     path("dashboard/", include("dashboard.urls")),
     path("adminpanel/", include("adminpanel.urls")),
     path("regions/", include("regions.urls")),
     path("treks/", include("treks.urls")),
+    path("messages/",include("messaging.urls"),),
 ]
 from django.conf import settings
 from django.conf.urls.static import static

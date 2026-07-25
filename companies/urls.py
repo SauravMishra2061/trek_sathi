@@ -25,5 +25,8 @@ urlpatterns = [
     path("profile/edit/",views.edit_company_profile,name="edit_company_profile",),
    
     path("verification/replace-document/",views.replace_company_document,name="replace_company_document",),
+
+    path("trek-requests/",views.trek_requests,name="trek_requests",),
+    
     
     ]
