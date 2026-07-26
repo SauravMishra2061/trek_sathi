@@ -1,0 +1,137 @@
+{% extends "adminpanel/admin_base.html" %} {% load static %} {% block title %}
+Review Trek Request {% endblock %} {% block admin_content %}
+
+<div class="page-header">
+  <div>
+    <h1>Review Trek Request</h1>
+
+    <p>Review the details submitted by the company before approval.</p>
+  </div>
+
+  <a href="{% url 'admin_trek_requests' %}" class="secondary-btn">
+    <i class="fa-solid fa-arrow-left"></i>
+
+    Back
+  </a>
+</div>
+
+<div class="table-card review-card">
+  <h2>Trek Information</h2>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Trek Name</label>
+
+      <input type="text" value="{{ request_obj.trek_name }}" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Company</label>
+
+      <input
+        type="text"
+        value="{{ request_obj.company.company_name }}"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Region</label>
+
+      <input type="text" value="{{ request_obj.region.name }}" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Difficulty</label>
+
+      <input type="text" value="{{ request_obj.difficulty }}" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Estimated Altitude</label>
+
+      <input
+        type="text"
+        value="{{ request_obj.estimated_altitude }} m"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Status</label>
+
+      {% if request_obj.status == "Pending" %}
+
+      <span class="status-badge pending">
+        <i class="fa-solid fa-clock"></i>
+        Pending
+      </span>
+
+      {% elif request_obj.status == "Approved" %}
+
+      <span class="status-badge approved">
+        <i class="fa-solid fa-circle-check"></i>
+        Approved
+      </span>
+
+      {% else %}
+
+      <span class="status-badge rejected">
+        <i class="fa-solid fa-circle-xmark"></i>
+        Rejected
+      </span>
+
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="form-group section-spacing">
+    <label>Description</label>
+
+    <textarea rows="6" readonly>{{ request_obj.description }}</textarea>
+  </div>
+
+  {% if request_obj.reference_image %}
+
+  <div class="form-group section-spacing">
+    <label>Reference Image</label>
+
+    <img
+      src="{{ request_obj.reference_image.url }}"
+      class="review-image"
+      alt="Reference Image"
+    />
+  </div>
+
+  {% endif %}
+</div>
+
+<div class="table-card review-decision-card">
+  <h2>Admin Decision</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Feedback</label>
+
+      {{ form.admin_feedback }}
+    </div>
+
+    <div class="review-actions">
+      <button type="submit" name="action" value="approve" class="primary-btn">
+        <i class="fa-solid fa-circle-check"></i>
+
+        Approve
+      </button>
+
+      <button type="submit" name="action" value="reject" class="danger-btn">
+        <i class="fa-solid fa-circle-xmark"></i>
+
+        Reject
+      </button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

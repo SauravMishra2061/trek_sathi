@@ -1,0 +1,117 @@
+{% extends "adminpanel/admin_base.html" %} {% load static %} {% block title %}
+Trek Requests {% endblock %} {% block admin_content %}
+<div class="page-header">
+  <div>
+    <h1>Trek Requests</h1>
+    <p>Review company trek requests.</p>
+  </div>
+</div>
+<div class="search-card">
+  <form method="GET" class="search-form">
+    <input
+      type="text"
+      name="search"
+      placeholder="Search Trek or Company"
+      value="{{ search|default:'' }}"
+    />
+
+    <select name="status">
+      <option value="">All Status</option>
+
+      <option value="Pending" {% if is_pending %}selected{% endif %}>
+        Pending
+      </option>
+
+      <option value="Approved" {% if is_approved %}selected{% endif %}>
+        Approved
+      </option>
+
+      <option value="Rejected" {% if is_rejected %}selected{% endif %}>
+        Rejected
+      </option>
+    </select>
+    <button class="primary-btn">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      Search
+    </button>
+  </form>
+</div>
+
+<div class="table-card trek-request-card">
+  <h2>Pending Trek Requests</h2>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Trek</th>
+        <th>Company</th>
+        <th>Region</th>
+        <th>Status</th>
+        <th>Submitted</th>
+        <th style="text-align: center">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for request in requests %}
+
+      <tr>
+        <td>{{ request.trek_name }}</td>
+
+        <td>{{ request.company.company_name }}</td>
+
+        <td>{{ request.region.name }}</td>
+
+        <td>
+          {% if request.status == "Pending" %}
+
+          <span class="status-badge pending">
+            <i class="fa-solid fa-clock"></i>
+            Pending
+          </span>
+
+          {% elif request.status == "Approved" %}
+
+          <span class="status-badge approved">
+            <i class="fa-solid fa-circle-check"></i>
+            Approved
+          </span>
+
+          {% else %}
+
+          <span class="status-badge rejected">
+            <i class="fa-solid fa-circle-xmark"></i>
+            Rejected
+          </span>
+
+          {% endif %}
+        </td>
+
+        <td>{{ request.created_at|date:"M d, Y" }}</td>
+
+        <td style="text-align: center">
+          <a
+            href="{% url 'review_trek_request' request.pk %}"
+            class="secondary-btn"
+          >
+            <i class="fa-solid fa-eye"></i>
+            Review
+          </a>
+        </td>
+      </tr>
+
+      {% empty %}
+
+      <tr>
+        <td colspan="6" class="empty-state">
+          <i class="fa-solid fa-mountain"></i>
+
+          <p>No trek requests found.</p>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
