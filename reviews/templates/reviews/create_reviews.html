@@ -1,0 +1,191 @@
+{% extends "base.html" %} {% load static %} {% block title %} Rate Package 
+{%endblock %} {% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/review.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="review-page">
+  <div class="review-container">
+    <!-- Header -->
+    <div class="review-header">
+      <div class="review-icon">
+        <i class="fa-solid fa-star"></i>
+      </div>
+
+      <div>
+        <h1>Rate Your Experience</h1>
+
+        <p>
+          Share your rating for
+          <strong>{{ booking.package.title }}</strong>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Package Information -->
+    <div class="review-package">
+      <div class="package-icon">
+        <i class="fa-solid fa-mountain"></i>
+      </div>
+
+      <div>
+        <span>Package</span>
+
+        <h3>{{ booking.package.title }}</h3>
+
+        <p>{{ booking.package.trek.name }}</p>
+      </div>
+    </div>
+
+    <!-- Review Card -->
+    <div class="review-card">
+      <form method="POST">
+        {% csrf_token %}
+
+        <!-- Rating -->
+        <div class="rating-section">
+          <label class="form-label"> Your Rating </label>
+
+          <div class="star-rating">
+            {% for radio in form.rating %}
+
+            <label class="star-label" data-value="{{ forloop.counter }}">
+              {{ radio.tag }}
+
+              <i class="fa-regular fa-star star"></i>
+            </label>
+
+            {% endfor %}
+          </div>
+
+          {% if form.rating.errors %}
+
+          <div class="form-error">{{ form.rating.errors }}</div>
+
+          {% endif %}
+
+          <p class="rating-text">Select a rating</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="review-actions">
+          <button type="submit" class="submit-review-btn">
+            <i class="fa-solid fa-paper-plane"></i>
+            Submit Rating
+          </button>
+
+          <a href="{% url 'my_bookings' %}" class="cancel-review-btn">
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.star-label')
+    const ratingText = document.querySelector('.rating-text')
+
+    const ratingNames = {
+      1: 'Very poor',
+      2: 'Poor',
+      3: 'Average',
+      4: 'Good',
+      5: 'Excellent',
+    }
+
+    function updateStars(value) {
+      stars.forEach(function (starLabel) {
+        const starValue = Number(starLabel.dataset.value)
+
+        const icon = starLabel.querySelector('.star')
+
+        if (starValue <= value) {
+          starLabel.classList.add('selected')
+
+          icon.classList.remove('fa-regular')
+          icon.classList.add('fa-solid')
+        } else {
+          starLabel.classList.remove('selected')
+
+          icon.classList.remove('fa-solid')
+          icon.classList.add('fa-regular')
+        }
+      })
+
+      if (ratingText) {
+        ratingText.textContent = `${value} star${value > 1 ? 's' : ''} — ${ratingNames[value]}`
+      }
+    }
+
+    stars.forEach(function (starLabel) {
+      starLabel.addEventListener('click', function () {
+        const value = Number(this.dataset.value)
+
+        if (value < 1 || value > 5) {
+          return
+        }
+
+        const radio = this.querySelector('input[type="radio"]')
+
+        if (radio) {
+          radio.checked = true
+        }
+
+        updateStars(value)
+      })
+
+      /*
+       * Preview stars while hovering
+       */
+      starLabel.addEventListener('mouseenter', function () {
+        const value = Number(this.dataset.value)
+
+        stars.forEach(function (star) {
+          const starValue = Number(star.dataset.value)
+
+          const icon = star.querySelector('.star')
+
+          if (starValue <= value) {
+            icon.classList.remove('fa-regular')
+            icon.classList.add('fa-solid')
+          } else {
+            icon.classList.remove('fa-solid')
+            icon.classList.add('fa-regular')
+          }
+        })
+      })
+    })
+
+    /*
+     * Restore selected rating when mouse leaves
+     */
+    const starRating = document.querySelector('.star-rating')
+
+    if (starRating) {
+      starRating.addEventListener('mouseleave', function () {
+        const selected = document.querySelector(
+          '.star-label input[type="radio"]:checked'
+        )
+
+        if (selected) {
+          const selectedLabel = selected.closest('.star-label')
+
+          const value = Number(selectedLabel.dataset.value)
+
+          updateStars(value)
+        } else {
+          stars.forEach(function (star) {
+            const icon = star.querySelector('.star')
+
+            icon.classList.remove('fa-solid')
+            icon.classList.add('fa-regular')
+          })
+        }
+      })
+    }
+  })
+</script>
+
+{% endblock %}

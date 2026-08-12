@@ -1,0 +1,90 @@
+{% extends "companies/company_base.html" %} {% block title %} Booking Details 
+
+{%endblock %} {% block company_content %}
+
+<div class="page-header">
+  <div>
+    <h1>Booking Details</h1>
+    <p>{{ booking.package.title }}</p>
+  </div>
+
+  <a href="{% url 'company_bookings' %}" class="secondary-btn">
+    <i class="fa-solid fa-arrow-left"></i>
+    Back
+  </a>
+</div>
+
+<div class="detail-grid">
+  <div class="detail-card">
+    <h2>Customer Information</h2>
+
+    <table class="detail-table">
+      <tr>
+        <th>Name</th>
+        <td>
+          {{ booking.trekker.get_full_name|default:booking.trekker.username }}
+        </td>
+      </tr>
+
+      <tr>
+        <th>Username</th>
+        <td>{{ booking.trekker.username }}</td>
+      </tr>
+
+      <tr>
+        <th>People</th>
+        <td>{{ booking.number_of_people }}</td>
+      </tr>
+
+      <tr>
+        <th>Emergency Contact</th>
+        <td>{{ booking.emergency_contact }}</td>
+      </tr>
+
+      <tr>
+        <th>Total Price</th>
+        <td>NPR {{ booking.total_price }}</td>
+      </tr>
+
+      <tr>
+        <th>Status</th>
+        <td>{{ booking.status }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="detail-card">
+    <h2>Special Request</h2>
+
+    {% if booking.special_request %}
+    <p>{{ booking.special_request }}</p>
+    {% else %}
+    <p>No special requests.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="booking-actions">
+  {% if booking.status == "Pending" %}
+
+  <form method="POST" action="{% url 'approve_booking' booking.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="approve-btn">Approve Booking</button>
+  </form>
+
+  <form method="POST" action="{% url 'reject_booking' booking.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="reject-btn">Reject Booking</button>
+  </form>
+
+  {% elif booking.status == "Approved" %}
+
+  <form method="POST" action="{% url 'complete_booking' booking.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="primary-btn">Mark as Completed</button>
+  </form>
+
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -26,8 +26,8 @@
 
 <!-- Status Card -->
 
-{% if company.status == "Pending" or company.status == "Rejected" or
-company.status == "Suspended" %}
+<!-- {% if company.status == "Pending" or company.status == "Rejected" or
+company.status == "Suspended" %} -->
 
 <div class="status-card">
   {% if company.status == "Approved" %}
@@ -96,17 +96,6 @@ company.status == "Suspended" %}
     <p>Estimated Revenue</p>
   </div>
 
-  <div class="stat-card">
-    <i class="fa-solid fa-star"></i>
-    <h3>{{ review_count }}</h3>
-    <p>Reviews</p>
-  </div>
-
-  <div class="stat-card">
-    <i class="fa-solid fa-ranking-star"></i>
-    <h3>{{ average_rating }}</h3>
-    <p>Rating</p>
-  </div>
 </div>
 
 <!-- Quick Actions -->

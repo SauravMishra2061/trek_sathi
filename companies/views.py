@@ -91,9 +91,19 @@ def company_packages(request):
     if not hasattr(request.user, "company"):
         return redirect("trekker_dashboard")
 
-    return render(request, "companies/company_packages.html")
+    company = request.user.company
 
+    if company.status != "Approved":
+        messages.error(
+            request,
+            "Your company must be approved before you can manage packages."
+        )
+        return redirect("company_dashboard")
 
+    return render(
+        request,
+        "companies/company_packages.html"
+    )
 @login_required
 def company_bookings(request):
 
@@ -120,14 +130,29 @@ def company_earnings(request):
 
     return render(request, "companies/company_earnings.html")
 
-
 @login_required
 def company_reviews(request):
 
     if not hasattr(request.user, "company"):
         return redirect("trekker_dashboard")
 
-    return render(request, "companies/company_reviews.html")
+    company = request.user.company
+
+    reviews = (
+        Review.objects
+        .filter(package__company=company)
+        .select_related("trekker", "package", "package__trek")
+        .order_by("-created_at")
+    )
+
+    return render(
+        request,
+        "companies/company_reviews.html",
+        {
+            "company": company,
+            "reviews": reviews,
+        },
+    )
 
 
 @login_required
@@ -405,7 +430,7 @@ def trek_requests(request):
 
     company = request.user.company
 
-    requests = company.trek_requests.all().order_by("-created_at")
+    requests = company.trek_requests.all().order_by("-id")
 
     if request.method == "POST":
 

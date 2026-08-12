@@ -1,0 +1,85 @@
+{% extends "base.html" %} {% load static %} {% block title %} My Enquiries
+{%endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+<link rel="stylesheet" href="{% static 'css/my_conversations.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="dashboard-page">
+  <div class="dashboard-container">
+    {% include "home/sidebar.html" %}
+
+    <section class="dashboard-main">
+      <div class="page-header">
+        <div>
+          <h1>My Enquiries</h1>
+
+          <p>Track your conversations with trekking companies.</p>
+        </div>
+      </div>
+
+      {% if conversations %}
+
+      <div class="conversation-list">
+        {% for conversation in conversations %}
+
+        <div class="conversation-card">
+          <div class="conversation-info">
+            <h3>{{ conversation.package.title }}</h3>
+
+            <p>
+              <strong>Company:</strong>
+              {{ conversation.company.company_name }}
+            </p>
+
+            <p>
+              <strong>Subject:</strong>
+              {{ conversation.subject }}
+            </p>
+
+            {% with latest_message=conversation.messages.last %} 
+            {% if latest_message %}
+
+            <p class="latest-message">
+              <strong>Latest:</strong>
+
+              {{ latest_message.message|truncatechars:80 }}
+            </p>
+
+            <small> {{ latest_message.created_at|date:"d M Y H:i" }} </small>
+
+            {% else %}
+
+            <small>No messages yet.</small>
+
+            {% endif %} {% endwith %}
+          </div>
+
+          <a
+            href="{% url 'conversation_detail' conversation.pk %}"
+            class="primary-btn"
+          >
+            <i class="fa-solid fa-comments"></i>
+
+            Open
+          </a>
+        </div>
+
+        {% endfor %}
+      </div>
+
+      {% else %}
+
+      <div class="empty-state">
+        <i class="fa-solid fa-comments"></i>
+
+        <h2>No enquiries yet</h2>
+
+        <p>Start a conversation by sending an enquiry from any package.</p>
+      </div>
+
+      {% endif %}
+    </section>
+  </div>
+</section>
+
+{% endblock %}

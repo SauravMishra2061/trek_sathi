@@ -9,4 +9,10 @@ urlpatterns = [
         name="company_reviews",
     ),
 
+    path(
+        "create/<int:booking_id>/",
+        views.create_review,
+        name="create_review",
+    ),
+
 ]

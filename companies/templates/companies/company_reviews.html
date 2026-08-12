@@ -1,5 +1,112 @@
 {% extends "companies/company_base.html" %}
 
+{% block title %}
+Customer Reviews
+{% endblock %}
+
 {% block company_content %}
-<h1>Company Dashboard</h1>
+
+<section class="company-reviews-page">
+
+```
+<div class="reviews-header">
+    <div>
+        <h1>Customer Reviews</h1>
+        <p>Ratings submitted by trekkers for your packages.</p>
+    </div>
+
+    <div class="reviews-header-icon">
+        <i class="fa-solid fa-star"></i>
+    </div>
+</div>
+
+
+{% if reviews %}
+
+    <div class="company-review-list">
+
+        {% for review in reviews %}
+
+            <div class="company-review-card">
+
+                <div class="review-card-top">
+
+                    <div class="review-customer">
+
+                        <div class="customer-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+                            <strong>
+                                {{ review.trekker.get_full_name|default:review.trekker.username }}
+                            </strong>
+
+                            <span>
+                                {{ review.created_at|date:"M d, Y" }}
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="review-stars">
+
+                        {% for i in "12345" %}
+
+                            {% if forloop.counter <= review.rating %}
+
+                                <i class="fa-solid fa-star"></i>
+
+                            {% else %}
+
+                                <i class="fa-regular fa-star"></i>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="review-package-name">
+
+                    <i class="fa-solid fa-mountain"></i>
+
+                    {{ review.package.title }}
+
+                </div>
+
+                <div class="review-rating-text">
+                    {{ review.rating }} out of 5
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="no-reviews">
+
+        <i class="fa-regular fa-star"></i>
+
+        <h2>No Reviews Yet</h2>
+
+        <p>
+            Customers have not submitted any ratings
+            for your packages yet.
+        </p>
+
+    </div>
+
+{% endif %}
+```
+
+</section>
+
 {% endblock %}

@@ -236,4 +236,36 @@ Add Package
   
 </form>
 
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const startDate = document.getElementById("id_start_date");
+    const endDate = document.getElementById("id_end_date");
+
+    if (!startDate || !endDate) {
+        return;
+    }
+
+    function updateEndDate() {
+        if (startDate.value) {
+            endDate.min = startDate.value;
+
+            // If existing end date is before the new start date,
+            // clear it.
+            if (endDate.value && endDate.value < startDate.value) {
+                endDate.value = "";
+            }
+        } else {
+            endDate.min = new Date().toISOString().split("T")[0];
+        }
+    }
+
+    startDate.addEventListener("change", updateEndDate);
+
+    updateEndDate();
+});
+</script>
+
 {% endblock %}

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Send Enquiry
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enquiry.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="enquiry-page">
+
+    <div class="enquiry-container">
+
+        <!-- Header -->
+
+        <div class="enquiry-header">
+
+            <div class="welcome-icon">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+
+            <div>
+
+                <h1>
+                    Send Enquiry
+                </h1>
+
+                <p>
+                    Contact
+                    <strong>{{ package.company.company_name }}</strong>
+                    regarding
+                    <strong>{{ package.title }}</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Package Information -->
+
+        <div class="enquiry-package">
+
+            <div class="package-icon">
+                <i class="fa-solid fa-mountain"></i>
+            </div>
+
+            <div>
+
+                <span>Enquiring about</span>
+
+                <h3>
+                    {{ package.title }}
+                </h3>
+
+                <p>
+                    {{ package.company.company_name }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Enquiry Form -->
+
+        <div class="enquiry-card">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.subject.id_for_label }}">
+                        Subject
+                    </label>
+
+                    {{ form.subject }}
+
+                    {% if form.subject.errors %}
+
+                        <div class="form-error">
+                            {{ form.subject.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.message.id_for_label }}">
+                        Message
+                    </label>
+
+                    {{ form.message }}
+
+                    {% if form.message.errors %}
+
+                        <div class="form-error">
+                            {{ form.message.errors }}
+                        </div>
+
+                    {% endif %}
+
+                    <small class="form-hint">
+                        Ask about availability, dates, pricing, difficulty,
+                        or anything else about this package.
+                    </small>
+
+                </div>
+
+
+                <div class="enquiry-actions">
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+
+                        <i class="fa-solid fa-paper-plane"></i>
+
+                        Send Enquiry
+
+                    </button>
+
+
+                    <a
+                        href="{% url 'package_detail' package.pk %}"
+                        class="enquiry-cancel-btn"
+                    >
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

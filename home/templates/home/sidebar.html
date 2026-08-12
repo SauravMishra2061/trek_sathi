@@ -39,6 +39,11 @@
       <i class="fa-solid fa-heart"></i>
       <span>Saved Packages</span>
     </a>
+    <a href="{% url 'my_conversations' %}"
+    class="{% if request.resolver_match.url_name == 'my_conversations' %}active{% endif %}">
+        <i class="fa-solid fa-comments"></i>
+      <span> My Enquiries</span>
+    </a>
   </nav>
 
   <div class="logout-btn">

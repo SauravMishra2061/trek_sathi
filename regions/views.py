@@ -1,6 +1,6 @@
 from django.shortcuts import render 
 from django.contrib.auth.decorators import login_required
-
+from packages.models import Package
 from .models import Region
 
 from .forms import RegionForm
@@ -108,4 +108,38 @@ def delete_region(request, pk):
         {
             "region": region
         }
+    )
+
+
+
+
+def region_detail(request, pk):
+
+    region = get_object_or_404(
+        Region,
+        pk=pk,
+        is_active=True
+    )
+
+    packages = (
+        Package.objects.filter(
+            trek__region=region,
+            status="Published",
+        )
+        .select_related(
+            "company",
+            "trek",
+        )
+        .order_by("-created_at")
+    )
+
+    context = {
+        "region": region,
+        "packages": packages,
+    }
+
+    return render(
+        request,
+        "regions/region_detail.html",
+        context,
     )

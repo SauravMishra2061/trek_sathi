@@ -1,4 +1,5 @@
 <aside class="company-sidebar">
+
   <div class="company-sidebar-header">
     <div class="company-sidebar-avatar">
       <i class="fa-solid fa-building"></i>
@@ -9,7 +10,10 @@
     <p>Company Account</p>
   </div>
 
+
   <nav class="company-sidebar-nav">
+
+    <!-- Dashboard -->
     <a
       href="{% url 'company_dashboard' %}"
       class="{% if request.resolver_match.url_name == 'company_dashboard' %}active{% endif %}"
@@ -18,14 +22,18 @@
       <span>Dashboard</span>
     </a>
 
+
+    <!-- Packages -->
     <a
       href="{% url 'package_list' %}"
-      class="{% if request.resolver_match.url_name == 'package_list' %}active{% endif %}"
+      class="{% if request.resolver_match.url_name == 'package_list' or request.resolver_match.url_name == 'package_create' or request.resolver_match.url_name == 'package_edit' or request.resolver_match.url_name == 'package_detail' or request.resolver_match.url_name == 'package_delete' %}active{% endif %}"
     >
       <i class="fa-solid fa-box"></i>
       <span>Packages</span>
     </a>
 
+
+    <!-- Bookings -->
     <a
       href="{% url 'company_bookings' %}"
       class="{% if request.resolver_match.url_name == 'company_bookings' %}active{% endif %}"
@@ -33,12 +41,19 @@
       <i class="fa-solid fa-calendar-check"></i>
       <span>Bookings</span>
     </a>
-    <li>
-      <a href="{% url 'trek_requests' %}">
-        <i class="fa-solid fa-mountain"></i>
-        Trek Requests
-      </a>
-    </li>
+
+
+    <!-- Trek Requests -->
+    <a
+      href="{% url 'trek_requests' %}"
+      class="{% if request.resolver_match.url_name == 'trek_requests' %}active{% endif %}"
+    >
+      <i class="fa-solid fa-mountain"></i>
+      <span>Trek Requests</span>
+    </a>
+
+
+    <!-- Messages -->
     <a
       href="{% url 'company_messages' %}"
       class="{% if request.resolver_match.url_name == 'company_messages' %}active{% endif %}"
@@ -47,15 +62,18 @@
       <span>Messages</span>
     </a>
 
+
+    <!-- Reviews -->
     <a
       href="{% url 'company_reviews' %}"
       class="{% if request.resolver_match.url_name == 'company_reviews' %}active{% endif %}"
     >
       <i class="fa-solid fa-star"></i>
-
       <span>Reviews</span>
     </a>
 
+
+    <!-- Profile -->
     <a
       href="{% url 'company_profile' %}"
       class="{% if request.resolver_match.url_name == 'company_profile' %}active{% endif %}"
@@ -64,6 +82,8 @@
       <span>Profile</span>
     </a>
 
+
+    <!-- Verification -->
     <a
       href="{% url 'company_verification' %}"
       class="{% if request.resolver_match.url_name == 'company_verification' %}active{% endif %}"
@@ -71,12 +91,16 @@
       <i class="fa-solid fa-shield-halved"></i>
       <span>Verification</span>
     </a>
+
   </nav>
 
+
+  <!-- Logout -->
   <div class="company-sidebar-footer">
     <a href="{% url 'logout' %}">
       <i class="fa-solid fa-right-from-bracket"></i>
       <span>Logout</span>
     </a>
   </div>
+
 </aside>

@@ -1,71 +1,138 @@
-{% extends "companies/company_base.html" %} 
-{% block title %} Bookings 
-{%endblock%} {% block company_content %}
+{% extends "companies/company_base.html" %}
+
+{% block title %}
+Bookings
+{% endblock %}
+
+{% block company_content %}
 
 <div class="page-header">
-  <div>
-    <h1>Bookings</h1>
-
-    <p>Manage customer bookings.</p>
-  </div>
+    <div>
+        <h1>Bookings</h1>
+        <p>Manage customer bookings.</p>
+    </div>
 </div>
+
 
 {% if bookings %}
 
-<div class="table-card">
-  <table class="admin-table">
-    <thead>
-      <tr>
-        <th>Package</th>
+<div class="booking-card">
 
-        <th>Customer</th>
+    <div class="booking-card-header">
 
-        <th>People</th>
+        <h2>
+            <i class="fa-solid fa-calendar-check"></i>
+            Customer Bookings
+        </h2>
 
-        <th>Booking Date</th>
+        <span class="booking-count">
+            {{ bookings|length }} Booking{{ bookings|length|pluralize }}
+        </span>
 
-        <th>Status</th>
+    </div>
 
-        <th>Action</th>
-      </tr>
-    </thead>
 
-    <tbody>
-      {% for booking in bookings %}
+    <div class="booking-table-wrapper">
 
-      <tr>
-        <td>{{ booking.package.title }}</td>
+        <table class="booking-table">
 
-        <td>
-          {{ booking.trekker.get_full_name|default:booking.trekker.username }}
-        </td>
+            <thead>
+                <tr>
+                    <th>Package</th>
+                    <th>Customer</th>
+                    <th>People</th>
+                    <th>Booking Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-        <td>{{ booking.number_of_people }}</td>
 
-        <td>{{ booking.booking_date|date:"M d, Y" }}</td>
+            <tbody>
 
-        <td>
-          <span class="status-badge"> {{ booking.status }} </span>
-        </td>
+                {% for booking in bookings %}
 
-        <td>
-          <a href="{% url 'booking_detail' booking.pk %}" class="edit-btn">
-            <i class="fa-solid fa-eye"></i>
-          </a>
-        </td>
-      </tr>
+                <tr>
 
-      {% endfor %}
-    </tbody>
-  </table>
+                    <td>
+                        <div class="booking-package">
+
+                            <strong>
+                                {{ booking.package.title }}
+                            </strong>
+
+                        </div>
+                    </td>
+
+
+                    <td>
+                        {{ booking.trekker.get_full_name|default:booking.trekker.username }}
+                    </td>
+
+
+                    <td>
+                        <span class="people-count">
+                            <i class="fa-solid fa-users"></i>
+                            {{ booking.number_of_people }}
+                        </span>
+                    </td>
+
+
+                    <td>
+                        {{ booking.booking_date|date:"M d, Y" }}
+                    </td>
+
+
+                    <td>
+
+                        <span class="status-badge status-{{ booking.status|lower }}">
+                            {{ booking.status }}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <a href="{% url 'booking_detail' booking.pk %}"
+                           class="booking-view-btn">
+
+                            <i class="fa-solid fa-eye"></i>
+                            View
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
+
 
 {% else %}
 
-<div class="company-empty-state">
-  <i class="fa-solid fa-calendar-check"></i>
+<div class="empty-state">
 
-  <p>No bookings yet.</p>
+    <i class="fa-solid fa-calendar-xmark"></i>
+
+    <h2>No Bookings Yet</h2>
+
+    <p>
+        Customer bookings for your trekking packages
+        will appear here.
+    </p>
+
 </div>
 
-{% endif %} {% endblock %}
+{% endif %}
+
+
+{% endblock %}

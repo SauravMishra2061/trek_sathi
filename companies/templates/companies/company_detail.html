@@ -10,140 +10,260 @@ Company Details
 
 {% block admin_content %}
 
-<div class="page-header">
+<div class="company-info">
 
-    <div>
-        <h1>{{ company.company_name }}</h1>
-        <p>Review company information.</p>
+    <div class="info-row">
+        <strong>Company Name</strong>
+        <span>{{ company.company_name }}</span>
     </div>
 
-    <a href="{% url 'company_list' %}" class="secondary-btn">
-        <i class="fa-solid fa-arrow-left"></i>
-        Back
-    </a>
 
-</div>
+    <div class="info-row">
+        <strong>Owner</strong>
+        <span>
+            {{ company.user.get_full_name|default:company.user.username }}
+        </span>
+    </div>
 
-<div class="table-card">
 
-    <div class="company-profile">
+    <div class="info-row">
+        <strong>Email</strong>
+        <span>{{ company.email|default:"-" }}</span>
+    </div>
 
-        <div class="company-logo">
 
-            {% if company.logo %}
-                <img src="{{ company.logo.url }}" alt="{{ company.company_name }}">
+    <div class="info-row">
+        <strong>Phone</strong>
+        <span>{{ company.phone }}</span>
+    </div>
+
+
+    <div class="info-row">
+        <strong>Registration No.</strong>
+        <span>{{ company.registration_number }}</span>
+    </div>
+
+
+    <div class="info-row">
+        <strong>Address</strong>
+        <span>{{ company.address|default:"-" }}</span>
+    </div>
+
+
+    <div class="info-row">
+        <strong>Joined</strong>
+        <span>
+            {{ company.created_at|date:"F d, Y" }}
+        </span>
+    </div>
+
+
+    <div class="info-row">
+        <strong>Total Packages</strong>
+        <span>
+            {{ company.packages.count }}
+        </span>
+    </div>
+
+
+    <div class="info-row status-row">
+
+        <strong>Status</strong>
+
+        <div>
+
+            {% if company.status == "Approved" %}
+
+                <span class="status-badge status-active">
+                    Approved
+                </span>
+
+            {% elif company.status == "Pending" %}
+
+                <span class="status-badge status-pending">
+                    Pending
+                </span>
+
+            {% elif company.status == "Rejected" %}
+
+                <span class="status-badge status-rejected">
+                    Rejected
+                </span>
+
             {% else %}
-                <div class="company-placeholder large">
-                    <i class="fa-solid fa-building"></i>
-                </div>
+
+                <span class="status-badge status-inactive">
+                    Suspended
+                </span>
+
             {% endif %}
 
         </div>
 
-        <div class="company-info">
-
-            <div class="info-row">
-                <strong>Company Name</strong>
-                <span>{{ company.company_name }}</span>
-            </div>
-
-            <div class="info-row">
-                <strong>Owner</strong>
-                <span>{{ company.user.get_full_name|default:company.user.username }}</span>
-            </div>
-
-            <div class="info-row">
-                <strong>Email</strong>
-                <span>{{ company.email|default:"-" }}</span>
-            </div>
-
-            <div class="info-row">
-                <strong>Phone</strong>
-                <span>{{ company.phone }}</span>
-            </div>
-
-            <div class="info-row">
-                <strong>Registration No.</strong>
-                <span>{{ company.registration_number }}</span>
-            </div>
-
-            <div class="info-row">
-                <strong>Address</strong>
-                <span>{{ company.address|default:"-" }}</span>
-            </div>
-
-            <div class="info-row">
-                <strong>Description</strong>
-                <span>{{ company.description|default:"-" }}</span>
-            </div>
-
-            <div class="info-row status-row">
-
-    <strong>Status</strong>
-
-    <div>
-
-        {% if company.status == "Approved" %}
-            <span class="status-badge status-active">Approved</span>
-
-        {% elif company.status == "Pending" %}
-            <span class="status-badge status-pending">Pending</span>
-
-        {% elif company.status == "Rejected" %}
-            <span class="status-badge status-rejected">Rejected</span>
-
-        {% else %}
-            <span class="status-badge status-inactive">Suspended</span>
-
-        {% endif %}
-
     </div>
 
 </div>
-        </div>
+
+
+<!-- ===================================== -->
+<!-- REGISTRATION DOCUMENT -->
+<!-- ===================================== -->
+
+<div class="document-review-section">
+
+    <div class="section-title">
+
+        <h2>
+            <i class="fa-solid fa-file-shield"></i>
+            Registration Document
+        </h2>
+
+        <p>
+            Review the company's uploaded registration document.
+        </p>
 
     </div>
 
-    <hr>
 
-    <div class="company-actions">
+    {% if company.registration_document %}
 
-    {% if company.status == "Pending" %}
+        <div class="document-card">
 
-        <a href="{% url 'approve_company' company.pk %}" class="approve-btn">
-            <i class="fa-solid fa-check"></i>
-            Approve
-        </a>
+            <div class="document-icon">
 
-        <a href="{% url 'reject_company' company.pk %}" class="reject-btn">
-            <i class="fa-solid fa-xmark"></i>
-            Reject
-        </a>
+                <i class="fa-solid fa-file-lines"></i>
 
-    {% elif company.status == "Approved" %}
+            </div>
 
-        <a href="{% url 'suspend_company' company.pk %}" class="suspend-btn">
-            <i class="fa-solid fa-ban"></i>
-            Suspend
-        </a>
 
-    {% elif company.status == "Rejected" %}
+            <div class="document-info">
 
-        <a href="{% url 'approve_company' company.pk %}" class="approve-btn">
-            <i class="fa-solid fa-check"></i>
-            Approve
-        </a>
+                <strong>
+                    Registration Document
+                </strong>
 
-    {% elif company.status == "Suspended" %}
+                <p>
+                    {{ company.registration_document.name }}
+                </p>
 
-        <a href="{% url 'approve_company' company.pk %}" class="approve-btn">
-            <i class="fa-solid fa-check"></i>
-            Approve
-        </a>
+            </div>
+
+
+            <a
+                href="{{ company.registration_document.url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="primary-btn document-btn"
+            >
+
+                <i class="fa-solid fa-eye"></i>
+
+                View Document
+
+            </a>
+
+        </div>
+
+    {% else %}
+
+        <div class="no-document">
+
+            <i class="fa-solid fa-file-circle-xmark"></i>
+
+            <div>
+
+                <strong>
+                    No registration document
+                </strong>
+
+                <p>
+                    This company has not uploaded a registration document.
+                </p>
+
+            </div>
+
+        </div>
 
     {% endif %}
 
 </div>
+
+
+<!-- ===================================== -->
+<!-- ADMIN ACTIONS -->
+<!-- ===================================== -->
+
+<div class="company-actions">
+
+    {% if company.status == "Pending" %}
+
+        <a
+            href="{% url 'approve_company' company.pk %}"
+            class="approve-btn"
+        >
+
+            <i class="fa-solid fa-check"></i>
+
+            Approve
+
+        </a>
+
+
+        <a
+            href="{% url 'reject_company' company.pk %}"
+            class="reject-btn"
+        >
+
+            <i class="fa-solid fa-xmark"></i>
+
+            Reject
+
+        </a>
+
+
+    {% elif company.status == "Approved" %}
+
+        <a
+            href="{% url 'suspend_company' company.pk %}"
+            class="suspend-btn"
+        >
+
+            <i class="fa-solid fa-ban"></i>
+
+            Suspend
+
+        </a>
+
+
+    {% elif company.status == "Rejected" %}
+
+        <a
+            href="{% url 'approve_company' company.pk %}"
+            class="approve-btn"
+        >
+
+            <i class="fa-solid fa-check"></i>
+
+            Approve
+
+        </a>
+
+
+    {% elif company.status == "Suspended" %}
+
+        <a
+            href="{% url 'approve_company' company.pk %}"
+            class="approve-btn"
+        >
+
+            <i class="fa-solid fa-check"></i>
+
+            Approve
+
+        </a>
+
+    {% endif %}
+
 </div>
 
 {% endblock %}

@@ -169,6 +169,7 @@ header {
 /* ==========================================
    Hero Section
 ========================================== */
+
 /* ==========================================
    Container
 ========================================== */
@@ -1078,9 +1079,20 @@ footer {
 
 .messages {
   position: fixed !important;
+
   top: 90px !important;
-  right: 480px !important;
+  left: 50% !important;
+
+  transform: translateX(-50%) !important;
+
   z-index: 99999 !important;
+
+  width: min(90%, 450px);
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  list-style: none;
 }
 
 .messages .message {

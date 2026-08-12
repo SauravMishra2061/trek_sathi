@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% load static %} {% block title %} {{ region.name }}
+{% endblock %} {% block content %}
+
+<section class="region-page">
+  <div class="container">
+    <h1>{{ region.name }}</h1>
+
+    <p>{{ region.description }}</p>
+
+    <div class="package-grid">
+      {% for package in packages %}
+
+      <div class="package-card">
+        {% if package.cover_image %}
+        <img src="{{ package.cover_image.url }}" alt="{{ package.title }}" />
+        {% elif package.trek.image %}
+        <img src="{{ package.trek.image.url }}" alt="{{ package.trek.name }}" />
+        {% else %}
+        <img src="{% static 'images/default-trek.jpg' %}" alt="Default Trek" />
+        {% endif %}
+
+        <div class="package-info">
+          <h3>{{ package.title }}</h3>
+
+          <p>{{ package.company.company_name }}</p>
+
+          <p>NPR {{ package.price_per_person }}</p>
+
+          <a href="{% url 'package_detail' package.pk %}" class="details-btn">
+            View Details
+          </a>
+        </div>
+      </div>
+
+      {% empty %}
+
+      <p>No packages available in this region.</p>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

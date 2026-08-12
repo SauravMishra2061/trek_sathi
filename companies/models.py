@@ -23,24 +23,23 @@ class Company(models.Model):
 
     phone = models.CharField(max_length=20)
 
-    email = models.EmailField(blank=True,null=True)
+    email = models.EmailField(
+        blank=True,
+        null=True
+    )
 
     registration_number = models.CharField(
         max_length=100,
         unique=True
     )
 
-    address = models.TextField(blank=True)
-
-    description = models.TextField(blank=True)
-
-    admin_feedback = models.TextField(
-    blank=True,
-    null=True,
-    help_text="Admin remarks for approval, rejection or suspension."
+    address = models.TextField(
+        blank=True
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(
+        blank=True
+    )
 
     logo = models.ImageField(
         upload_to="company_logos/",
@@ -60,37 +59,48 @@ class Company(models.Model):
         default="Pending"
     )
 
-    is_active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    admin_feedback = models.TextField(
-    blank=True,
-    null=True,
-    help_text="Admin remarks for approval, rejection or suspension."
+    is_active = models.BooleanField(
+        default=True
     )
 
-    approval_message_seen = models.BooleanField(default=False)
+    admin_feedback = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Admin remarks for approval, rejection or suspension."
+    )
+
+    approval_message_seen = models.BooleanField(
+        default=False
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
     def __str__(self):
         return self.company_name
 
 
 class TrekRequest(models.Model):
+
     company = models.ForeignKey(
         Company,
         on_delete=models.CASCADE,
         related_name="trek_requests"
     )
 
-    trek_name = models.CharField(max_length=150)
+    trek_name = models.CharField(
+        max_length=150
+    )
 
     region = models.ForeignKey(
         Region,
         on_delete=models.CASCADE
     )
 
-    description = models.TextField(blank=True)
+    description = models.TextField(
+        blank=True
+    )
 
     estimated_altitude = models.PositiveIntegerField(
         blank=True,
@@ -117,7 +127,3 @@ class TrekRequest(models.Model):
         ],
         default="Pending"
     )
-
-    admin_feedback = models.TextField(blank=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,397 @@
+/* =========================
+   Review Page
+========================= */
+
+.review-page {
+  min-height: calc(100vh - 80px);
+  padding: 55px 20px;
+  background: #f5f8fc;
+}
+
+.review-container {
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* =========================
+   Header
+========================= */
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.review-header h1 {
+  margin: 0 0 6px;
+  color: #0b3d91;
+  font-size: 2rem;
+}
+
+.review-header p {
+  margin: 0;
+  color: #666;
+}
+
+.review-header strong {
+  color: #333;
+}
+
+/* =========================
+   Header Icon
+========================= */
+
+.review-icon {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff4d6;
+  color: #f5a623;
+
+  border-radius: 12px;
+  font-size: 1.5rem;
+}
+
+/* =========================
+   Package Information
+========================= */
+
+.review-package {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 18px 20px;
+  margin-bottom: 20px;
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+}
+
+.package-icon {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eef5ff;
+  color: #0b3d91;
+
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+.review-package span {
+  display: block;
+  margin-bottom: 3px;
+
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.review-package h3 {
+  margin: 0;
+  color: #222;
+  font-size: 1.05rem;
+}
+
+.review-package p {
+  margin: 3px 0 0;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* =========================
+   Review Card
+========================= */
+
+.review-card {
+  background: white;
+
+  padding: 35px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================
+   Rating Section
+========================= */
+
+.rating-section {
+  text-align: center;
+}
+
+.rating-section > label {
+  display: block;
+
+  margin-bottom: 18px;
+
+  color: #333;
+
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* =========================
+   Star Rating
+========================= */
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 10px;
+}
+
+.star-label {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+/*
+   Keep the radio button in the DOM.
+
+   DO NOT use display:none.
+   This prevents the browser's:
+   "invalid form control is not focusable"
+   error.
+*/
+.star-label input[type='radio'] {
+  position: absolute;
+
+  opacity: 0;
+
+  width: 1px;
+  height: 1px;
+
+  margin: 0;
+}
+
+/* =========================
+   Stars
+========================= */
+
+.star-label .star {
+  font-size: 2.8rem;
+
+  color: #d5dbe5;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Hover preview */
+
+.star-label:hover .star {
+  color: #ffc107;
+
+  transform: scale(1.1);
+}
+
+/* Selected stars */
+
+.star-label.selected .star {
+  color: #ffc107;
+}
+
+/* Selected radio */
+
+.star-label input[type='radio']:checked + .star {
+  color: #ffc107;
+}
+
+/* Keyboard focus */
+
+.star-label input[type='radio']:focus + .star {
+  outline: 2px solid #0d6efd;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* =========================
+   Rating Text
+========================= */
+
+.rating-text {
+  min-height: 20px;
+
+  margin: 12px 0 0;
+
+  color: #777;
+
+  font-size: 0.85rem;
+}
+
+/* =========================
+   Form Errors
+========================= */
+
+.form-error {
+  margin-top: 10px;
+
+  color: #dc3545;
+
+  font-size: 0.85rem;
+}
+
+/* =========================
+   Buttons
+========================= */
+
+.review-actions {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 32px;
+}
+
+.submit-review-btn,
+.cancel-review-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 10px 20px;
+
+  border-radius: 8px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+/* =========================
+   Submit Button
+========================= */
+
+.submit-review-btn {
+  border: none;
+
+  background: #0d6efd;
+  color: white;
+
+  box-shadow: 0 3px 8px rgba(13, 110, 253, 0.2);
+}
+
+.submit-review-btn:hover {
+  background: #0b5ed7;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 12px rgba(13, 110, 253, 0.25);
+}
+
+/* =========================
+   Cancel Button
+========================= */
+
+.cancel-review-btn {
+  background: #f8fafc;
+
+  color: #0b3d91;
+
+  border: 1px solid #d7dee8;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.cancel-review-btn:hover {
+  background: #eef4ff;
+
+  color: #0b3d91;
+
+  border-color: #0b3d91;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 10px rgba(11, 61, 145, 0.15);
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 600px) {
+  .review-page {
+    padding: 35px 15px;
+  }
+
+  .review-container {
+    width: 100%;
+  }
+
+  .review-header {
+    align-items: flex-start;
+  }
+
+  .review-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .review-card {
+    padding: 25px 20px;
+  }
+
+  .review-package {
+    padding: 15px;
+  }
+
+  .star-rating {
+    gap: 5px;
+  }
+
+  .star-label .star {
+    font-size: 2.3rem;
+  }
+
+  .review-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submit-review-btn,
+  .cancel-review-btn {
+    width: 100%;
+  }
+}

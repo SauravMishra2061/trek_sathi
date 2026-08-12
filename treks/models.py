@@ -31,7 +31,9 @@ class Trek(models.Model):
     )
 
     image = models.ImageField(
-        upload_to="treks/"
+        upload_to="treks/",
+        blank=True,
+        null=True,
     )
 
     is_active = models.BooleanField(default=True)

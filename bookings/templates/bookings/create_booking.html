@@ -1,0 +1,122 @@
+{% extends "base.html" %} {% load static %} {% block title %}Book Trek
+{%endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+<link rel="stylesheet" href="{% static 'css/forms.css' %}" />
+<link rel="stylesheet" href="{% static 'css/create_booking.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="dashboard-page">
+  <div class="dashboard-container">
+    <section class="dashboard-main">
+      <div class="bookings-header">
+        <div>
+          <h1>Book Trek</h1>
+
+          <p>Complete your booking details.</p>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card">
+          <h2>Package Summary</h2>
+
+          {% if package.cover_image %}
+          <img
+            src="{{ package.cover_image.url }}"
+            alt="{{ package.title }}"
+            class="booking-package-image"
+          />
+
+          {% elif package.trek.image %}
+          <img
+            src="{{ package.trek.image.url }}"
+            alt="{{ package.trek.name }}"
+            class="booking-package-image"
+          />
+          {% endif %}
+
+          <table class="detail-table">
+            <tr>
+              <th>Package</th>
+              <td>{{ package.title }}</td>
+            </tr>
+
+            <tr>
+              <th>Company</th>
+              <td>{{ package.company.company_name }}</td>
+            </tr>
+
+            <tr>
+              <th>Duration</th>
+              <td>{{ package.duration }} Days</td>
+            </tr>
+
+            <tr>
+              <th>Price / Person</th>
+              <td>NPR {{ package.price_per_person }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="detail-card">
+          <h2>Booking Information</h2>
+
+          <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label>Number of People</label>
+
+              {{ form.number_of_people }}
+            </div>
+
+            <div class="form-group">
+              <label>Emergency Contact</label>
+
+              {{ form.emergency_contact }}
+            </div>
+
+            <div class="form-group">
+              <label>Special Requests</label>
+
+              {{ form.special_request }}
+            </div>
+
+            <div class="booking-total">
+              <h3>
+                Total:
+                <span id="total-price">
+                  NPR {{ package.price_per_person }}
+                </span>
+              </h3>
+            </div>
+
+            <button type="submit" class="primary-btn">
+              <i class="fa-solid fa-check"></i>
+              Confirm Booking
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<script>
+  const peopleInput = document.getElementById('id_number_of_people')
+  const totalPrice = document.getElementById('total-price')
+
+  const price = parseFloat('{{ package.price_per_person }}')
+
+  function updatePrice() {
+    const people = parseInt(peopleInput.value) || 1
+
+    totalPrice.textContent = 'NPR ' + (price * people).toLocaleString()
+  }
+
+  peopleInput.addEventListener('input', updatePrice)
+
+  updatePrice()
+</script>
+
+{% endblock %}

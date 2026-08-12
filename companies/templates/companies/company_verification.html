@@ -7,92 +7,118 @@ Verification Center
 {% block company_content %}
 
 <div class="page-header">
-
     <div>
         <h1>Verification Center</h1>
         <p>Manage your verification documents</p>
     </div>
-
 </div>
+
 
 <div class="profile-card">
 
     <div class="profile-grid">
 
-        <div class="profile-item">
+        <!-- Status -->
 
+        <div class="profile-item">
             <label>Status</label>
 
             <p>
-    <span class="status-badge status-{{ request.user.company.status|lower }}">
-        {{ request.user.company.status }}
-    </span>
-</p>
-
+                <span
+                    class="status-badge status-{{ request.user.company.status|lower }}"
+                >
+                    {{ request.user.company.status }}
+                </span>
+            </p>
         </div>
+
+
+        <!-- Registration Number -->
 
         <div class="profile-item">
-
             <label>Registration Number</label>
 
-            <p>{{ company.registration_number }}</p>
-
+            <p>
+                {{ company.registration_number }}
+            </p>
         </div>
+
+
+        <!-- Registration Document -->
 
         <div class="profile-item full-width">
 
             <label>Registration Document</label>
 
             {% if company.registration_document %}
-                <a href="{{ company.registration_document.url }}"
-                   target="_blank"
-                   class="primary-btn">
 
-                    <i class="fa-solid fa-file"></i>
+                <!-- Document already exists -->
 
-                    View Document
+                <div class="document-actions">
 
-                </a>
+                    <a
+                        href="{% url 'replace_company_document' %}"
+                        class="primary-btn"
+                    >
+                        <i class="fa-solid fa-pen"></i>
+                        Replace Document
+                    </a>
+
+                </div>
+
             {% else %}
-                <p>No document uploaded.</p>
+
+                <!-- No document exists -->
+
+                <div class="empty-document-state">
+
+                    <div class="empty-document-icon">
+                        <i class="fa-solid fa-file-circle-exclamation"></i>
+                    </div>
+
+                    <div class="empty-document-content">
+
+                        <h3>No document uploaded</h3>
+
+                        <p>
+                            Upload your registration document to complete
+                            the company verification process.
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="{% url 'replace_company_document' %}"
+                        class="primary-btn empty-document-btn"
+                    >
+                        <i class="fa-solid fa-upload"></i>
+                        Upload Document
+                    </a>
+
+                </div>
+
             {% endif %}
 
         </div>
 
+
+        <!-- Admin Feedback -->
+
         {% if company.admin_feedback %}
 
-        <div class="profile-item full-width">
+            <div class="profile-item full-width">
 
-            <label>Admin Feedback</label>
+                <label>Admin Feedback</label>
 
-            <div class="feedback-box">
-
-                {{ company.admin_feedback }}
+                <div class="feedback-box">
+                    {{ company.admin_feedback }}
+                </div>
 
             </div>
-
-        </div>
 
         {% endif %}
 
     </div>
-
-    {% if company.status == "Rejected" or company.status == "Suspended" %}
-
-    <div class="profile-actions">
-
-        <a href="{% url 'replace_company_document' %}"
-           class="primary-btn">
-
-            <i class="fa-solid fa-upload"></i>
-
-            Replace Document
-
-        </a>
-
-    </div>
-
-    {% endif %}
 
 </div>
 

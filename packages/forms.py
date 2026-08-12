@@ -1,4 +1,6 @@
 from django import forms
+from datetime import date
+
 from .models import Package
 from treks.models import Trek
 
@@ -7,6 +9,7 @@ class PackageForm(forms.ModelForm):
 
     class Meta:
         model = Package
+
         exclude = [
             "company",
             "status",
@@ -14,7 +17,7 @@ class PackageForm(forms.ModelForm):
             "updated_at",
             "is_featured",
         ]
- 
+
         widgets = {
 
             "title": forms.TextInput(attrs={
@@ -44,11 +47,13 @@ class PackageForm(forms.ModelForm):
             "start_date": forms.DateInput(attrs={
                 "type": "date",
                 "class": "form-control",
+                "min": date.today().isoformat(),
             }),
 
             "end_date": forms.DateInput(attrs={
                 "type": "date",
                 "class": "form-control",
+                "min": date.today().isoformat(),
             }),
 
             "difficulty": forms.Select(attrs={
@@ -76,16 +81,39 @@ class PackageForm(forms.ModelForm):
             }),
 
             "cover_image": forms.ClearableFileInput(attrs={
-            "class": "form-control",
+                "class": "form-control",
             }),
         }
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.fields["trek"].queryset = Trek.objects.filter(
-        is_active=True,
-        region__is_active=True
+            is_active=True,
+            region__is_active=True
         ).order_by("name")
 
+    def clean_start_date(self):
+        start_date = self.cleaned_data["start_date"]
+
+        if start_date < date.today():
+            raise forms.ValidationError(
+                "Start date cannot be in the past."
+            )
+
+        return start_date
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+
+        if start_date and end_date:
+            if end_date < start_date:
+                self.add_error(
+                    "end_date",
+                    "End date cannot be before the start date."
+                )
+
+        return cleaned_data

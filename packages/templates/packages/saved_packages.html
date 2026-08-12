@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Saved Packages
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/saved_packages.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        {% include "home/sidebar.html" %}
+
+        <section class="dashboard-main">
+
+            <div class="saved-page">
+
+                <div class="saved-header">
+
+                    <h1>
+                        <i class="fa-solid fa-heart"></i>
+                        Saved Packages
+                    </h1>
+
+                    <p>Your favourite trekking packages.</p>
+
+                </div>
+
+                {% if saved_packages %}
+
+                <div class="package-grid">
+
+                    {% for saved in saved_packages %}
+
+                    <div class="package-card">
+
+                        <div class="package-image">
+
+                            {% if saved.package.cover_image %}
+
+                                <img src="{{ saved.package.cover_image.url }}"
+                                     alt="{{ saved.package.title }}">
+
+                            {% elif saved.package.trek.image %}
+
+                                <img src="{{ saved.package.trek.image.url }}"
+                                     alt="{{ saved.package.title }}">
+
+                            {% else %}
+
+                                <div class="package-placeholder">
+                                    <i class="fa-solid fa-mountain"></i>
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="package-content">
+
+                            <h3>{{ saved.package.title }}</h3>
+
+                            <p class="package-company">
+
+                                <i class="fa-solid fa-building"></i>
+                                {{ saved.package.company.company_name }}
+
+                            </p>
+
+                            <div class="package-meta">
+
+                                <span>
+
+                                    <i class="fa-solid fa-clock"></i>
+
+                                    {{ saved.package.duration }} Days
+
+                                </span>
+
+                                <span>
+
+                                    <i class="fa-solid fa-mountain"></i>
+
+                                    {{ saved.package.difficulty }}
+
+                                </span>
+
+                            </div>
+
+                            <div class="package-price">
+
+                                NPR {{ saved.package.price_per_person }}
+
+                            </div>
+
+                            <div class="package-buttons">
+
+                                <a href="{% url 'package_detail' saved.package.pk %}"
+                                   class="primary-btn">
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                    View Package
+
+                                </a>
+
+                                <a href="{% url 'save_package' saved.package.pk %}"
+                                   class="secondary-btn">
+
+                                    <i class="fa-solid fa-heart"></i>
+
+                                    Remove
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="empty-state">
+
+                    <i class="fa-solid fa-heart-crack"></i>
+
+                    <h2>No Saved Packages</h2>
+
+                    <p>You haven't saved any trekking packages yet.</p>
+
+                    <a href="{% url 'home' %}" class="primary-btn">
+
+                        <i class="fa-solid fa-mountain"></i>
+
+                        Explore Treks
+
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

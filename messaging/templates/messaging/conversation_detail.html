@@ -1,62 +1,150 @@
-{% extends "companies/company_base.html" %} {% block title %} Conversation {%
-endblock %} {% block company_content %}
+{% extends "base.html" %}
+{% load static %}
 
-<div class="page-header">
-  <h1>{{ conversation.package.title }}</h1>
+{% block title %}
+Conversation
+{% endblock %}
 
-  <p>{{ conversation.subject }}</p>
-</div>
+{% block extra_css %}
 
-<div class="conversation-container">
-  <div class="conversation-info">
-    <p>
-      <strong>Trekker:</strong>
-      {{
-      conversation.trekker.get_full_name|default:conversation.trekker.username
-      }}
-    </p>
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+<link rel="stylesheet" href="{% static 'css/company_dashboard.css' %}" />
+<link rel="stylesheet" href="{% static 'css/conversation_detail.css' %}" />
 
-    <p>
-      <strong>Company:</strong>
-      {{ conversation.company.company_name }}
-    </p>
-  </div>
+{% endblock %}
 
-  <div class="messages-box">
-    {% for message in conversation.messages.all %}
+{% block content %}
 
-    <div
-      class="{% if message.sender == request.user %}message-right{% else %}message-left{% endif %}"
-    >
-      <div class="message-card">
-        <strong>
-          {% if message.sender == request.user %} You {% else %} {{
-          message.sender.get_full_name|default:message.sender.username }} {%
-          endif %}
-        </strong>
+<section class="dashboard-page">
 
-        <p>{{ message.message|linebreaks }}</p>
+    <div class="dashboard-container">
 
-        <small> {{ message.created_at|date:"d M Y H:i" }} </small>
-      </div>
+        {% if request.user.company %}
+            {% include "companies/partials/company_sidebar.html" %}
+        {% else %}
+            {% include "home/sidebar.html" %}
+        {% endif %}
+
+
+        <section class="dashboard-main">
+
+            <!-- Page Header -->
+            <div class="page-header">
+
+                <div>
+                    <h1>{{ conversation.package.title }}</h1>
+                    <p>{{ conversation.subject }}</p>
+                </div>
+
+            </div>
+
+
+            <!-- Conversation -->
+            <div class="conversation-container">
+
+                <!-- Conversation Information -->
+                <div class="conversation-info">
+
+                    <p>
+                        <strong>Package:</strong>
+                        {{ conversation.package.title }}
+                    </p>
+
+                    <p>
+                        <strong>Trekker:</strong>
+                        {{ conversation.trekker.get_full_name|default:conversation.trekker.username }}
+                    </p>
+
+                    <p>
+                        <strong>Company:</strong>
+                        {{ conversation.company.company_name }}
+                    </p>
+
+                </div>
+
+
+                <!-- Messages -->
+                <div class="messages-box">
+
+                    {% for message in conversation.messages.all %}
+
+                        <div class="{% if message.sender == request.user %}message-right{% else %}message-left{% endif %}">
+
+                            <div class="message-card">
+
+                                <!-- Sender Name -->
+                                <strong class="message-sender">
+
+                                    {% if message.sender == request.user %}
+
+                                        You
+
+                                    {% elif message.sender == conversation.trekker %}
+
+                                        {{ conversation.trekker.get_full_name|default:conversation.trekker.username }}
+
+                                    {% elif message.sender == conversation.company.user %}
+
+                                        {{ conversation.company.company_name }}
+
+                                    {% else %}
+
+                                        {{ message.sender.get_full_name|default:message.sender.username }}
+
+                                    {% endif %}
+
+                                </strong>
+
+
+                                <!-- Message -->
+                                <p>
+                                    {{ message.message|linebreaks }}
+                                </p>
+
+
+                                <!-- Date -->
+                                <small>
+                                    {{ message.created_at|date:"d M Y H:i" }}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {% empty %}
+
+                        <div class="no-messages">
+                            <p>No messages yet.</p>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Reply Form -->
+                <form method="POST" class="reply-form">
+
+                    {% csrf_token %}
+
+                    {{ form.message }}
+
+                    <button type="submit" class="primary-btn">
+
+                        <i class="fa-solid fa-paper-plane"></i>
+
+                        Send Reply
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
     </div>
 
-    {% empty %}
-
-    <p>No messages yet.</p>
-
-    {% endfor %}
-  </div>
-
-  <form method="POST">
-    {% csrf_token %} {{ form.message }}
-
-    <button type="submit" class="primary-btn">
-      <i class="fa-solid fa-paper-plane"></i>
-
-      Send Reply
-    </button>
-  </form>
-</div>
+</section>
 
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 from companies.models import Company
 from treks.models import Trek
+from django.contrib.auth.models import User
 
 
 class Package(models.Model):
@@ -99,3 +100,27 @@ class PackageImage(models.Model):
 
     def __str__(self):
         return self.package.title
+
+
+
+class SavedPackage(models.Model):
+
+    trekker = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="saved_packages"
+    )
+
+    package = models.ForeignKey(
+        Package,
+        on_delete=models.CASCADE,
+        related_name="saved_by"
+    )
+
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("trekker", "package")
+
+    def __str__(self):
+        return f"{self.trekker.username} - {self.package.title}"

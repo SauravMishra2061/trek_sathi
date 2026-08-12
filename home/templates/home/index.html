@@ -53,57 +53,50 @@
     </p>
 
     <div class="package-grid">
-      <!-- Package Card -->
+      {% for package in latest_packages %}
+
       <div class="package-card">
-        <img src="https://picsum.photos/400/250?random=1" alt="Package" />
+        {% if package.cover_image %}
+        <img src="{{ package.cover_image.url }}" alt="{{ package.title }}" />
+
+        {% elif package.trek.image %}
+        <img src="{{ package.trek.image.url }}" alt="{{ package.trek.name }}" />
+
+        {% else %}
+        <img src="{% static 'images/default-trek.jpg' %}" alt="Default Trek" />
+        {% endif %}
 
         <div class="package-info">
-          <h3>Everest Base Camp Trek</h3>
+          <h3>{{ package.title }}</h3>
 
           <p class="duration">
             <i class="fa-regular fa-clock"></i>
-            12 Days
+            {{ package.duration }} Days
           </p>
 
-          <p class="price">NPR 45,000</p>
+          <p class="price">NPR {{ package.price_per_person }}</p>
 
-          <a href="#" class="details-btn"> View Details </a>
+          <a href="{% url 'package_detail' package.pk %}" class="details-btn">
+            View Details
+          </a>
         </div>
+        <a href="{% url 'start_enquiry' package.pk %}" class="secondary-btn">
+          <i class="fa-solid fa-envelope"></i>
+          Send Enquiry
+        </a>
       </div>
 
-      <!-- Duplicate this card two more times -->
+      {% empty %}
+
       <div class="package-card">
-        <img src="https://picsum.photos/400/250?random=1" alt="Package" />
-
         <div class="package-info">
-          <h3>Annapurna Base Camp Trek</h3>
+          <h3>No Packages Available</h3>
 
-          <p class="duration">
-            <i class="fa-regular fa-clock"></i>
-            12 Days
-          </p>
-
-          <p class="price">NPR 45,000</p>
-
-          <a href="#" class="details-btn"> View Details </a>
+          <p>Trekking companies haven't published any packages yet.</p>
         </div>
       </div>
-      <div class="package-card">
-        <img src="https://picsum.photos/400/250?random=1" alt="Package" />
 
-        <div class="package-info">
-          <h3>Mardi Himal Trek</h3>
-
-          <p class="duration">
-            <i class="fa-regular fa-clock"></i>
-            12 Days
-          </p>
-
-          <p class="price">NPR 45,000</p>
-
-          <a href="#" class="details-btn"> View Details </a>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -113,124 +106,35 @@
 
 <section class="destinations">
   <div class="container">
-    <div class="section-header">
-      <h2>Explore Nepal's Trekking Destinations</h2>
-
-      <p>
-        Discover Nepal's most iconic trekking destinations and compare packages
-        from trusted trekking companies.
-      </p>
-    </div>
+    <h2>Explore by Region</h2>
 
     <div class="destination-grid">
-      <!-- Destination Card -->
+      {% for region in regions %}
 
       <div class="destination-card">
+        {% if region.image %}
+        <img src="{{ region.image.url }}" alt="{{ region.name }}" />
+        {% else %}
         <img
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800"
-          alt="Everest"
+          src="{% static 'images/default-region.jpg' %}"
+          alt="{{ region.name }}"
         />
+        {% endif %}
 
         <div class="destination-overlay">
-          <h3>Everest Region</h3>
+          <h3>{{ region.name }}</h3>
 
-          <p>18 Trek Packages</p>
+          <p>{{ region.description|truncatewords:12 }}</p>
 
-          <a href="#">Explore Destination</a>
+          <a href="{% url 'region_detail' region.pk %}"> Explore Treks </a>
         </div>
       </div>
 
-      <!-- Destination Card -->
+      {% empty %}
 
-      <div class="destination-card">
-        <img
-          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800"
-          alt="Annapurna"
-        />
+      <p>No regions available.</p>
 
-        <div class="destination-overlay">
-          <h3>Annapurna Region</h3>
-
-          <p>25 Trek Packages</p>
-
-          <a href="#">Explore Destination</a>
-        </div>
-      </div>
-
-      <!-- Destination Card -->
-
-      <div class="destination-card">
-        <img
-          src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800"
-          alt="Langtang"
-        />
-
-        <div class="destination-overlay">
-          <h3>Langtang Region</h3>
-
-          <p>10 Trek Packages</p>
-
-          <a href="#">Explore Destination</a>
-        </div>
-      </div>
-
-      <!-- Destination Card -->
-
-      <div class="destination-card">
-        <img
-          src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800"
-          alt="Manaslu"
-        />
-
-        <div class="destination-overlay">
-          <h3>Manaslu Region</h3>
-
-          <p>7 Trek Packages</p>
-
-          <a href="#">Explore Destination</a>
-        </div>
-      </div>
-
-      <!-- Destination Card -->
-
-      <div class="destination-card">
-        <img
-          src="https://images.unsplash.com/photo-1470770903676-69b98201ea1c?w=800"
-          alt="Mustang"
-        />
-
-        <div class="destination-overlay">
-          <h3>Mustang Region</h3>
-
-          <p>12 Trek Packages</p>
-
-          <a href="#">Explore Destination</a>
-        </div>
-      </div>
-
-      <!-- Destination Card -->
-
-      <div class="destination-card">
-        <img
-          src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=800"
-          alt="Kanchenjunga"
-        />
-
-        <div class="destination-overlay">
-          <h3>Kanchenjunga</h3>
-
-          <p>5 Trek Packages</p>
-
-          <a href="#">Explore Destination</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="view-all">
-      <a href="#">
-        View All Destinations
-        <i class="fa-solid fa-arrow-right"></i>
-      </a>
+      {% endfor %}
     </div>
   </div>
 </section>

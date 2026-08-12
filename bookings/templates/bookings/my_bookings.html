@@ -1,0 +1,178 @@
+{% extends "base.html" %} {% load static %} {% block title %} My Bookings
+{%endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+<link rel="stylesheet" href="{% static 'css/my_bookings.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="dashboard-page">
+  <div class="dashboard-container">
+    {% include "home/sidebar.html" %}
+
+    <section class="dashboard-main">
+      <div class="bookings-header">
+        <div>
+          <h1>My Bookings</h1>
+          <p>Track and manage your trekking reservations.</p>
+        </div>
+      </div>
+
+      {% if bookings %}
+
+      <div class="booking-grid">
+        {% for booking in bookings %}
+
+        <article class="booking-card">
+          <div class="booking-image">
+            {% if booking.package.cover_image %}
+
+            <img
+              src="{{ booking.package.cover_image.url }}"
+              alt="{{ booking.package.title }}"
+            />
+
+            {% elif booking.package.trek.image %}
+
+            <img
+              src="{{ booking.package.trek.image.url }}"
+              alt="{{ booking.package.trek.name }}"
+            />
+
+            {% else %}
+
+            <div class="booking-image-placeholder">
+              <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+
+            {% endif %}
+          </div>
+
+          <div class="booking-content">
+            <div class="booking-card-heading">
+              <div>
+                <span class="booking-reference">
+                  Booking #{{ booking.pk }}
+                </span>
+
+                <h2>{{ booking.package.title }}</h2>
+              </div>
+
+              <span class="booking-status status-{{ booking.status|lower }}">
+                {{ booking.status }}
+              </span>
+            </div>
+
+            <div class="booking-details">
+              <p>
+                <i class="fa-solid fa-building"></i>
+                <span>{{ booking.package.company.company_name }}</span>
+              </p>
+
+              <p>
+                <i class="fa-solid fa-location-dot"></i>
+                <span>{{ booking.package.trek.name }}</span>
+              </p>
+
+              <p>
+                <i class="fa-solid fa-calendar-days"></i>
+                <span
+                  >{{ booking.package.start_date|date:"M d, Y" }} –
+                  {{booking.package.end_date|date:"M d, Y" }}</span
+                >
+              </p>
+
+              <p>
+                <i class="fa-solid fa-users"></i>
+                <span
+                  >{{ booking.number_of_people }}
+                  Person{{booking.number_of_people|pluralize }}</span
+                >
+              </p>
+
+              <p>
+                <i class="fa-solid fa-phone"></i>
+                <span>{{ booking.emergency_contact }}</span>
+              </p>
+
+              <p>
+                <i class="fa-solid fa-clock"></i>
+                <span>Booked on {{ booking.booking_date|date:"M d, Y" }}</span>
+              </p>
+            </div>
+
+            {% if booking.special_request %}
+
+            <div class="special-request">
+              <h3>
+                <i class="fa-solid fa-message"></i>
+                Special Request
+              </h3>
+
+              <p>{{ booking.special_request|linebreaksbr }}</p>
+            </div>
+
+            {% endif %}
+
+            <div class="booking-footer">
+              <div class="booking-price">
+                <span>Total Price</span>
+
+                <strong> NPR {{ booking.total_price }} </strong>
+              </div>
+
+              <div class="booking-actions">
+                <a
+                  href="{% url 'package_detail' booking.package.pk %}"
+                  class="view-btn"
+                >
+                  <i class="fa-solid fa-eye"></i>
+                  View Package
+                </a>
+              </div>
+              {% if booking.status == "Completed" %} {% if booking.review %}
+
+              <span class="reviewed-badge">
+                <i class="fa-solid fa-star"></i>
+                Reviewed
+              </span>
+
+              {% else %}
+
+              <a href="{% url 'create_review' booking.pk %}" class="review-btn">
+                <i class="fa-solid fa-star"></i>
+                Rate Package
+              </a>
+
+              {% endif %} {% endif %}
+            </div>
+          </div>
+        </article>
+
+        {% endfor %}
+      </div>
+
+      {% else %}
+
+      <div class="empty-booking-state">
+        <div class="empty-icon">
+          <i class="fa-solid fa-compass"></i>
+        </div>
+
+        <h2>No Bookings Yet</h2>
+
+        <p>
+          You have not submitted a trekking booking yet. Explore the latest
+          packages and start planning your next adventure.
+        </p>
+
+        <a href="{% url 'home' %}" class="primary-btn">
+          <i class="fa-solid fa-mountain-sun"></i>
+          Explore Packages
+        </a>
+      </div>
+
+      {% endif %}
+    </section>
+  </div>
+</section>
+
+{% endblock %}

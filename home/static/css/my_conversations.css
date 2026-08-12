@@ -1,0 +1,95 @@
+.conversation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.conversation-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+.conversation-info {
+  flex: 1;
+}
+
+.conversation-info h3 {
+  margin: 0 0 6px;
+  color: #0b3d91;
+  font-size: 1.1rem;
+}
+
+.conversation-info p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.conversation-info small {
+  display: block;
+  margin-top: 8px;
+  color: #888;
+}
+
+.conversation-card .primary-btn {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 50px 20px;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #0b3d91;
+}
+
+.empty-state h2 {
+  margin-bottom: 8px;
+  color: #0b3d91;
+}
+
+.empty-state p {
+  color: #666;
+}
+
+.latest-message {
+  margin-top: 8px !important;
+  color: #444 !important;
+}
+
+.latest-message strong {
+  color: #0b3d91;
+}
+
+.conversation-card .primary-btn {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .conversation-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .conversation-card .primary-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

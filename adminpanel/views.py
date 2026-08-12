@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from companies.models import TrekRequest
+from companies.models import Company, TrekRequest
 from django.shortcuts import get_object_or_404
 from adminpanel.forms import TrekRequestReviewForm
 from treks.models import Trek
@@ -44,6 +44,74 @@ def admin_companies(request):
     return render(request, "adminpanel/companies.html")
 
 
+
+@login_required
+def review_company(request, pk):
+
+    if not request.user.is_staff:
+        return redirect("trekker_dashboard")
+
+    company = get_object_or_404(
+        Company.objects.select_related("user"),
+        pk=pk,
+    )
+
+    if request.method == "POST":
+
+        action = request.POST.get("action")
+        feedback = request.POST.get(
+            "admin_feedback",
+            ""
+        ).strip()
+
+        if action == "approve":
+
+            company.status = "Approved"
+            company.admin_feedback = feedback
+            company.approval_message_seen = False
+            company.save()
+
+            messages.success(
+                request,
+                f"{company.company_name} has been approved."
+            )
+
+        elif action == "reject":
+
+            company.status = "Rejected"
+            company.admin_feedback = feedback
+            company.approval_message_seen = False
+            company.save()
+
+            messages.success(
+                request,
+                f"{company.company_name} has been rejected."
+            )
+
+        elif action == "suspend":
+
+            company.status = "Suspended"
+            company.admin_feedback = feedback
+            company.approval_message_seen = False
+            company.save()
+
+            messages.success(
+                request,
+                f"{company.company_name} has been suspended."
+            )
+
+        return redirect("admin_companies")
+
+    return render(
+        request,
+        "adminpanel/review_company.html",
+        {
+            "company": company,
+            "document": company.registration_document,
+        },
+    )
+
+
 @login_required
 def admin_users(request):
 
@@ -73,7 +141,7 @@ def trek_requests(request):
     if status:
         requests = requests.filter(status=status)
 
-    requests = requests.order_by("-created_at")
+   # requests = requests.order_by("-created_at")
 
     return render(
         request,
