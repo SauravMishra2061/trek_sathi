@@ -1,136 +1,166 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}
-Profile
-{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'css/profile.css' %}">
-{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block title %} Profile 
+{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock %} {% block content %}
 
 <section class="dashboard-page">
   <div class="dashboard-container">
-
     {% include "home/sidebar.html" %}
 
     <section class="dashboard-main">
       {% if edit %}
-      <form method="POST">{% csrf_token %}
-      {% endif %}
+      <form method="POST">
+        {% csrf_token %} {% endif %}
 
-      <div class="dashboard-content">
-        <div class="profile-header">
+        <div class="dashboard-content">
+          <div class="profile-header">
+            <div class="profile-left">
+              <div class="profile-avatar-large">
+                <i class="fa-solid fa-user"></i>
+              </div>
 
-          <div class="profile-left">
-            <div class="profile-avatar-large">
-              <i class="fa-solid fa-user"></i>
+              <div class="profile-user">
+                <h1>{{ request.user.username }}</h1>
+                <p>Trekker</p>
+                <span>Member since July 2026</span>
+              </div>
             </div>
-            <div class="profile-user">
-              <h1>{{ request.user.username }}</h1>
-              <p>Trekker</p>
-              <span>Member since July 2026</span>
-            </div>
-          </div>
 
-          <div class="profile-actions">
-            {% if edit %}
-              <a href="{% url 'profile' %}" class="cancel-btn">Cancel</a>
+            <div class="profile-actions">
+              {% if edit %}
+
+              <a href="{% url 'profile' %}" class="cancel-btn"> Cancel </a>
+
               <button type="submit" class="save-btn">Save Changes</button>
-            {% else %}
-              <a href="?edit=true" class="edit-profile-btn">Edit Profile</a>
-            {% endif %}
-          </div>
 
-        </div>
-
-        <div class="profile-card">
-          <div class="card-header">
-            <h2>Personal Information</h2>
-          </div>
-
-          <div class="profile-grid">
-
-            <div class="profile-item">
-              <label>First Name</label>
-              {% if edit %}
-                {{ user_form.first_name }}
               {% else %}
+
+              <a href="?edit=true" class="edit-profile-btn"> Edit Profile </a>
+
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="profile-card">
+            <div class="card-header">
+              <h2>Personal Information</h2>
+            </div>
+
+            <div class="profile-grid">
+              <!-- First Name -->
+              <div class="profile-item">
+                <label>First Name</label>
+
+                {% if edit %} {{ user_form.first_name }} 
+                {% if user_form.first_name.errors %}
+                <div class="form-error">{{ user_form.first_name.errors }}</div>
+                {% endif %} {% else %}
+
                 <p>{{ request.user.first_name|default:"Not provided" }}</p>
-              {% endif %}
-            </div>
 
-            <div class="profile-item">
-              <label>Last Name</label>
-              {% if edit %}
-                {{ user_form.last_name }}
-              {% else %}
+                {% endif %}
+              </div>
+
+              <!-- Last Name -->
+              <div class="profile-item">
+                <label>Last Name</label>
+
+                {% if edit %} {{ user_form.last_name }} 
+                {% if user_form.last_name.errors %}
+                <div class="form-error">{{ user_form.last_name.errors }}</div>
+                {% endif %} {% else %}
+
                 <p>{{ request.user.last_name|default:"Not provided" }}</p>
-              {% endif %}
-            </div>
 
-            <div class="profile-item">
-              <label>Username</label>
-              <p>{{ request.user.username }}</p>
-            </div>
+                {% endif %}
+              </div>
 
-            <div class="profile-item">
-              <label>Email</label>
-              {% if edit %}
-                {{ user_form.email }}
-              {% else %}
+              <!-- Username -->
+              <div class="profile-item">
+                <label>Username</label>
+
+                <p>{{ request.user.username }}</p>
+              </div>
+
+              <!-- Email -->
+              <div class="profile-item">
+                <label>Email</label>
+
+                {% if edit %} {{ user_form.email }} {% if user_form.email.errors %}
+                <div class="form-error">{{ user_form.email.errors }}</div>
+                {% endif %} {% else %}
+
                 <p>{{ request.user.email|default:"Not provided" }}</p>
-              {% endif %}
-            </div>
 
-            <div class="profile-item">
-              <label>Phone Number</label>
-              {% if edit %}
-                {{ profile_form.phone }}
-              {% else %}
+                {% endif %}
+              </div>
+
+              <!-- Phone Number -->
+              <div class="profile-item">
+                <label>Phone Number</label>
+
+                {% if edit %} {{ profile_form.phone }}
+                 {% if profile_form.phone.errors %}
+                <div class="form-error">{{ profile_form.phone.errors }}</div>
+                {% endif %} {% else %}
+
                 <p>{{ profile.phone|default:"Not provided" }}</p>
-              {% endif %}
-            </div>
 
-            <div class="profile-item">
-              <label>Date of Birth</label>
-              {% if edit %}
-                {{ profile_form.date_of_birth }}
-              {% else %}
+                {% endif %}
+              </div>
+
+              <!-- Date of Birth -->
+              <div class="profile-item">
+                <label>Date of Birth</label>
+
+                {% if edit %} {{ profile_form.date_of_birth }}
+                 {% if profile_form.date_of_birth.errors %}
+                <div class="form-error">
+                  {{ profile_form.date_of_birth.errors }}
+                </div>
+                {% endif %} {% else %}
+
                 <p>{{ profile.date_of_birth|default:"Not provided" }}</p>
-              {% endif %}
-            </div>
 
-            <div class="profile-item">
-              <label>Gender</label>
-              {% if edit %}
-                {{ profile_form.gender }}
-              {% else %}
+                {% endif %}
+              </div>
+
+              <!-- Gender -->
+              <div class="profile-item">
+                <label>Gender</label>
+
+                {% if edit %} {{ profile_form.gender }} 
+                {% if profile_form.gender.errors %}
+                <div class="form-error">{{ profile_form.gender.errors }}</div>
+                {% endif %} {% else %}
+
                 <p>{{ profile.gender|default:"Not provided" }}</p>
-              {% endif %}
-            </div>
 
-            <div class="profile-item profile-item-full">
-              <label>Address</label>
-              {% if edit %}
-                {{ profile_form.address }}
-              {% else %}
+                {% endif %}
+              </div>
+
+              <!-- Address -->
+              <div class="profile-item profile-item-full">
+                <label>Address</label>
+
+                {% if edit %} {{ profile_form.address }}
+                 {% if profile_form.address.errors %}
+                <div class="form-error">{{ profile_form.address.errors }}</div>
+                {% endif %} {% else %}
+
                 <p>{{ profile.address|default:"Not provided" }}</p>
-              {% endif %}
-            </div>
 
+                {% endif %}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {% if edit %}
+        {% if edit %}
       </form>
       {% endif %}
     </section>
-
   </div>
 </section>
 

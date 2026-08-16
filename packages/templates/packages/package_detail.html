@@ -1,259 +1,475 @@
-{% extends "base.html" %} {% load static %} {% block title %} {{ package.title}}
-{% endblock %} {% block extra_css %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ package.title }}
+{% endblock %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/package_detail.css' %}" />
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
 
 <section class="package-detail-page">
+
   <!-- Hero Image -->
+
   <div class="package-hero">
+
     {% if package.cover_image %}
 
-    <img src="{{ package.cover_image.url }}" alt="{{ package.title }}" />
+      <img
+        src="{{ package.cover_image.url }}"
+        alt="{{ package.title }}"
+      />
 
     {% elif package.trek.image %}
 
-    <img src="{{ package.trek.image.url }}" alt="{{ package.trek.name }}" />
+      <img
+        src="{{ package.trek.image.url }}"
+        alt="{{ package.trek.name }}"
+      />
 
     {% else %}
 
-    <div class="package-placeholder">
-      <i class="fa-solid fa-mountain"></i>
-    </div>
+      <div class="package-placeholder">
+
+        <i class="fa-solid fa-mountain"></i>
+
+      </div>
 
     {% endif %}
+
   </div>
 
+
   <div class="package-container">
+
     <!-- Header -->
 
     <div class="package-header">
+
       <h1>{{ package.title }}</h1>
 
-      <p class="trek-name">{{ package.trek.name }}</p>
+      <p class="trek-name">
+        {{ package.trek.name }}
+      </p>
+
 
       <div class="package-rating">
-        {% if average_rating %} ⭐ {{ average_rating|floatformat:1 }}/5 
-        ({{ reviews.count }} Review{{ reviews.count|pluralize }}) {% else %} No
-        reviews yet {% endif %}
+
+        {% if average_rating %}
+
+          ⭐ {{ average_rating|floatformat:1 }}/5
+          ({{ reviews.count }}Review{{ reviews.count|pluralize }})
+
+        {% else %}
+
+          No reviews yet
+
+        {% endif %}
+
       </div>
 
+
       <div class="company-name">
+
         <i class="fa-solid fa-building"></i>
 
         {{ package.company.company_name }}
+
       </div>
+
     </div>
+
 
     <!-- Information -->
 
     <div class="info-grid">
+
       <div class="info-card">
+
         <i class="fa-solid fa-money-bill-wave"></i>
 
         <h4>Price</h4>
 
-        <p>NPR {{ package.price_per_person }}</p>
+        <p>
+          NPR {{ package.price_per_person }}
+        </p>
+
       </div>
 
+
       <div class="info-card">
+
         <i class="fa-solid fa-calendar-days"></i>
 
         <h4>Duration</h4>
 
-        <p>{{ package.duration }} Days</p>
+        <p>
+          {{ package.duration }} Days
+        </p>
+
       </div>
 
+
       <div class="info-card">
+
         <i class="fa-solid fa-person-hiking"></i>
 
         <h4>Difficulty</h4>
 
-        <p>{{ package.difficulty }}</p>
+        <p>
+          {{ package.difficulty }}
+        </p>
+
       </div>
 
+
       <div class="info-card">
+
         <i class="fa-solid fa-mountain"></i>
 
         <h4>Altitude</h4>
 
-        <p>{{ package.max_altitude }} m</p>
+        <p>
+          {{ package.max_altitude }} m
+        </p>
+
       </div>
 
+
       <div class="info-card">
+
         <i class="fa-solid fa-users"></i>
 
         <h4>Participants</h4>
 
-        <p>{{ package.max_participants }}</p>
+        <p>
+          {{ package.max_participants }}
+        </p>
+
       </div>
 
+
       <div class="info-card">
+
         <i class="fa-solid fa-location-dot"></i>
 
         <h4>Region</h4>
 
-        <p>{{ package.trek.region.name }}</p>
+        <p>
+          {{ package.trek.region.name }}
+        </p>
+
       </div>
+
     </div>
+
 
     <!-- Buttons -->
 
     <div class="package-actions">
-      {% if user.is_authenticated %} {% if not user.company %} 
-      {% if not user_booking %}
 
-      <a href="{% url 'book_package' package.pk %}" class="primary-btn">
-        <i class="fa-solid fa-calendar-check"></i>
+      {% if user.is_authenticated %}
 
-        Book Now
-      </a>
+        {% if not user.company %}
 
-      {% elif user_booking.status == "Pending" %}
+          {% if not user_booking %}
 
-      <button class="primary-btn" disabled>
-        <i class="fa-solid fa-hourglass-half"></i>
+            <a
+              href="{% url 'book_package' package.pk %}"
+              class="primary-btn"
+            >
 
-        Booking Pending
-      </button>
+              <i class="fa-solid fa-calendar-check"></i>
 
-      {% elif user_booking.status == "Approved" %}
+              Book Now
 
-      <button class="primary-btn" disabled>
-        <i class="fa-solid fa-circle-check"></i>
+            </a>
 
-        Already Booked
-      </button>
 
-      {% elif user_booking.status == "Completed" %} {% if user_booking.review %}
+          {% elif user_booking.status == "Pending" %}
 
-      <button class="primary-btn" disabled>
-        <i class="fa-solid fa-star"></i>
+            <button
+              class="primary-btn"
+              disabled
+            >
 
-        Review Submitted
-      </button>
+              <i class="fa-solid fa-hourglass-half"></i>
+
+              Booking Pending
+
+            </button>
+
+
+          {% elif user_booking.status == "Approved" %}
+
+            <button
+              class="primary-btn"
+              disabled
+            >
+
+              <i class="fa-solid fa-circle-check"></i>
+
+              Already Booked
+
+            </button>
+
+
+          {% elif user_booking.status == "Completed" %}
+
+            {% if user_booking.review %}
+
+              <button
+                class="primary-btn"
+                disabled
+              >
+
+                <i class="fa-solid fa-star"></i>
+
+                Review Submitted
+
+              </button>
+
+            {% else %}
+
+              <a
+                href="{% url 'create_review' user_booking.pk %}"
+                class="primary-btn"
+              >
+
+                <i class="fa-solid fa-star"></i>
+
+                Give Review
+
+              </a>
+
+            {% endif %}
+
+
+          {% else %}
+
+            <a
+              href="{% url 'book_package' package.pk %}"
+              class="primary-btn"
+            >
+
+              <i class="fa-solid fa-rotate-right"></i>
+
+              Book Again
+
+            </a>
+
+          {% endif %}
+
+        {% endif %}
 
       {% else %}
 
-      <a href="{% url 'create_review' user_booking.pk %}" class="primary-btn">
-        <i class="fa-solid fa-star"></i>
+        <a
+          href="{% url 'login' %}"
+          class="primary-btn"
+        >
 
-        Write Review
-      </a>
+          <i class="fa-solid fa-right-to-bracket"></i>
 
-      {% endif %} {% else %}
+          Login to Book
 
-      <a href="{% url 'book_package' package.pk %}" class="primary-btn">
-        <i class="fa-solid fa-rotate-right"></i>
-
-        Book Again
-      </a>
-
-      {% endif %} {% endif %} {% else %}
-
-      <a href="{% url 'login' %}" class="primary-btn">
-        <i class="fa-solid fa-right-to-bracket"></i>
-
-        Login to Book
-      </a>
-
-      {% endif %} {% if user.is_authenticated and not user.company %}
-
-      <a href="{% url 'save_package' package.pk %}" class="secondary-btn">
-        {% if is_saved %}
-
-        <i class="fa-solid fa-heart"></i>
-        Saved {% else %}
-
-        <i class="fa-regular fa-heart"></i>
-        Save Package {% endif %}
-      </a>
+        </a>
 
       {% endif %}
 
-      <a href="{% url 'start_enquiry' package.pk %}" class="secondary-btn">
+
+      <!-- Save Package -->
+
+      {% if user.is_authenticated and not user.company %}
+
+        <a
+          href="{% url 'save_package' package.pk %}"
+          class="secondary-btn"
+        >
+
+          {% if is_saved %}
+
+            <i class="fa-solid fa-heart"></i>
+
+            Saved
+
+          {% else %}
+
+            <i class="fa-regular fa-heart"></i>
+
+            Save Package
+
+          {% endif %}
+
+        </a>
+
+      {% endif %}
+
+
+      <!-- Enquiry -->
+
+      <a
+        href="{% url 'start_enquiry' package.pk %}"
+        class="secondary-btn"
+      >
+
         <i class="fa-solid fa-envelope"></i>
 
         Send Enquiry
+
       </a>
+
     </div>
+    
+
+
     <!-- Itinerary -->
 
     <div class="content-card">
+
       <h2>
+
         <i class="fa-solid fa-route"></i>
+
         Itinerary
+
       </h2>
 
-      <div class="content-text">{{ package.itinerary|linebreaks }}</div>
+      <div class="content-text">
+
+        {{ package.itinerary|linebreaks }}
+
+      </div>
+
     </div>
+
 
     <!-- Includes / Excludes -->
 
     <div class="two-column">
+
       <div class="content-card">
+
         <h2>
+
           <i class="fa-solid fa-circle-check"></i>
+
           Includes
+
         </h2>
 
-        <div class="content-text">{{ package.inclusions|linebreaks }}</div>
+        <div class="content-text">
+
+          {{ package.inclusions|linebreaks }}
+
+        </div>
+
       </div>
+
 
       <div class="content-card">
+
         <h2>
+
           <i class="fa-solid fa-circle-xmark"></i>
+
           Excludes
+
         </h2>
 
-        <div class="content-text">{{ package.exclusions|linebreaks }}</div>
+        <div class="content-text">
+
+          {{ package.exclusions|linebreaks }}
+
+        </div>
+
       </div>
+
     </div>
+
 
     <!-- Reviews -->
 
     <div class="content-card">
+
       <h2>
+
         <i class="fa-solid fa-star"></i>
+
         Reviews
+
       </h2>
 
-      {% if reviews %} {% for review in reviews %}
 
-      <div class="review-card">
-        <div class="review-top">
-          <strong>
-            {{ review.trekker.get_full_name|default:review.trekker.username }}
-          </strong>
+      {% if reviews %}
 
-          <span> {{ review.created_at|date:"M d, Y" }} </span>
+        {% for review in reviews %}
+
+          <div class="review-card">
+
+            <div class="review-top">
+
+              <strong>
+
+                {{ review.trekker.get_full_name|default:review.trekker.username }}
+
+              </strong>
+
+
+              <span>
+
+                {{ review.created_at|date:"M d, Y" }}
+
+              </span>
+
+            </div>
+
+
+            <div class="review-stars">
+
+              {% for i in "12345" %}
+
+                {% if forloop.counter <= review.rating %}
+
+                  <i class="fa-solid fa-star"></i>
+
+                {% else %}
+
+                  <i class="fa-regular fa-star"></i>
+
+                {% endif %}
+
+              {% endfor %}
+
+            </div>
+
+          </div>
+
+        {% endfor %}
+
+
+      {% else %}
+
+        <div class="empty-review">
+
+          <i class="fa-regular fa-comment"></i>
+
+          <p>
+            No reviews yet.
+          </p>
+
         </div>
-
-        <div class="review-stars">
-          {% for i in "12345" %} {% if forloop.counter <= review.rating %}
-
-          <i class="fa-solid fa-star"></i>
-
-          {% else %}
-
-          <i class="fa-regular fa-star"></i>
-
-          {% endif %} {% endfor %}
-        </div>
-
-        <p>{{ review.comment }}</p>
-      </div>
-
-      {% endfor %} {% else %}
-
-      <div class="empty-review">
-        <i class="fa-regular fa-comment"></i>
-
-        <p>No reviews yet.</p>
-      </div>
 
       {% endif %}
+
     </div>
+
   </div>
+
 </section>
 
 {% endblock %}

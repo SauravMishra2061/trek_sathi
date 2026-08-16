@@ -356,7 +356,11 @@ def edit_company_profile(request):
 
         if form.is_valid():
 
-            form.save()
+            updated_company = form.save()
+
+            # Keep Django User email synchronized
+            request.user.email = updated_company.email or ""
+            request.user.save(update_fields=["email"])
 
             messages.success(
                 request,
@@ -374,6 +378,7 @@ def edit_company_profile(request):
         "companies/edit_company_profile.html",
         {
             "form": form,
+            "company": company,
         },
     )
 @login_required

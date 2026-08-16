@@ -1,41 +1,66 @@
-{% extends "base.html" %} {% load static %} {% block title %}Book Trek
-{%endblock %} {% block extra_css %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Book Trek{% endblock %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
 <link rel="stylesheet" href="{% static 'css/forms.css' %}" />
 <link rel="stylesheet" href="{% static 'css/create_booking.css' %}" />
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
 
 <section class="dashboard-page">
+
   <div class="dashboard-container">
+
     <section class="dashboard-main">
+
       <div class="bookings-header">
+
         <div>
+
           <h1>Book Trek</h1>
 
           <p>Complete your booking details.</p>
+
         </div>
+
       </div>
 
+
       <div class="detail-grid">
+
+
+        <!-- ================= PACKAGE SUMMARY ================= -->
+
         <div class="detail-card">
+
           <h2>Package Summary</h2>
 
+
           {% if package.cover_image %}
-          <img
-            src="{{ package.cover_image.url }}"
-            alt="{{ package.title }}"
-            class="booking-package-image"
-          />
+
+            <img
+              src="{{ package.cover_image.url }}"
+              alt="{{ package.title }}"
+              class="booking-package-image"
+            />
 
           {% elif package.trek.image %}
-          <img
-            src="{{ package.trek.image.url }}"
-            alt="{{ package.trek.name }}"
-            class="booking-package-image"
-          />
+
+            <img
+              src="{{ package.trek.image.url }}"
+              alt="{{ package.trek.name }}"
+              class="booking-package-image"
+            />
+
           {% endif %}
 
+
           <table class="detail-table">
+
             <tr>
               <th>Package</th>
               <td>{{ package.title }}</td>
@@ -55,68 +80,167 @@
               <th>Price / Person</th>
               <td>NPR {{ package.price_per_person }}</td>
             </tr>
+
           </table>
+
         </div>
 
+
+        <!-- ================= BOOKING FORM ================= -->
+
         <div class="detail-card">
+
           <h2>Booking Information</h2>
 
+
           <form method="POST">
+
             {% csrf_token %}
 
+
+            <!-- Number of People -->
+
             <div class="form-group">
-              <label>Number of People</label>
+
+              <label for="{{ form.number_of_people.id_for_label }}">
+                Number of People
+              </label>
 
               {{ form.number_of_people }}
+
+              {% if form.number_of_people.errors %}
+
+                <small class="form-error">
+                  {{ form.number_of_people.errors|striptags }}
+                </small>
+
+              {% endif %}
+
             </div>
 
+
+            <!-- Emergency Contact -->
+
             <div class="form-group">
-              <label>Emergency Contact</label>
+
+              <label for="{{ form.emergency_contact.id_for_label }}">
+                Emergency Contact
+              </label>
 
               {{ form.emergency_contact }}
+
+              {% if form.emergency_contact.errors %}
+
+                <small class="form-error">
+                  {{ form.emergency_contact.errors|striptags }}
+                </small>
+
+              {% endif %}
+
+              <small class="form-help">
+                Use numbers only, with an optional + at the beginning.
+                Maximum 14 characters.
+              </small>
+
             </div>
+
+
+            <!-- Special Requests -->
 
             <div class="form-group">
-              <label>Special Requests</label>
+
+              <label for="{{ form.special_request.id_for_label }}">
+                Special Requests
+              </label>
 
               {{ form.special_request }}
+
+              {% if form.special_request.errors %}
+
+                <small class="form-error">
+                  {{ form.special_request.errors|striptags }}
+                </small>
+
+              {% endif %}
+
             </div>
 
+
+            <!-- Total -->
+
             <div class="booking-total">
+
               <h3>
+
                 Total:
+
                 <span id="total-price">
                   NPR {{ package.price_per_person }}
                 </span>
+
               </h3>
+
             </div>
 
-            <button type="submit" class="primary-btn">
+
+            <!-- Submit -->
+
+            <button
+              type="submit"
+              class="primary-btn"
+            >
+
               <i class="fa-solid fa-check"></i>
+
               Confirm Booking
+
             </button>
+
           </form>
+
         </div>
+
       </div>
+
     </section>
+
   </div>
+
 </section>
 
-<script>
-  const peopleInput = document.getElementById('id_number_of_people')
-  const totalPrice = document.getElementById('total-price')
 
-  const price = parseFloat('{{ package.price_per_person }}')
+<script>
+
+  const peopleInput =
+    document.getElementById("id_number_of_people");
+
+  const totalPrice =
+    document.getElementById("total-price");
+
+  const price =
+    parseFloat("{{ package.price_per_person }}");
+
 
   function updatePrice() {
-    const people = parseInt(peopleInput.value) || 1
 
-    totalPrice.textContent = 'NPR ' + (price * people).toLocaleString()
+    const people =
+      parseInt(peopleInput.value) || 1;
+
+    totalPrice.textContent =
+      "NPR " +
+      (price * people).toLocaleString();
+
   }
 
-  peopleInput.addEventListener('input', updatePrice)
 
-  updatePrice()
+  peopleInput.addEventListener(
+    "input",
+    updatePrice
+  );
+
+
+  updatePrice();
+
 </script>
 
 {% endblock %}

@@ -12,6 +12,7 @@ Dashboard
 
 <div class="dashboard-grid">
 
+    <!-- Regions -->
     <div class="dashboard-card">
 
         <div class="dashboard-card-icon">
@@ -20,10 +21,12 @@ Dashboard
 
         <h3>Regions</h3>
 
-        <h2>0</h2>
+        <h2>{{ total_regions }}</h2>
 
     </div>
 
+
+    <!-- Treks -->
     <div class="dashboard-card">
 
         <div class="dashboard-card-icon">
@@ -32,10 +35,12 @@ Dashboard
 
         <h3>Treks</h3>
 
-        <h2>0</h2>
+        <h2>{{ total_treks }}</h2>
 
     </div>
 
+
+    <!-- Companies -->
     <div class="dashboard-card">
 
         <div class="dashboard-card-icon">
@@ -44,10 +49,12 @@ Dashboard
 
         <h3>Companies</h3>
 
-        <h2>0</h2>
+        <h2>{{ total_companies }}</h2>
 
     </div>
 
+
+    <!-- Users -->
     <div class="dashboard-card">
 
         <div class="dashboard-card-icon">
@@ -56,11 +63,74 @@ Dashboard
 
         <h3>Users</h3>
 
-        <h2>0</h2>
+        <h2>{{ total_users }}</h2>
 
     </div>
 
 </div>
+
+
+<!-- Additional Statistics -->
+
+<div class="dashboard-grid">
+
+    <!-- Packages -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-box"></i>
+        </div>
+
+        <h3>Packages</h3>
+
+        <h2>{{ total_packages }}</h2>
+
+    </div>
+
+
+    <!-- Bookings -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-calendar-check"></i>
+        </div>
+
+        <h3>Bookings</h3>
+
+        <h2>{{ total_bookings }}</h2>
+
+    </div>
+
+
+    <!-- Pending Companies -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-clock"></i>
+        </div>
+
+        <h3>Pending Companies</h3>
+
+        <h2>{{ pending_companies }}</h2>
+
+    </div>
+
+
+    <!-- Approved Companies -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <h3>Approved Companies</h3>
+
+        <h2>{{ approved_companies }}</h2>
+
+    </div>
+
+</div>
+
 
 <div class="dashboard-card recent-card">
 

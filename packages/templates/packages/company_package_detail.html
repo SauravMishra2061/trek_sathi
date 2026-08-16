@@ -38,8 +38,8 @@
   <div class="detail-card">
     <h2>Package Information</h2>
     <div class="package-rating">
-      {% if average_rating %} ⭐ {{ average_rating|floatformat:1 }}/5 ({{
-      reviews.count }} review{{ reviews.count|pluralize }}) {% else %} No
+      {% if average_rating %} ⭐ {{ average_rating|floatformat:1 }}/5
+       ({{reviews.count }} review{{ reviews.count|pluralize }}) {% else %} No
       reviews yet {% endif %}
     </div>
 
@@ -125,7 +125,7 @@
       Send Enquiry
     </a>
   </div>
-  <hr />
+<br>
 
   <div class="detail-card">
     <h2>Reviews</h2>
@@ -142,8 +142,8 @@
       </div>
 
       <div class="review-stars">
-        {% for i in "12345" %} {% if forloop.counter <= review.rating %} ⭐ {%
-        else %} ☆ {% endif %} {% endfor %}
+        {% for i in "12345" %} {% if forloop.counter <= review.rating %} ⭐
+         {% else %} ☆ {% endif %} {% endfor %}
       </div>
 
       <p>{{ review.comment }}</p>

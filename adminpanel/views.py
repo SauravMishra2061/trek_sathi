@@ -6,6 +6,11 @@ from adminpanel.forms import TrekRequestReviewForm
 from treks.models import Trek
 from django.contrib import messages
 from .forms import TrekRequestReviewForm
+from django.contrib.auth import get_user_model
+from regions.models import Region
+from packages.models import Package
+from bookings.models import Booking
+from django.contrib.auth.models import User
 
 
 @login_required
@@ -14,7 +19,46 @@ def admin_dashboard(request):
     if not request.user.is_staff:
         return redirect("trekker_dashboard")
 
-    return render(request, "adminpanel/admin_dashboard.html")
+    total_regions = Region.objects.count()
+
+    total_treks = Trek.objects.count()
+
+    total_companies = Company.objects.count()
+
+    total_users = User.objects.filter(
+        is_staff=False
+    ).count()
+
+    total_packages = Package.objects.count()
+
+    total_bookings = Booking.objects.count()
+
+    pending_companies = Company.objects.filter(
+        status="Pending"
+    ).count()
+
+    approved_companies = Company.objects.filter(
+        status="Approved"
+    ).count()
+
+    context = {
+        "total_regions": total_regions,
+        "total_treks": total_treks,
+        "total_companies": total_companies,
+        "total_users": total_users,
+
+        "total_packages": total_packages,
+        "total_bookings": total_bookings,
+
+        "pending_companies": pending_companies,
+        "approved_companies": approved_companies,
+    }
+
+    return render(
+        request,
+        "adminpanel/admin_dashboard.html",
+        context
+    )
 
 
 @login_required

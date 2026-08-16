@@ -1,11 +1,13 @@
 from django import forms
 from .models import Booking
+import re
 
 
 class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
+
         fields = [
             "number_of_people",
             "emergency_contact",
@@ -17,6 +19,7 @@ class BookingForm(forms.ModelForm):
                 attrs={
                     "min": 1,
                     "class": "form-control",
+                    "placeholder": "Number of People",
                 }
             ),
 
@@ -24,6 +27,8 @@ class BookingForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "Emergency Contact Number",
+                    "maxlength": "14",
+                    "inputmode": "tel",
                 }
             ),
 
@@ -35,3 +40,49 @@ class BookingForm(forms.ModelForm):
                 }
             ),
         }
+
+    def clean_number_of_people(self):
+        number = self.cleaned_data.get("number_of_people")
+
+        if number is None:
+            raise forms.ValidationError(
+                "Please enter the number of people."
+            )
+
+        if number < 1:
+            raise forms.ValidationError(
+                "Number of people must be at least 1."
+            )
+
+        return number
+
+    def clean_emergency_contact(self):
+        phone = self.cleaned_data.get(
+            "emergency_contact",
+            ""
+        ).strip()
+
+        if not phone:
+            raise forms.ValidationError(
+                "Emergency contact number is required."
+            )
+
+        # Allow only + and digits
+        if not re.fullmatch(r"\+?[0-9]+", phone):
+            raise forms.ValidationError(
+                "Emergency contact can contain only + and numbers."
+            )
+
+        # + counts as one character
+        if len(phone) > 14:
+            raise forms.ValidationError(
+                "Emergency contact cannot exceed 14 characters."
+            )
+
+        # Prevent just "+" from being accepted
+        if phone == "+":
+            raise forms.ValidationError(
+                "Please enter a valid emergency contact number."
+            )
+
+        return phone
