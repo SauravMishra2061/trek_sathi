@@ -1,0 +1,27 @@
+/* =====================================
+   PACKAGE ROUTE MAP
+===================================== */
+
+.route-map-section {
+  margin-top: 30px;
+}
+
+.route-map-section h3 {
+  margin-bottom: 8px;
+  color: #1f3d5a;
+}
+
+.route-map-section p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+#route-map {
+  width: 100%;
+  height: 450px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+
+  overflow: hidden;
+}

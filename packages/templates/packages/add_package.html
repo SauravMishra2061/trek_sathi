@@ -6,7 +6,14 @@ Add Package
 {% endblock %}
 
 {% block company_content %}
-
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<link
+    rel="stylesheet"
+    href="{% static 'css/package_map.css' %}"
+/>
 <div class="page-header">
 
     <div>
@@ -20,220 +27,228 @@ Add Package
 </div>
 
 <form method="POST" enctype="multipart/form-data">
-
+ 
     {% csrf_token %}
-
+ 
     <!-- Basic Information -->
-
+ 
     <div class="form-card">
-
+ 
         <div class="form-card-header">
-
+ 
             <i class="fa-solid fa-box"></i>
-
+ 
             <h2>Basic Information</h2>
-
+ 
         </div>
-
+ 
         <div class="form-grid">
-
+ 
             <div>
-
+ 
                 <label>Package Title</label>
-
+ 
                 {{ form.title }}
-
+ 
             </div>
-
+ 
             <div>
-
+ 
                 <label>Trek</label>
-
+ 
                 {{ form.trek }}
-
+ 
             </div>
             <div>
-
+ 
     <label>Cover Image</label>
-
+ 
     {{ form.cover_image }}
-
+ 
 </div>
-
+ 
             <div>
-
+ 
                 <label>Price Per Person</label>
-
+ 
                 {{ form.price_per_person }}
-
+ 
             </div>
-
+ 
             <div>
-
+ 
                 <label>Duration (Days)</label>
-
+ 
                 {{ form.duration }}
-
+ 
             </div>
-
+ 
             <div>
-
+ 
                 <label>Maximum Participants</label>
-
+ 
                 {{ form.max_participants }}
-
+ 
             </div>
-
+ 
         </div>
-
+ 
     </div>
-
+ 
     <!-- Schedule -->
-
+ 
     <div class="form-card">
-
+ 
         <div class="form-card-header">
-
+ 
             <i class="fa-solid fa-calendar-days"></i>
-
+ 
             <h2>Schedule</h2>
-
+ 
         </div>
-
+ 
         <div class="form-grid">
-
+ 
             <div>
-
+ 
                 <label>Start Date</label>
-
+ 
                 {{ form.start_date }}
-
+ 
             </div>
-
+ 
             <div>
-
+ 
                 <label>End Date</label>
-
+ 
                 {{ form.end_date }}
-
+ 
             </div>
-
+ 
         </div>
-
+ 
     </div>
-
+ 
     <!-- Trek Details -->
-
+ 
     <div class="form-card">
-
+ 
         <div class="form-card-header">
-
+ 
             <i class="fa-solid fa-mountain"></i>
-
+ 
             <h2>Trek Details</h2>
-
+ 
         </div>
-
+ 
         <div class="form-grid">
-
+ 
             <div>
-
+ 
                 <label>Difficulty</label>
-
+ 
                 {{ form.difficulty }}
-
+ 
             </div>
-
+ 
             <div>
-
+ 
                 <label>Maximum Altitude</label>
-
+ 
                 {{ form.max_altitude }}
-
+ 
             </div>
-
+ 
         </div>
-
+ 
     </div>
-
+ 
     <!-- Package Information -->
-
+ 
     <div class="form-card">
-
+ 
         <div class="form-card-header">
-
+ 
             <i class="fa-solid fa-list-check"></i>
-
+ 
             <h2>Package Information</h2>
-
+ 
         </div>
-
+ 
         <div class="form-column">
-
+ 
             <div>
-
+ 
                 <label>Inclusions</label>
-
+ 
                 {{ form.inclusions }}
-
+ 
             </div>
-
+ 
             <div>
-
+ 
                 <label>Exclusions</label>
-
+ 
                 {{ form.exclusions }}
-
+ 
             </div>
-
+ 
             <div>
-
+ 
                 <label>Itinerary</label>
-
+ 
                 {{ form.itinerary }}
-
+ 
             </div>
-
+ 
         </div>
-
+ 
+        <div class="route-map-section">
+ 
+            <h3>Trekking Route</h3>
+ 
+            <p>Add locations to show the trekking route for this package.</p>
+ 
+            <div id="route-map"></div>
+ 
+        </div>
+ 
         <!-- Buttons -->
-
-<div class="form-actions">
-
-    <a href="{% url 'package_list' %}" class="secondary-btn">
-
-        Cancel
-
-    </a>
-
-    <button
-        type="submit"
-        name="draft"
-        class="secondary-btn">
-
-        <i class="fa-solid fa-floppy-disk"></i>
-
-        Save Draft
-
-    </button>
-
-    <button
-        type="submit"
-        name="publish"
-        class="primary-btn">
-
-        <i class="fa-solid fa-plus"></i>
-
-        Add Package
-
-    </button>
-
-</div>
-
-</form>
-
-    </div>
-  
+ 
+        <div class="form-actions">
+ 
+            <a href="{% url 'package_list' %}" class="secondary-btn">
+ 
+                Cancel
+ 
+            </a>
+ 
+            <button
+                type="submit"
+                name="draft"
+                class="secondary-btn">
+ 
+                <i class="fa-solid fa-floppy-disk"></i>
+ 
+                Save Draft
+ 
+            </button>
+ 
+            <button
+                type="submit"
+                name="publish"
+                class="primary-btn">
+ 
+                <i class="fa-solid fa-plus"></i>
+ 
+                Add Package
+ 
+            </button>
+ 
+        </div>
+ 
+    </div><!-- closes form-card "Package Information" -->
+ 
 </form>
 
 
@@ -267,5 +282,8 @@ document.addEventListener("DOMContentLoaded", function () {
     updateEndDate();
 });
 </script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="{% static 'js/package_map.js' %}"></script>
 
 {% endblock %}
