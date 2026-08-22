@@ -7,6 +7,10 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/package_detail.css' %}" />
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 {% endblock %}
 
 {% block content %}
@@ -346,6 +350,46 @@
       </div>
 
     </div>
+    <!-- Trekking Route -->
+
+{% if package.route_points %}
+
+<div class="content-card trekking-route-card">
+
+    <h2>
+        <i class="fa-solid fa-map-location-dot"></i>
+        Trekking Route
+    </h2>
+
+    <p class="route-description">
+        Follow the route and locations included in this trekking package.
+    </p>
+
+    <div class="route-detail-layout">
+
+        <!-- Map -->
+
+        <div id="package-route-map"></div>
+
+
+        <!-- Route Points -->
+
+        <div class="route-detail-points">
+
+            <h3>
+                <i class="fa-solid fa-location-dot"></i>
+                Route Points
+            </h3>
+
+            <div id="package-route-points"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
 
 
     <!-- Includes / Excludes -->
@@ -471,5 +515,575 @@
   </div>
 
 </section>
+{{ package.route_points|json_script:"package-route-data" }}
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
+<script
+    src="https://unpkg.com/@mapbox/polyline@1.2.1/src/polyline.js">
+</script>
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        console.log(
+            "TREKKER PACKAGE ROUTE MAP STARTED"
+        );
+
+
+        const routeDataElement =
+            document.getElementById(
+                "package-route-data"
+            );
+
+
+        const mapElement =
+            document.getElementById(
+                "package-route-map"
+            );
+
+
+        const routePointsContainer =
+            document.getElementById(
+                "package-route-points"
+            );
+
+
+        console.log(
+            "Route data:",
+            routeDataElement
+        );
+
+
+        console.log(
+            "Map element:",
+            mapElement
+        );
+
+
+        console.log(
+            "Leaflet loaded:",
+            typeof L !== "undefined"
+        );
+
+
+        /* =====================================
+           CHECK REQUIRED ELEMENTS
+        ===================================== */
+
+        if (!routeDataElement) {
+
+            console.warn(
+                "Route data element not found."
+            );
+
+            return;
+
+        }
+
+
+        if (!mapElement) {
+
+            console.warn(
+                "Route map container not found."
+            );
+
+            return;
+
+        }
+
+
+        if (typeof L === "undefined") {
+
+            console.error(
+                "Leaflet is not loaded."
+            );
+
+            return;
+
+        }
+
+
+        /* =====================================
+           PARSE ROUTE DATA
+        ===================================== */
+
+        let savedRouteData;
+
+
+        try {
+
+            savedRouteData =
+                JSON.parse(
+                    routeDataElement.textContent
+                );
+
+
+            console.log(
+                "Saved route data:",
+                savedRouteData
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Unable to parse route data:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        /* =====================================
+           SUPPORT OLD + NEW FORMAT
+        ===================================== */
+
+        let routePoints = [];
+
+        let routeGeometry = null;
+
+
+        /*
+         * OLD FORMAT
+         *
+         * [
+         *   {
+         *     name: "...",
+         *     latitude: ...,
+         *     longitude: ...
+         *   }
+         * ]
+         */
+
+        if (
+            Array.isArray(
+                savedRouteData
+            )
+        ) {
+
+            routePoints =
+                savedRouteData;
+
+        }
+
+
+        /*
+         * NEW FORMAT
+         *
+         * {
+         *   points: [...],
+         *   geometry: "encoded-polyline"
+         * }
+         */
+
+        else if (
+
+            savedRouteData &&
+
+            Array.isArray(
+                savedRouteData.points
+            )
+
+        ) {
+
+            routePoints =
+                savedRouteData.points;
+
+
+            routeGeometry =
+                savedRouteData.geometry ||
+                null;
+
+        }
+
+
+        console.log(
+            "Route points:",
+            routePoints
+        );
+
+
+        console.log(
+            "Route geometry:",
+            routeGeometry
+        );
+
+
+        if (
+            routePoints.length === 0
+        ) {
+
+            console.warn(
+                "No route points found."
+            );
+
+            return;
+
+        }
+
+
+        /* =====================================
+           INITIALIZE MAP
+        ===================================== */
+
+        const map =
+            L.map(
+                "package-route-map"
+            ).setView(
+                [28.3949, 84.124],
+                7
+            );
+
+
+        L.tileLayer(
+
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+            {
+
+                maxZoom: 19,
+
+                attribution:
+                    "&copy; OpenStreetMap contributors",
+
+            }
+
+        ).addTo(map);
+
+
+        /* =====================================
+           ADD MARKERS
+        ===================================== */
+
+        const pointCoordinates = [];
+
+
+        routePoints.forEach(
+            function (point, index) {
+
+                const latitude =
+                    Number(
+                        point.latitude
+                    );
+
+
+                const longitude =
+                    Number(
+                        point.longitude
+                    );
+
+
+                if (
+
+                    Number.isNaN(
+                        latitude
+                    ) ||
+
+                    Number.isNaN(
+                        longitude
+                    )
+
+                ) {
+
+                    console.warn(
+                        "Invalid route point:",
+                        point
+                    );
+
+                    return;
+
+                }
+
+
+                const latLng = [
+
+                    latitude,
+
+                    longitude,
+
+                ];
+
+
+                pointCoordinates.push(
+                    latLng
+                );
+
+
+                /* MARKER */
+
+                const marker =
+                    L.marker(
+                        latLng
+                    ).addTo(map);
+
+
+                marker.bindPopup(
+
+                    `
+                    <strong>
+                        ${index + 1}.
+                        ${point.name || "Route Point"}
+                    </strong>
+
+                    <br>
+
+                    ${point.displayName || ""}
+                    `
+
+                );
+
+
+                /* ROUTE POINT LIST */
+
+                if (
+                    routePointsContainer
+                ) {
+
+                    const routePoint =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    routePoint.className =
+                        "route-detail-point";
+
+
+                    routePoint.innerHTML = `
+
+                        <div
+                            class="route-point-number"
+                        >
+
+                            ${index + 1}
+
+                        </div>
+
+
+                        <div
+                            class="route-point-info"
+                        >
+
+                            <strong>
+
+                                ${point.name ||
+                                "Route Point"}
+
+                            </strong>
+
+
+                            <span>
+
+                                ${point.displayName ||
+                                ""}
+
+                            </span>
+
+                        </div>
+
+                    `;
+
+
+                    routePointsContainer.appendChild(
+                        routePoint
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================
+           DRAW ACTUAL TREKKING ROUTE
+        ===================================== */
+
+        let actualRouteCoordinates =
+            [];
+
+
+        if (
+
+            routeGeometry &&
+
+            typeof polyline !==
+            "undefined"
+
+        ) {
+
+            try {
+
+                actualRouteCoordinates =
+                    polyline.decode(
+                        routeGeometry
+                    );
+
+
+                console.log(
+                    "Decoded route:",
+                    actualRouteCoordinates
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Unable to decode route:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* =====================================
+           ACTUAL ROUTE
+        ===================================== */
+
+        if (
+            actualRouteCoordinates.length > 1
+        ) {
+
+            const routeLine =
+                L.polyline(
+
+                    actualRouteCoordinates,
+
+                    {
+
+                        color:
+                            "#0b3d91",
+
+                        weight:
+                            5,
+
+                        opacity:
+                            0.9,
+
+                    }
+
+                ).addTo(map);
+
+
+            map.fitBounds(
+
+                routeLine.getBounds(),
+
+                {
+
+                    padding:
+                        [40, 40],
+
+                }
+
+            );
+
+
+            console.log(
+                "Actual trekking route displayed."
+            );
+
+        }
+
+
+        /* =====================================
+           FALLBACK ROUTE
+        ===================================== */
+
+        else if (
+            pointCoordinates.length > 1
+        ) {
+
+            const routeLine =
+                L.polyline(
+
+                    pointCoordinates,
+
+                    {
+
+                        color:
+                            "#0b3d91",
+
+                        weight:
+                            4,
+
+                        opacity:
+                            0.8,
+
+                        dashArray:
+                            "8, 8",
+
+                    }
+
+                ).addTo(map);
+
+
+            map.fitBounds(
+
+                routeLine.getBounds(),
+
+                {
+
+                    padding:
+                        [40, 40],
+
+                }
+
+            );
+
+
+            console.log(
+                "Fallback route displayed."
+            );
+
+        }
+
+
+        /* =====================================
+           SINGLE POINT
+        ===================================== */
+
+        else if (
+            pointCoordinates.length === 1
+        ) {
+
+            map.setView(
+                pointCoordinates[0],
+                12
+            );
+
+        }
+
+
+        /* =====================================
+           FIX MAP SIZE
+        ===================================== */
+
+        setTimeout(
+            function () {
+
+                map.invalidateSize();
+
+            },
+            300
+        );
+
+
+        console.log(
+            "TREKKER PACKAGE ROUTE MAP COMPLETE"
+        );
+
+    }
+);
+
+</script>
 {% endblock %}

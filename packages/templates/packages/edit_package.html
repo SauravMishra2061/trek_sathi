@@ -7,228 +7,343 @@ Edit Package
 
 {% block company_content %}
 
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<link
+  rel="stylesheet"
+  href="{% static 'css/package_map.css' %}"
+/>
+
 <div class="page-header">
-
-    <div>
-
-        <h1>Edit Package</h1>
-
-        <p>{{ package.title }}</p>
-
-    </div>
-
+  <div>
+    <h1>Edit Package</h1>
+    <p>{{ package.title }}</p>
+  </div>
 </div>
 
 <form method="POST" enctype="multipart/form-data">
 
-    {% csrf_token %}
+  {% csrf_token %}
 
-    <!-- Basic Information -->
+  <!-- Hidden Route Data -->
+  <input
+    type="hidden"
+    id="route-points-data"
+    name="route_points"
+    value="[]"
+  />
 
-    <div class="form-card">
+  <!-- Basic Information -->
 
-        <div class="form-card-header">
+  <div class="form-card">
 
-            <i class="fa-solid fa-box"></i>
+    <div class="form-card-header">
+      <i class="fa-solid fa-box"></i>
+      <h2>Basic Information</h2>
+    </div>
 
-            <h2>Basic Information</h2>
+    <div class="form-grid">
 
-        </div>
+      <div>
+        <label>Package Title</label>
+        {{ form.title }}
+      </div>
 
-        <div class="form-grid">
+      <div>
+        <label>Trek</label>
+        {{ form.trek }}
+      </div>
 
-            <div>
+      <div>
+        <label>Cover Image</label>
+        {{ form.cover_image }}
+      </div>
 
-                <label>Package Title</label>
+      <div>
+        <label>Price Per Person</label>
+        {{ form.price_per_person }}
+      </div>
 
-                {{ form.title }}
+      <div>
+        <label>Duration (Days)</label>
+        {{ form.duration }}
+      </div>
 
-            </div>
-
-            <div>
-
-                <label>Trek</label>
-
-                {{ form.trek }}
-
-            </div>
-            <div>
-
-    <label>Cover Image</label>
-
-    {{ form.cover_image }}
-
-</div>
-
-            <div>
-
-                <label>Price Per Person</label>
-
-                {{ form.price_per_person }}
-
-            </div>
-
-            <div>
-
-                <label>Duration (Days)</label>
-
-                {{ form.duration }}
-
-            </div>
-
-            <div>
-
-                <label>Maximum Participants</label>
-
-                {{ form.max_participants }}
-
-            </div>
-
-        </div>
+      <div>
+        <label>Maximum Participants</label>
+        {{ form.max_participants }}
+      </div>
 
     </div>
 
-    <!-- Schedule -->
+  </div>
 
-    <div class="form-card">
 
-        <div class="form-card-header">
+  <!-- Schedule -->
 
-            <i class="fa-solid fa-calendar-days"></i>
+  <div class="form-card">
 
-            <h2>Schedule</h2>
+    <div class="form-card-header">
+      <i class="fa-solid fa-calendar-days"></i>
+      <h2>Schedule</h2>
+    </div>
 
-        </div>
+    <div class="form-grid">
 
-        <div class="form-grid">
+      <div>
+        <label>Start Date</label>
+        {{ form.start_date }}
+      </div>
 
-            <div>
-
-                <label>Start Date</label>
-
-                {{ form.start_date }}
-
-            </div>
-
-            <div>
-
-                <label>End Date</label>
-
-                {{ form.end_date }}
-
-            </div>
-
-        </div>
+      <div>
+        <label>End Date</label>
+        {{ form.end_date }}
+      </div>
 
     </div>
 
-    <!-- Trek Details -->
+  </div>
 
-    <div class="form-card">
 
-        <div class="form-card-header">
+  <!-- Trek Details -->
 
-            <i class="fa-solid fa-mountain"></i>
+  <div class="form-card">
 
-            <h2>Trek Details</h2>
+    <div class="form-card-header">
+      <i class="fa-solid fa-mountain"></i>
+      <h2>Trek Details</h2>
+    </div>
 
-        </div>
+    <div class="form-grid">
 
-        <div class="form-grid">
+      <div>
+        <label>Difficulty</label>
+        {{ form.difficulty }}
+      </div>
 
-            <div>
-
-                <label>Difficulty</label>
-
-                {{ form.difficulty }}
-
-            </div>
-
-            <div>
-
-                <label>Maximum Altitude</label>
-
-                {{ form.max_altitude }}
-
-            </div>
-
-        </div>
+      <div>
+        <label>Maximum Altitude</label>
+        {{ form.max_altitude }}
+      </div>
 
     </div>
 
-    <!-- Package Information -->
+  </div>
 
-    <div class="form-card">
 
-        <div class="form-card-header">
+  <!-- Package Information -->
 
-            <i class="fa-solid fa-list-check"></i>
+  <div class="form-card">
 
-            <h2>Package Information</h2>
+    <div class="form-card-header">
+      <i class="fa-solid fa-list-check"></i>
+      <h2>Package Information</h2>
+    </div>
 
-        </div>
+    <div class="form-column">
 
-        <div class="form-column">
+      <div>
+        <label>Inclusions</label>
+        {{ form.inclusions }}
+      </div>
 
-            <div>
+      <div>
+        <label>Exclusions</label>
+        {{ form.exclusions }}
+      </div>
 
-                <label>Inclusions</label>
-
-                {{ form.inclusions }}
-
-            </div>
-
-            <div>
-
-                <label>Exclusions</label>
-
-                {{ form.exclusions }}
-
-            </div>
-
-            <div>
-
-                <label>Itinerary</label>
-
-                {{ form.itinerary }}
-
-            </div>
-
-        </div>
+      <div>
+        <label>Itinerary</label>
+        {{ form.itinerary }}
+      </div>
 
     </div>
+
+
+    <!-- Trekking Route -->
+
+    <div class="route-map-section">
+
+      <h3>Trekking Route</h3>
+
+      <p>
+        Search for trekking locations and arrange them in the same
+        order as your itinerary.
+      </p>
+
+
+      <!-- Location Search -->
+
+      <div class="route-search">
+
+        <input
+          type="text"
+          id="location-search"
+          class="form-control"
+          placeholder="Search location, e.g. Namche Bazaar"
+        />
+
+        <button
+          type="button"
+          id="search-location-btn"
+          class="primary-btn"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Search
+        </button>
+
+      </div>
+
+
+      <!-- Search Results -->
+
+      <div id="location-results"></div>
+
+
+      <!-- Route Points -->
+
+      <div class="route-points-section">
+
+        <h4>Route Points</h4>
+
+        <div id="route-points-list">
+
+          <div class="no-route-points">
+            No route points added yet.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Map -->
+
+      <div id="route-map"></div>
+
+    </div>
+
 
     <!-- Buttons -->
 
     <div class="form-actions">
 
-        <a href="{% url 'package_detail' package.pk %}"
-           class="secondary-btn">
+      <a
+        href="{% url 'company_package_detail' package.pk %}"
+        class="secondary-btn"
+      >
+        Cancel
+      </a>
 
-            Cancel
+      <button
+        type="submit"
+        name="draft"
+        class="secondary-btn"
+      >
+        <i class="fa-solid fa-floppy-disk"></i>
+        Save Draft
+      </button>
 
-        </a>
-
-        <button
-            type="submit"
-            name="draft"
-            class="secondary-btn">
-
-            Save Draft
-
-        </button>
-
-        <button
-            type="submit"
-            name="publish"
-            class="primary-btn">
-
-            Update Package
-
-        </button>
+      <button
+        type="submit"
+        name="publish"
+        class="primary-btn"
+      >
+        <i class="fa-solid fa-check"></i>
+        Update Package
+      </button>
 
     </div>
 
+  </div>
+
 </form>
 
+
+<!-- Existing Route Points -->
+
+{{ package.route_points|json_script:"existing-route-points" }}
+
+
+<!-- Date Validation -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const startDate =
+    document.getElementById("id_start_date")
+
+  const endDate =
+    document.getElementById("id_end_date")
+
+  if (!startDate || !endDate) {
+    return
+  }
+
+  function updateEndDate() {
+
+    if (startDate.value) {
+
+      endDate.min = startDate.value
+
+      if (
+        endDate.value &&
+        endDate.value < startDate.value
+      ) {
+        endDate.value = ""
+      }
+
+    } else {
+
+      endDate.min =
+        new Date().toISOString().split("T")[0]
+
+    }
+
+  }
+
+  startDate.addEventListener(
+    "change",
+    updateEndDate
+  )
+
+  updateEndDate()
+
+})
+</script>
+
+
+<!-- Leaflet -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<!-- Polyline Decoder -->
+
+<script src="https://unpkg.com/@mapbox/polyline@1.2.1/src/polyline.js"></script>
+
+
+<!-- Route Configuration -->
+
+<script>
+  const CALCULATE_ROUTE_URL =
+    "{% url 'calculate_route' %}"
+
+  const existingRoutePoints =
+    JSON.parse(
+      document
+        .getElementById("existing-route-points")
+        .textContent
+    )
+</script>
+
+
+<!-- Package Map -->
+
+<script src="{% static 'js/package_map.js' %}"></script>
+
 {% endblock %}
+

@@ -11,6 +11,6 @@ urlpatterns = [
     path("<int:pk>/delete/", views.delete_package, name="delete_package"),
     path("save/<int:package_id>/", views.save_package, name="save_package"),
     path("saved/",views.saved_packages,name="saved_packages"),
-        
-
+    path("api/calculate-route/",views.calculate_route,name="calculate_route"),    
+    
 ]

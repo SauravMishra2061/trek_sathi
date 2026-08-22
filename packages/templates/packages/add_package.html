@@ -6,284 +6,389 @@ Add Package
 {% endblock %}
 
 {% block company_content %}
+
 <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 />
+
 <link
-    rel="stylesheet"
-    href="{% static 'css/package_map.css' %}"
+  rel="stylesheet"
+  href="{% static 'css/package_map.css' %}"
 />
+
 <div class="page-header">
-
-    <div>
-
-        <h1>Add Package</h1>
-
-        <p>Create a new trekking package.</p>
-
-    </div>
-
+  <div>
+    <h1>Add Package</h1>
+    <p>Create a new trekking package.</p>
+  </div>
 </div>
 
 <form method="POST" enctype="multipart/form-data">
- 
-    {% csrf_token %}
- 
-    <!-- Basic Information -->
- 
-    <div class="form-card">
- 
-        <div class="form-card-header">
- 
-            <i class="fa-solid fa-box"></i>
- 
-            <h2>Basic Information</h2>
- 
-        </div>
- 
-        <div class="form-grid">
- 
-            <div>
- 
-                <label>Package Title</label>
- 
-                {{ form.title }}
- 
-            </div>
- 
-            <div>
- 
-                <label>Trek</label>
- 
-                {{ form.trek }}
- 
-            </div>
-            <div>
- 
-    <label>Cover Image</label>
- 
-    {{ form.cover_image }}
- 
+
+{% csrf_token %}
+
+  <!-- =========================
+       BASIC INFORMATION
+  ========================== -->
+
+  <div class="form-card">
+
+
+<div class="form-card-header">
+  <i class="fa-solid fa-box"></i>
+  <h2>Basic Information</h2>
 </div>
- 
-            <div>
- 
-                <label>Price Per Person</label>
- 
-                {{ form.price_per_person }}
- 
-            </div>
- 
-            <div>
- 
-                <label>Duration (Days)</label>
- 
-                {{ form.duration }}
- 
-            </div>
- 
-            <div>
- 
-                <label>Maximum Participants</label>
- 
-                {{ form.max_participants }}
- 
-            </div>
- 
-        </div>
- 
+
+<div class="form-grid">
+
+  <div>
+    <label>Package Title</label>
+    {{ form.title }}
+  </div>
+
+  <div>
+    <label>Trek</label>
+    {{ form.trek }}
+  </div>
+
+  <div>
+    <label>Cover Image</label>
+    {{ form.cover_image }}
+  </div>
+
+  <div>
+    <label>Price Per Person</label>
+    {{ form.price_per_person }}
+  </div>
+
+  <div>
+    <label>Duration (Days)</label>
+    {{ form.duration }}
+  </div>
+
+  <div>
+    <label>Maximum Participants</label>
+    {{ form.max_participants }}
+  </div>
+
+</div>
+
+
+  </div>
+
+  <!-- =========================
+       SCHEDULE
+  ========================== -->
+
+  <div class="form-card">
+
+
+<div class="form-card-header">
+  <i class="fa-solid fa-calendar-days"></i>
+  <h2>Schedule</h2>
+</div>
+
+<div class="form-grid">
+
+  <div>
+    <label>Start Date</label>
+    {{ form.start_date }}
+  </div>
+
+  <div>
+    <label>End Date</label>
+    {{ form.end_date }}
+  </div>
+
+</div>
+
+
+  </div>
+
+  <!-- =========================
+       TREK DETAILS
+  ========================== -->
+
+  <div class="form-card">
+
+
+<div class="form-card-header">
+  <i class="fa-solid fa-mountain"></i>
+  <h2>Trek Details</h2>
+</div>
+
+<div class="form-grid">
+
+  <div>
+    <label>Difficulty</label>
+    {{ form.difficulty }}
+  </div>
+
+  <div>
+    <label>Maximum Altitude</label>
+    {{ form.max_altitude }}
+  </div>
+
+</div>
+
+
+  </div>
+
+  <!-- =========================
+       PACKAGE INFORMATION
+  ========================== -->
+
+  <div class="form-card">
+
+
+<div class="form-card-header">
+  <i class="fa-solid fa-list-check"></i>
+  <h2>Package Information</h2>
+</div>
+
+<div class="form-column">
+
+  <div>
+    <label>Inclusions</label>
+    {{ form.inclusions }}
+  </div>
+
+  <div>
+    <label>Exclusions</label>
+    {{ form.exclusions }}
+  </div>
+
+  <div>
+    <label>Itinerary</label>
+    {{ form.itinerary }}
+  </div>
+
+</div>
+
+
+<!-- =========================
+     TREKKING ROUTE
+========================== -->
+
+<div class="route-map-section">
+
+  <h3>Trekking Route</h3>
+
+  <p>
+    Search for trekking locations and add them in the same order as your itinerary.
+  </p>
+
+
+  <!-- Location Search -->
+
+  <div class="route-search-wrapper">
+
+    <div class="route-search">
+
+      <div class="search-input-wrapper">
+
+        <i class="fa-solid fa-location-dot"></i>
+
+        <input
+          type="text"
+          id="location-search"
+          placeholder="Search trekking location, e.g. Namche Bazaar"
+        />
+
+      </div>
+
+      <button
+        type="button"
+        id="search-location-btn"
+        class="route-search-btn"
+      >
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <span>Search</span>
+      </button>
+
     </div>
- 
-    <!-- Schedule -->
- 
-    <div class="form-card">
- 
-        <div class="form-card-header">
- 
-            <i class="fa-solid fa-calendar-days"></i>
- 
-            <h2>Schedule</h2>
- 
-        </div>
- 
-        <div class="form-grid">
- 
-            <div>
- 
-                <label>Start Date</label>
- 
-                {{ form.start_date }}
- 
-            </div>
- 
-            <div>
- 
-                <label>End Date</label>
- 
-                {{ form.end_date }}
- 
-            </div>
- 
-        </div>
- 
+
+    <div class="search-hint">
+
+      <i class="fa-solid fa-circle-info"></i>
+
+      Search and add locations in the same order as your itinerary.
+
     </div>
- 
-    <!-- Trek Details -->
- 
-    <div class="form-card">
- 
-        <div class="form-card-header">
- 
-            <i class="fa-solid fa-mountain"></i>
- 
-            <h2>Trek Details</h2>
- 
-        </div>
- 
-        <div class="form-grid">
- 
-            <div>
- 
-                <label>Difficulty</label>
- 
-                {{ form.difficulty }}
- 
-            </div>
- 
-            <div>
- 
-                <label>Maximum Altitude</label>
- 
-                {{ form.max_altitude }}
- 
-            </div>
- 
-        </div>
- 
+
+  </div>
+
+
+  <!-- Search Results -->
+
+  <div id="location-results"></div>
+
+
+  <!-- Selected Route Points -->
+
+  <div class="route-points-section">
+
+    <h4>Route Points</h4>
+
+    <div id="route-points-list">
+
+      <div class="no-route-points">
+        No route points added yet.
+      </div>
+
     </div>
- 
-    <!-- Package Information -->
- 
-    <div class="form-card">
- 
-        <div class="form-card-header">
- 
-            <i class="fa-solid fa-list-check"></i>
- 
-            <h2>Package Information</h2>
- 
-        </div>
- 
-        <div class="form-column">
- 
-            <div>
- 
-                <label>Inclusions</label>
- 
-                {{ form.inclusions }}
- 
-            </div>
- 
-            <div>
- 
-                <label>Exclusions</label>
- 
-                {{ form.exclusions }}
- 
-            </div>
- 
-            <div>
- 
-                <label>Itinerary</label>
- 
-                {{ form.itinerary }}
- 
-            </div>
- 
-        </div>
- 
-        <div class="route-map-section">
- 
-            <h3>Trekking Route</h3>
- 
-            <p>Add locations to show the trekking route for this package.</p>
- 
-            <div id="route-map"></div>
- 
-        </div>
- 
-        <!-- Buttons -->
- 
-        <div class="form-actions">
- 
-            <a href="{% url 'package_list' %}" class="secondary-btn">
- 
-                Cancel
- 
-            </a>
- 
-            <button
-                type="submit"
-                name="draft"
-                class="secondary-btn">
- 
-                <i class="fa-solid fa-floppy-disk"></i>
- 
-                Save Draft
- 
-            </button>
- 
-            <button
-                type="submit"
-                name="publish"
-                class="primary-btn">
- 
-                <i class="fa-solid fa-plus"></i>
- 
-                Add Package
- 
-            </button>
- 
-        </div>
- 
-    </div><!-- closes form-card "Package Information" -->
- 
+
+  </div>
+
+
+  <!-- Hidden Route Data -->
+
+  <input
+    type="hidden"
+    name="route_points"
+    id="route-points-data"
+    value=""
+  >
+
+
+  <!-- Map -->
+
+  <div id="route-map"></div>
+
+</div>
+
+
+<!-- =========================
+     FORM ACTIONS
+========================== -->
+
+<div class="form-actions">
+
+  <a
+    href="{% url 'package_list' %}"
+    class="secondary-btn"
+  >
+    Cancel
+  </a>
+
+
+  <button
+    type="submit"
+    name="draft"
+    class="secondary-btn"
+  >
+    <i class="fa-solid fa-floppy-disk"></i>
+
+    Save Draft
+  </button>
+
+
+  <button
+    type="submit"
+    name="publish"
+    class="primary-btn"
+  >
+    <i class="fa-solid fa-plus"></i>
+
+    Add Package
+  </button>
+
+</div>
+
+
+  </div>
+
 </form>
 
-
+<!-- =========================
+     DATE VALIDATION
+========================== -->
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const startDate = document.getElementById("id_start_date");
-    const endDate = document.getElementById("id_end_date");
+document.addEventListener('DOMContentLoaded', function () {
 
-    if (!startDate || !endDate) {
-        return;
+  const startDate =
+    document.getElementById('id_start_date')
+
+  const endDate =
+    document.getElementById('id_end_date')
+
+
+  if (!startDate || !endDate) {
+    return
+  }
+
+
+  function updateEndDate() {
+
+    if (startDate.value) {
+
+      endDate.min =
+        startDate.value
+
+
+      if (
+        endDate.value &&
+        endDate.value < startDate.value
+      ) {
+
+        endDate.value = ''
+
+      }
+
+    } else {
+
+      endDate.min =
+        new Date()
+          .toISOString()
+          .split('T')[0]
+
     }
 
-    function updateEndDate() {
-        if (startDate.value) {
-            endDate.min = startDate.value;
+  }
 
-            // If existing end date is before the new start date,
-            // clear it.
-            if (endDate.value && endDate.value < startDate.value) {
-                endDate.value = "";
-            }
-        } else {
-            endDate.min = new Date().toISOString().split("T")[0];
-        }
-    }
 
-    startDate.addEventListener("change", updateEndDate);
+  startDate.addEventListener(
+    'change',
+    updateEndDate
+  )
 
-    updateEndDate();
-});
+
+  updateEndDate()
+
+})
+
 </script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<script src="{% static 'js/package_map.js' %}"></script>
+<!-- =========================
+     MAP LIBRARIES
+========================== -->
+
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+<script
+  src="https://unpkg.com/@mapbox/polyline@1.2.1/src/polyline.js"
+></script>
+
+<!-- Django API URL -->
+
+<script>
+
+const CALCULATE_ROUTE_URL =
+  "{% url 'calculate_route' %}"
+
+</script>
+
+<!-- Package Map JavaScript -->
+
+<script
+  src="{% static 'js/package_map.js' %}"
+>
+</script>
 
 {% endblock %}

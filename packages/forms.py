@@ -16,6 +16,7 @@ class PackageForm(forms.ModelForm):
             "created_at",
             "updated_at",
             "is_featured",
+            "route_points",
         ]
 
         widgets = {

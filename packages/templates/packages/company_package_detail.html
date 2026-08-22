@@ -1,160 +1,814 @@
-{% extends "companies/company_base.html" %} {% block title %} {{ package.title}}
-{% endblock %} {% block company_content %}
+{% extends "companies/company_base.html" %}
+{% load static %}
+
+{% block title %}
+{{ package.title }}
+{% endblock %}
+
+{% block company_content %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/company_package_detail.css' %}"
+>
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
 
 <div class="page-header">
-  <div>
+
+
+<div>
     <h1>{{ package.title }}</h1>
-
     <p>{{ package.trek.name }}</p>
-  </div>
-
-  {% if request.user.is_authenticated and request.user == package.company.user%}
-  <a href="{% url 'edit_package' package.pk %}" class="primary-btn">
-    <i class="fa-solid fa-pen"></i>
-    Edit Package
-  </a>
-  {% endif %}
 </div>
+
+{% if request.user.is_authenticated and request.user == package.company.user %}
+
+    <a
+        href="{% url 'edit_package' package.pk %}"
+        class="primary-btn"
+    >
+        <i class="fa-solid fa-pen"></i>
+        Edit Package
+    </a>
+
+{% endif %}
+
+
+</div>
+
+<!-- Package Image -->
 
 <div class="package-image">
-  {% if package.cover_image %}
 
-  <img src="{{ package.cover_image.url }}" alt="{{ package.title }}" />
 
-  {% elif package.trek.image %}
+{% if package.cover_image %}
 
-  <img src="{{ package.trek.image.url }}" alt="{{ package.trek.name }}" />
+    <img
+        src="{{ package.cover_image.url }}"
+        alt="{{ package.title }}"
+    >
 
-  {% else %}
+{% elif package.trek.image %}
 
-  <div class="package-placeholder">
-    <i class="fa-solid fa-mountain"></i>
-  </div>
+    <img
+        src="{{ package.trek.image.url }}"
+        alt="{{ package.trek.name }}"
+    >
 
-  {% endif %}
+{% else %}
+
+    <div class="package-placeholder">
+        <i class="fa-solid fa-mountain"></i>
+    </div>
+
+{% endif %}
+
+
 </div>
 
+<!-- Package Information and Schedule -->
+
 <div class="detail-grid">
-  <div class="detail-card">
+
+
+<div class="detail-card">
+
     <h2>Package Information</h2>
+
     <div class="package-rating">
-      {% if average_rating %} ⭐ {{ average_rating|floatformat:1 }}/5
-       ({{reviews.count }} review{{ reviews.count|pluralize }}) {% else %} No
-      reviews yet {% endif %}
+
+        {% if average_rating %}
+
+            ⭐ {{ average_rating|floatformat:1 }}/5
+            ({{ reviews.count }} review{{ reviews.count|pluralize }})
+
+        {% else %}
+
+            No reviews yet
+
+        {% endif %}
+
     </div>
 
     <table class="detail-table">
-      <tr>
-        <th>Price</th>
-        <td>NPR {{ package.price_per_person }}</td>
-      </tr>
 
-      <tr>
-        <th>Duration</th>
-        <td>{{ package.duration }} Days</td>
-      </tr>
+        <tr>
+            <th>Price</th>
+            <td>NPR {{ package.price_per_person }}</td>
+        </tr>
 
-      <tr>
-        <th>Maximum Participants</th>
-        <td>{{ package.max_participants }}</td>
-      </tr>
+        <tr>
+            <th>Duration</th>
+            <td>{{ package.duration }} Days</td>
+        </tr>
 
-      <tr>
-        <th>Difficulty</th>
-        <td>{{ package.difficulty }}</td>
-      </tr>
+        <tr>
+            <th>Maximum Participants</th>
+            <td>{{ package.max_participants }}</td>
+        </tr>
 
-      <tr>
-        <th>Maximum Altitude</th>
-        <td>{{ package.max_altitude }} m</td>
-      </tr>
+        <tr>
+            <th>Difficulty</th>
+            <td>{{ package.difficulty }}</td>
+        </tr>
 
-      <tr>
-        <th>Status</th>
-        <td>{{ package.status }}</td>
-      </tr>
+        <tr>
+            <th>Maximum Altitude</th>
+            <td>{{ package.max_altitude }} m</td>
+        </tr>
+
+        <tr>
+            <th>Status</th>
+            <td>{{ package.status }}</td>
+        </tr>
+
     </table>
-  </div>
 
-  <div class="detail-card">
+</div>
+
+
+<!-- Schedule -->
+
+<div class="detail-card">
+
     <h2>Schedule</h2>
 
     <table class="detail-table">
-      <tr>
-        <th>Start Date</th>
-        <td>{{ package.start_date }}</td>
-      </tr>
 
-      <tr>
-        <th>End Date</th>
-        <td>{{ package.end_date }}</td>
-      </tr>
+        <tr>
+            <th>Start Date</th>
+            <td>{{ package.start_date }}</td>
+        </tr>
+
+        <tr>
+            <th>End Date</th>
+            <td>{{ package.end_date }}</td>
+        </tr>
+
     </table>
-  </div>
+
 </div>
+
+
+</div>
+
+<!-- Itinerary -->
 
 <div class="detail-card">
-  <h2>Itinerary</h2>
 
-  <div class="detail-content">{{ package.itinerary|linebreaks }}</div>
+
+<h2>Itinerary</h2>
+
+<div class="detail-content">
+    {{ package.itinerary|linebreaks }}
 </div>
 
-<div class="detail-grid">
-  <div class="detail-card">
-    <h2>Inclusions</h2>
 
-    <div class="detail-content">{{ package.inclusions|linebreaks }}</div>
-  </div>
+</div>
 
-  <div class="detail-card">
-    <h2>Exclusions</h2>
+<!-- Trekking Route -->
 
-    <div class="detail-content">{{ package.exclusions|linebreaks }}</div>
-  </div>
-  <div class="package-actions">
-    {% if user.is_authenticated and not user.company %}
-    <a href="{% url 'book_package' package.pk %}" class="primary-btn">
-      <i class="fa-solid fa-calendar-check"></i>
-      Book Now
-    </a>
+{% if package.route_points %}
 
-    {% endif %}
+<div class="detail-card trekking-route-card">
 
-    <a href="{% url 'start_enquiry' package.pk %}" class="secondary-btn">
-      <i class="fa-solid fa-envelope"></i>
-      Send Enquiry
-    </a>
-  </div>
-<br>
 
-  <div class="detail-card">
-    <h2>Reviews</h2>
+<h2>
+    <i class="fa-solid fa-route"></i>
+    Trekking Route
+</h2>
 
-    {% if reviews %} {% for review in reviews %}
+<p class="route-description">
+    Follow the trekking route and locations added for this package.
+</p>
 
-    <div class="review-card">
-      <div class="review-header">
-        <strong>
-          {{ review.trekker.get_full_name|default:review.trekker.username }}
-        </strong>
+<div class="route-detail-layout">
 
-        <span> {{ review.created_at|date:"M d, Y" }} </span>
-      </div>
+    <!-- Map -->
 
-      <div class="review-stars">
-        {% for i in "12345" %} {% if forloop.counter <= review.rating %} ⭐
-         {% else %} ☆ {% endif %} {% endfor %}
-      </div>
+    <div id="package-route-map"></div>
 
-      <p>{{ review.comment }}</p>
+
+    <!-- Route Points -->
+
+    <div class="route-detail-points">
+
+        <h3>Route Points</h3>
+
+        <div id="package-route-points"></div>
+
     </div>
 
-    {% endfor %} {% else %}
+</div>
+
+
+</div>
+
+{% endif %}
+
+<!-- Route Data -->
+
+{{ package.route_points|json_script:"package-route-data" }}
+
+<!-- Inclusions and Exclusions -->
+
+<div class="detail-grid">
+
+
+<div class="detail-card">
+
+    <h2>Inclusions</h2>
+
+    <div class="detail-content">
+        {{ package.inclusions|linebreaks }}
+    </div>
+
+</div>
+
+
+<div class="detail-card">
+
+    <h2>Exclusions</h2>
+
+    <div class="detail-content">
+        {{ package.exclusions|linebreaks }}
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- Package Actions -->
+
+<div class="package-actions">
+
+
+{% if user.is_authenticated and not user.company %}
+
+    <a
+        href="{% url 'book_package' package.pk %}"
+        class="primary-btn"
+    >
+        <i class="fa-solid fa-calendar-check"></i>
+        Book Now
+    </a>
+
+
+
+
+<a
+    href="{% url 'start_enquiry' package.pk %}"
+    class="secondary-btn"
+>
+    <i class="fa-solid fa-envelope"></i>
+    Send Enquiry
+</a>
+{% endif %}
+
+</div>
+
+<!-- Reviews -->
+
+<div class="detail-card">
+
+
+<h2>Reviews</h2>
+
+{% if reviews %}
+
+    {% for review in reviews %}
+
+        <div class="review-card">
+
+            <div class="review-header">
+
+                <strong>
+                    {{ review.trekker.get_full_name|default:review.trekker.username }}
+                </strong>
+
+                <span>
+                    {{ review.created_at|date:"M d, Y" }}
+                </span>
+
+            </div>
+
+
+            <div class="review-stars">
+
+                {% for i in "12345" %}
+
+                    {% if forloop.counter <= review.rating %}
+                        ⭐
+                    {% else %}
+                        ☆
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+
+            <p>{{ review.comment }}</p>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
 
     <p>No reviews available yet.</p>
 
-    {% endif %}
-  </div>
+{% endif %}
+
+
 </div>
+
+<!-- Leaflet -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Polyline Decoder -->
+
+<script src="https://unpkg.com/@mapbox/polyline@1.2.1/src/polyline.js"></script>
+
+<!-- Package Route Script -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("PACKAGE DETAIL MAP SCRIPT STARTED");
+
+    const routeDataElement =
+        document.getElementById("package-route-data");
+
+    const mapElement =
+        document.getElementById("package-route-map");
+
+    const routePointsContainer =
+        document.getElementById("package-route-points");
+
+
+    console.log("Route data element:", routeDataElement);
+    console.log("Map element:", mapElement);
+    console.log("Leaflet loaded:", typeof L !== "undefined");
+
+
+    if (!routeDataElement) {
+
+        console.warn("No route data found.");
+
+        return;
+
+    }
+
+
+    if (!mapElement) {
+
+        console.warn("Map container not found.");
+
+        return;
+
+    }
+
+
+    if (typeof L === "undefined") {
+
+        console.error("Leaflet failed to load.");
+
+        return;
+
+    }
+
+
+    let savedRouteData;
+
+
+    try {
+
+        savedRouteData =
+            JSON.parse(routeDataElement.textContent);
+
+        console.log(
+            "SAVED ROUTE DATA:",
+            savedRouteData
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Unable to parse route data:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    /*
+    ------------------------------------
+    SUPPORT BOTH DATA FORMATS
+    ------------------------------------
+
+    OLD FORMAT:
+
+    [
+        {
+            name: "...",
+            latitude: ...,
+            longitude: ...
+        }
+    ]
+
+    NEW FORMAT:
+
+    {
+        points: [...],
+        geometry: "encoded polyline"
+    }
+
+    */
+
+
+    let routePoints = [];
+
+
+    if (Array.isArray(savedRouteData)) {
+
+        routePoints = savedRouteData;
+
+    }
+
+    else if (
+        savedRouteData &&
+        Array.isArray(savedRouteData.points)
+    ) {
+
+        routePoints = savedRouteData.points;
+
+    }
+
+
+    console.log(
+        "ROUTE POINTS:",
+        routePoints
+    );
+
+
+    if (routePoints.length === 0) {
+
+        console.warn(
+            "No valid route points available."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    ------------------------------------
+    INITIALIZE MAP
+    ------------------------------------
+    */
+
+
+    const map = L.map(
+        "package-route-map"
+    );
+
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+
+            maxZoom: 19,
+
+            attribution:
+                "&copy; OpenStreetMap contributors"
+
+        }
+    ).addTo(map);
+
+
+    const pointCoordinates = [];
+
+
+    /*
+    ------------------------------------
+    ADD MARKERS AND ROUTE POINT LIST
+    ------------------------------------
+    */
+
+
+    routePoints.forEach(function (point, index) {
+
+        const latitude =
+            point.latitude ?? point.lat;
+
+        const longitude =
+            point.longitude ?? point.lng;
+
+
+        if (
+            latitude === undefined ||
+            longitude === undefined
+        ) {
+
+            console.warn(
+                "Invalid route point:",
+                point
+            );
+
+            return;
+
+        }
+
+
+        const latLng = [
+
+            parseFloat(latitude),
+
+            parseFloat(longitude)
+
+        ];
+
+
+        if (
+            isNaN(latLng[0]) ||
+            isNaN(latLng[1])
+        ) {
+
+            console.warn(
+                "Invalid coordinates:",
+                point
+            );
+
+            return;
+
+        }
+
+
+        pointCoordinates.push(latLng);
+
+
+        /*
+        --------------------------
+        MAP MARKER
+        --------------------------
+        */
+
+
+        const marker =
+            L.marker(latLng)
+                .addTo(map);
+
+
+        marker.bindPopup(
+            `
+            <strong>
+                ${index + 1}. ${point.name || "Route Point"}
+            </strong>
+            <br>
+            ${point.displayName || ""}
+            `
+        );
+
+
+        /*
+        --------------------------
+        ROUTE POINT LIST
+        --------------------------
+        */
+
+
+        if (routePointsContainer) {
+
+            const routePoint =
+                document.createElement("div");
+
+
+            routePoint.className =
+                "route-detail-point";
+
+
+            routePoint.innerHTML = `
+
+                <div class="route-point-number">
+
+                    ${index + 1}
+
+                </div>
+
+                <div class="route-point-info">
+
+                    <strong>
+                        ${point.name || "Route Point"}
+                    </strong>
+
+                    <span>
+                        ${point.displayName || ""}
+                    </span>
+
+                </div>
+
+            `;
+
+
+            routePointsContainer.appendChild(
+                routePoint
+            );
+
+        }
+
+    });
+
+
+    /*
+    ------------------------------------
+    DRAW ACTUAL SAVED ROUTE
+    ------------------------------------
+    */
+
+
+    let actualRouteCoordinates = [];
+
+
+    if (
+        savedRouteData &&
+        !Array.isArray(savedRouteData) &&
+        savedRouteData.geometry
+    ) {
+
+        console.log(
+            "ROUTE GEOMETRY FOUND"
+        );
+
+
+        try {
+
+            /*
+            ORS encoded polyline
+            returns [latitude, longitude]
+            */
+
+            actualRouteCoordinates =
+                polyline.decode(
+                    savedRouteData.geometry
+                );
+
+
+            console.log(
+                "DECODED ROUTE:",
+                actualRouteCoordinates
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Unable to decode route geometry:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+    ------------------------------------
+    DRAW ACTUAL ROUTE
+    ------------------------------------
+    */
+
+
+    if (
+        actualRouteCoordinates.length > 1
+    ) {
+
+        L.polyline(
+            actualRouteCoordinates,
+            {
+
+                weight: 5,
+
+                opacity: 0.85
+
+            }
+        ).addTo(map);
+
+
+        console.log(
+            "ACTUAL TREKKING ROUTE DRAWN"
+        );
+
+    }
+
+
+    /*
+    ------------------------------------
+    FALLBACK STRAIGHT LINE
+    ------------------------------------
+    */
+
+
+    else if (
+        pointCoordinates.length > 1
+    ) {
+
+        console.warn(
+            "No route geometry found. Using point connection."
+        );
+
+
+        L.polyline(
+            pointCoordinates,
+            {
+
+                weight: 4,
+
+                opacity: 0.8,
+
+                dashArray: "8, 8"
+
+            }
+        ).addTo(map);
+
+    }
+
+
+    /*
+    ------------------------------------
+    FIT MAP
+    ------------------------------------
+    */
+
+
+    const boundsCoordinates =
+
+        actualRouteCoordinates.length > 1
+
+            ? actualRouteCoordinates
+
+            : pointCoordinates;
+
+
+    if (
+        boundsCoordinates.length > 1
+    ) {
+
+        map.fitBounds(
+            L.latLngBounds(
+                boundsCoordinates
+            ),
+            {
+
+                padding: [40, 40]
+
+            }
+        );
+
+    }
+
+
+    else if (
+        boundsCoordinates.length === 1
+    ) {
+
+        map.setView(
+            boundsCoordinates[0],
+            12
+        );
+
+    }
+
+
+    /*
+    ------------------------------------
+    FIX LEAFLET SIZE
+    ------------------------------------
+    */
+
+
+    setTimeout(function () {
+
+        map.invalidateSize();
+
+    }, 300);
+
+
+    console.log(
+        "PACKAGE DETAIL MAP COMPLETED"
+    );
+
+});
+
+</script>
 
 {% endblock %}
