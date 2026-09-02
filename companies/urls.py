@@ -27,6 +27,8 @@ urlpatterns = [
     path("verification/replace-document/",views.replace_company_document,name="replace_company_document",),
 
     path("trek-requests/",views.trek_requests,name="trek_requests",),
-    
+
+    path("report/download/",views.generate_company_report,name="generate_company_report",),
+
     
     ]

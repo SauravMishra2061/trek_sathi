@@ -9,4 +9,5 @@ urlpatterns = [
     path("users/", views.admin_users, name="admin_users"),
     path("trek-requests/",views.trek_requests,name="admin_trek_requests"),
     path("trek-requests/<int:pk>/",views.review_trek_request,name="review_trek_request"),
+    path("report/download/",views.generate_admin_report,name="generate_admin_report",),
 ]

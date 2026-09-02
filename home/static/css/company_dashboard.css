@@ -313,6 +313,30 @@
   margin: 0 auto 10px;
 }
 
+.company-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  border-radius: 20px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 20px;
+}
+
+.approved-status-badge {
+  color: #198754;
+  background: #eaf7ef;
+  border: 1px solid #b7e4c7;
+}
+
+.company-status-badge i {
+  font-size: 16px;
+}
 /* =====================================
    Statistics
 ===================================== */

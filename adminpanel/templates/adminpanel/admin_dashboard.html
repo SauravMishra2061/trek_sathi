@@ -10,139 +10,186 @@ Dashboard
 
 {% block admin_content %}
 
-<div class="dashboard-grid">
+<!-- Dashboard Actions -->
 
-    <!-- Regions -->
-    <div class="dashboard-card">
+<div class="dashboard-actions">
 
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-mountain"></i>
-        </div>
+<a
+    href="{% url 'generate_admin_report' %}"
+    class="admin-report-btn"
+>
 
-        <h3>Regions</h3>
+    <i class="fa-solid fa-file-pdf"></i>
 
-        <h2>{{ total_regions }}</h2>
+    Download Platform Report
 
-    </div>
-
-
-    <!-- Treks -->
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-route"></i>
-        </div>
-
-        <h3>Treks</h3>
-
-        <h2>{{ total_treks }}</h2>
-
-    </div>
-
-
-    <!-- Companies -->
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-building"></i>
-        </div>
-
-        <h3>Companies</h3>
-
-        <h2>{{ total_companies }}</h2>
-
-    </div>
-
-
-    <!-- Users -->
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-users"></i>
-        </div>
-
-        <h3>Users</h3>
-
-        <h2>{{ total_users }}</h2>
-
-    </div>
+</a>
 
 </div>
 
+<!-- Main Statistics -->
+
+<div class="dashboard-grid">
+
+<!-- Regions -->
+
+<div class="dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-mountain"></i>
+    </div>
+
+    <h3>Regions</h3>
+
+    <h2>
+        {{ total_regions }}
+    </h2>
+
+</div>
+
+
+<!-- Treks -->
+
+<div class="dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-route"></i>
+    </div>
+
+    <h3>Treks</h3>
+
+    <h2>
+        {{ total_treks }}
+    </h2>
+
+</div>
+
+
+<!-- Companies -->
+
+<div class="dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-building"></i>
+    </div>
+
+    <h3>Companies</h3>
+
+    <h2>
+        {{ total_companies }}
+    </h2>
+
+</div>
+
+
+<!-- Users -->
+
+<div class="dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-users"></i>
+    </div>
+
+    <h3>Users</h3>
+
+    <h2>
+        {{ total_users }}
+    </h2>
+
+</div>
+
+</div>
 
 <!-- Additional Statistics -->
 
 <div class="dashboard-grid">
 
-    <!-- Packages -->
-    <div class="dashboard-card">
+<!-- Packages -->
 
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-box"></i>
-        </div>
+<div class="dashboard-card">
 
-        <h3>Packages</h3>
-
-        <h2>{{ total_packages }}</h2>
-
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-box"></i>
     </div>
 
+    <h3>Packages</h3>
 
-    <!-- Bookings -->
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-calendar-check"></i>
-        </div>
-
-        <h3>Bookings</h3>
-
-        <h2>{{ total_bookings }}</h2>
-
-    </div>
-
-
-    <!-- Pending Companies -->
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-clock"></i>
-        </div>
-
-        <h3>Pending Companies</h3>
-
-        <h2>{{ pending_companies }}</h2>
-
-    </div>
-
-
-    <!-- Approved Companies -->
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon">
-            <i class="fa-solid fa-circle-check"></i>
-        </div>
-
-        <h3>Approved Companies</h3>
-
-        <h2>{{ approved_companies }}</h2>
-
-    </div>
+    <h2>
+        {{ total_packages }}
+    </h2>
 
 </div>
 
 
+<!-- Bookings -->
+
+<div class="dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-calendar-check"></i>
+    </div>
+
+    <h3>Bookings</h3>
+
+    <h2>
+        {{ total_bookings }}
+    </h2>
+
+</div>
+
+
+<!-- Pending Companies -->
+
+<div class="dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-clock"></i>
+    </div>
+
+    <h3>Pending Companies</h3>
+
+    <h2>
+        {{ pending_companies }}
+    </h2>
+
+</div>
+
+
+<!-- Approved Companies -->
+
+<div class="dashboard-card">
+
+    <div class="dashboard-card-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
+
+    <h3>Approved Companies</h3>
+
+    <h2>
+        {{ approved_companies }}
+    </h2>
+
+</div>
+
+</div>
+
+<!-- Recent Activity -->
+
 <div class="dashboard-card recent-card">
 
-    <h3>Recent Activity</h3>
+<h3>
+    Recent Activity
+</h3>
 
-    <div class="empty-state">
+<div class="empty-state">
 
-        <i class="fa-solid fa-clock-rotate-left"></i>
+    <i class="fa-solid fa-clock-rotate-left"></i>
 
-        <p>No recent activity yet.</p>
+    <p>
+        No recent activity yet.
+    </p>
 
-    </div>
+</div>
 
 </div>
 

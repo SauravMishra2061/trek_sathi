@@ -1,46 +1,87 @@
-{% extends "companies/company_base.html" %} {% block title %} Company Dashboard
-{% endblock %} {% block company_content %}
+{% extends "companies/company_base.html" %}
+
+{% block title %}
+Company Dashboard
+{% endblock %}
+
+{% block company_content %}
+
+<!-- Page Header -->
 
 <div class="page-header">
   <div>
-    <h1>Welcome Back 👋</h1>
 
-    <h2 class="company-name">{{ company.company_name }}</h2>
 
-    <p class="company-subtitle">Company Dashboard</p>
+<h1>Welcome Back 👋</h1>
+
+<h2 class="company-name">
+  {{ company.company_name }}
+</h2>
+
+<p class="company-subtitle">
+  Company Dashboard
+</p>
+
+
   </div>
 </div>
+
+<!-- Approval Popup -->
+
 {% if show_approval_popup %}
 
 <div class="approval-popup">
-  <i class="fa-solid fa-circle-check"></i>
+
+<i class="fa-solid fa-circle-check"></i>
 
   <h2>Congratulations!</h2>
 
-  <p>Your company has been approved. You can now create trekking packages.</p>
+  <p>
+    Your company has been approved. You can now create trekking packages.
+  </p>
 
-  <a href="{% url 'dismiss_approval_message' %}" class="primary-btn">
-    Got it
+<a
+href="{% url 'dismiss_approval_message' %}"
+class="primary-btn"
+
+>
+
+
+Got it
+
+
   </a>
+
 </div>
 
-<!-- Status Card -->
+{% endif %}
 
-<!-- {% if company.status == "Pending" or company.status == "Rejected" or
-company.status == "Suspended" %} -->
+<!-- Company Status -->
 
-<div class="status-card">
-  {% if company.status == "Approved" %}
+{% if company.status == "Approved" %}
 
-  <div class="status-icon approved">
-    <i class="fa-solid fa-circle-check"></i>
+  <!-- Small permanent approved badge -->
+
+  <div class="company-status-badge approved-status-badge">
+
+
+<i class="fa-solid fa-circle-check"></i>
+
+<span>
+  Company Approved
+</span>
+
+
   </div>
 
-  <h2>Approved</h2>
+{% else %}
 
-  <p>Your company has been verified. You can now create trekking packages.</p>
+  <!-- Full status card for companies that need attention -->
 
-  {% elif company.status == "Pending" %}
+  <div class="status-card">
+
+
+{% if company.status == "Pending" %}
 
   <div class="status-icon pending">
     <i class="fa-solid fa-clock"></i>
@@ -48,9 +89,12 @@ company.status == "Suspended" %} -->
 
   <h2>Pending Verification</h2>
 
-  <p>Your registration is currently under review.</p>
+  <p>
+    Your registration is currently under review.
+  </p>
 
-  {% elif company.status == "Rejected" %}
+
+{% elif company.status == "Rejected" %}
 
   <div class="status-icon rejected">
     <i class="fa-solid fa-circle-xmark"></i>
@@ -58,9 +102,12 @@ company.status == "Suspended" %} -->
 
   <h2>Registration Rejected</h2>
 
-  <p>{{ company.admin_feedback }}</p>
+  <p>
+    {{ company.admin_feedback }}
+  </p>
 
-  {% elif company.status == "Suspended" %}
+
+{% elif company.status == "Suspended" %}
 
   <div class="status-icon suspended">
     <i class="fa-solid fa-ban"></i>
@@ -68,32 +115,201 @@ company.status == "Suspended" %} -->
 
   <h2>Suspended</h2>
 
-  <p>{{ company.admin_feedback }}</p>
-
-  {% endif %}
-</div>
+  <p>
+    {{ company.admin_feedback }}
+  </p>
 
 {% endif %}
 
-<!-- Statistics -->
 
-<div class="stats-grid">
-  <div class="stat-card">
-    <i class="fa-solid fa-box"></i>
-    <h3>{{ package_count }}</h3>
-    <p>Packages</p>
   </div>
 
-  <div class="stat-card">
-    <i class="fa-solid fa-calendar-check"></i>
-    <h3>{{ booking_count }}</h3>
-    <p>Bookings</p>
-  </div>
+{% endif %}
 
-  <div class="stat-card">
-    <i class="fa-solid fa-money-bill-wave"></i>
-    <h3>NPR {{ estimated_revenue }}</h3>
-    <p>Estimated Revenue</p>
+<!-- Dashboard Statistics -->
+
+<div class="stats-section">
+
+  <h2 class="section-title">
+    Dashboard Overview
+  </h2>
+
+  <div class="stats-grid">
+
+
+<!-- PACKAGE STATISTICS -->
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-box"></i>
+
+  <h3>
+    {{ package_count }}
+  </h3>
+
+  <p>
+    Total Packages
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-globe"></i>
+
+  <h3>
+    {{ published_packages }}
+  </h3>
+
+  <p>
+    Published Packages
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-file-pen"></i>
+
+  <h3>
+    {{ draft_packages }}
+  </h3>
+
+  <p>
+    Draft Packages
+  </p>
+
+</div>
+
+
+<!-- BOOKING STATISTICS -->
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-calendar-check"></i>
+
+  <h3>
+    {{ booking_count }}
+  </h3>
+
+  <p>
+    Total Bookings
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-clock"></i>
+
+  <h3>
+    {{ pending_bookings }}
+  </h3>
+
+  <p>
+    Pending Bookings
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-circle-check"></i>
+
+  <h3>
+    {{ approved_bookings }}
+  </h3>
+
+  <p>
+    Approved Bookings
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-flag-checkered"></i>
+
+  <h3>
+    {{ completed_bookings }}
+  </h3>
+
+  <p>
+    Completed Bookings
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-ban"></i>
+
+  <h3>
+    {{ cancelled_bookings }}
+  </h3>
+
+  <p>
+    Cancelled Bookings
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-circle-xmark"></i>
+
+  <h3>
+    {{ rejected_bookings }}
+  </h3>
+
+  <p>
+    Rejected Bookings
+  </p>
+
+</div>
+
+
+<!-- CUSTOMER STATISTICS -->
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-users"></i>
+
+  <h3>
+    {{ total_trekkers }}
+  </h3>
+
+  <p>
+    Total Customers
+  </p>
+
+</div>
+
+
+<!-- REVENUE -->
+
+<div class="stat-card">
+
+  <i class="fa-solid fa-money-bill-wave"></i>
+
+  <h3>
+    NPR {{ estimated_revenue }}
+  </h3>
+
+  <p>
+    Estimated Revenue
+  </p>
+
+</div>
+
+
   </div>
 
 </div>
@@ -101,31 +317,79 @@ company.status == "Suspended" %} -->
 <!-- Quick Actions -->
 
 <div class="table-card">
-  <h2>Quick Actions</h2>
+
+  <h2>
+    Quick Actions
+  </h2>
 
   <div class="quick-actions">
-    {% if company.status == "Approved" %}
 
-    <a href="{% url 'add_package' %}" class="primary-btn">
-      <i class="fa-solid fa-plus"></i>
 
-      Create Package
-    </a>
+{% if company.status == "Approved" %}
 
-    <!-- <a href="#" class="secondary-btn">
-      <i class="fa-solid fa-mountain"></i>
+<!-- Create Package -->
 
-      Request Trek
-    </a> -->
+<a
+  href="{% url 'add_package' %}"
+  class="primary-btn"
+>
 
-    {% else %}
+  <i class="fa-solid fa-plus"></i>
 
-    <button class="primary-btn" disabled>Create Package</button>
+  Create Package
 
-    <button class="secondary-btn" disabled>Request Trek</button>
+</a>
 
-    {% endif %}
+
+<!-- Download PDF Report -->
+
+<a
+  href="{% url 'generate_company_report' %}"
+  class="secondary-btn"
+>
+
+  <i class="fa-solid fa-file-pdf"></i>
+
+  Download Report
+
+</a>
+
+
+{% else %}
+
+<!-- Disabled Create Package -->
+
+<button
+  class="primary-btn"
+  disabled
+>
+
+  <i class="fa-solid fa-lock"></i>
+
+  Create Package
+
+</button>
+
+
+<!-- Disabled Download Report -->
+
+<button
+  class="secondary-btn"
+  disabled
+>
+
+  <i class="fa-solid fa-lock"></i>
+
+  Download Report
+
+</button>
+
+
+{% endif %}
+
+
   </div>
+
 </div>
 
 {% endblock %}

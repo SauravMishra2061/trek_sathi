@@ -7,43 +7,148 @@ from .forms import CompanyProfileForm
 from .forms import CompanyDocumentForm
 from bookings.models import Booking
 from packages.models import Package
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Count, Q
 from reviews.models import Review
 from .forms import TrekRequestForm
 from .models import TrekRequest
-from django.contrib import messages
+from django.http import HttpResponse
+from django.db.models import Count, Q
+from django.utils import timezone
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Spacer,
+    Table,
+    TableStyle,
+)
 
 
 
 @login_required
 def company_dashboard(request):
 
+    # Prevent trekkers or other users from accessing company dashboard
     if not hasattr(request.user, "company"):
         return redirect("trekker_dashboard")
 
     company = request.user.company
 
-    package_count = Package.objects.filter(
-        company=company
-    ).count()
+    # -------------------------------------------------
+    # COMPANY PACKAGES
+    # Only packages belonging to the logged-in company
+    # -------------------------------------------------
 
-    published_packages = Package.objects.filter(
-        company=company,
-        status="Published"
-    ).count()
+    packages = Package.objects.filter(company=company)
 
-    booking_count = Booking.objects.filter(
+    package_stats = packages.aggregate(
+        total_packages=Count("id"),
+        published_packages=Count(
+            "id",
+            filter=Q(status="Published")
+        ),
+        draft_packages=Count(
+            "id",
+            filter=Q(status="Draft")
+        ),
+    )
+
+    # -------------------------------------------------
+    # COMPANY BOOKINGS
+    # Only bookings belonging to this company's packages
+    # -------------------------------------------------
+
+    bookings = Booking.objects.filter(
         package__company=company
-    ).count()
+    )
+
+    booking_stats = bookings.aggregate(
+        total_bookings=Count("id"),
+
+        pending_bookings=Count(
+            "id",
+            filter=Q(status="Pending")
+        ),
+
+        approved_bookings=Count(
+            "id",
+            filter=Q(status="Approved")
+        ),
+
+        completed_bookings=Count(
+            "id",
+            filter=Q(status="Completed")
+        ),
+
+        cancelled_bookings=Count(
+            "id",
+            filter=Q(status="Cancelled")
+        ),
+
+        rejected_bookings=Count(
+            "id",
+            filter=Q(status="Rejected")
+        ),
+
+        # Count unique trekkers who booked this company's packages
+        total_trekkers=Count(
+            "trekker",
+            distinct=True
+        ),
+    )
+
+    # -------------------------------------------------
+    # ESTIMATED REVENUE
+    # Keeping your existing functionality
+    # -------------------------------------------------
 
     estimated_revenue = (
-        Booking.objects.filter(package__company=company)
-        .aggregate(total=Sum(F("package__price_per_person")))
-    )["total"] or 0
+        bookings.aggregate(
+            total=Sum(F("package__price_per_person"))
+        )["total"]
+        or 0
+    )
 
-    # Temporary until Review model is connected
+    # -------------------------------------------------
+    # RECENT BOOKINGS
+    # Latest 5 bookings for this company only
+    # -------------------------------------------------
+
+    recent_bookings = (
+        bookings
+        .select_related(
+            "trekker",
+            "package"
+        )
+        .order_by("-booking_date")[:5]
+    )
+
+    # -------------------------------------------------
+    # RECENT REVIEWS
+    # Keeping existing functionality
+    # -------------------------------------------------
+
+    recent_reviews = (
+        Review.objects.filter(
+            package__company=company
+        )
+        .select_related(
+            "trekker",
+            "package"
+        )
+        .order_by("-created_at")[:5]
+    )
+
+    # Temporary until Review statistics are connected
     review_count = 0
     average_rating = 0
+
+    # -------------------------------------------------
+    # TEMPLATE CONTEXT
+    # -------------------------------------------------
 
     context = {
 
@@ -54,31 +159,31 @@ def company_dashboard(request):
             and not company.approval_message_seen
         ),
 
-        "package_count": package_count,
-        "published_packages": published_packages,
-        "booking_count": booking_count,
+        # Package statistics
+        "package_count": package_stats["total_packages"],
+        "published_packages": package_stats["published_packages"],
+        "draft_packages": package_stats["draft_packages"],
+
+        # Booking statistics
+        "booking_count": booking_stats["total_bookings"],
+        "pending_bookings": booking_stats["pending_bookings"],
+        "approved_bookings": booking_stats["approved_bookings"],
+        "completed_bookings": booking_stats["completed_bookings"],
+        "cancelled_bookings": booking_stats["cancelled_bookings"],
+        "rejected_bookings": booking_stats["rejected_bookings"],
+
+        # Unique trekkers/customers
+        "total_trekkers": booking_stats["total_trekkers"],
+
+        # Existing statistics
+        "estimated_revenue": estimated_revenue,
         "review_count": review_count,
         "average_rating": average_rating,
-        "estimated_revenue": estimated_revenue,
 
+        # Recent activity
+        "recent_bookings": recent_bookings,
+        "recent_reviews": recent_reviews,
     }
-    recent_bookings = Booking.objects.filter(
-       package__company=company
-        ).select_related(
-        "trekker",
-        "package"
-        ).order_by("-booking_date")[:5]
-
-    recent_reviews = (
-        Review.objects.filter(
-        package__company=company
-        )
-        .select_related(
-        "trekker",
-        "package"
-        )
-        .order_by("-created_at")[:5]
-    )
 
     return render(
         request,
@@ -471,3 +576,792 @@ def trek_requests(request):
             "requests": requests,
         },
     )
+@login_required
+def generate_company_report(request):
+
+
+# =====================================
+# SECURITY CHECK
+# Only company users can access this view
+# =====================================
+
+    if not hasattr(request.user, "company"):
+        return redirect("trekker_dashboard")
+
+    company = request.user.company
+
+
+# =====================================
+# COMPANY PACKAGES ONLY
+# =====================================
+
+    packages = (
+        Package.objects
+        .filter(company=company)
+        .select_related("trek")
+        .order_by("-created_at")
+    )
+
+
+# =====================================
+# COMPANY BOOKINGS ONLY
+#
+# Security:
+# Booking -> Package -> Company
+# =====================================
+
+    bookings = (
+        Booking.objects
+        .filter(package__company=company)
+        .select_related(
+            "package",
+            "package__trek",
+            "trekker",
+        )
+        .order_by("-booking_date")
+    )
+
+
+# =====================================
+# PACKAGE STATISTICS
+# =====================================
+
+    package_stats = packages.aggregate(
+
+        total_packages=Count("id"),
+
+        published_packages=Count(
+            "id",
+            filter=Q(status="Published"),
+        ),
+
+        draft_packages=Count(
+            "id",
+            filter=Q(status="Draft"),
+        ),
+
+        hidden_packages=Count(
+            "id",
+            filter=Q(status="Hidden"),
+        ),
+    )
+
+
+    # =====================================
+    # BOOKING STATISTICS
+    # =====================================
+
+    booking_stats = bookings.aggregate(
+
+        total_bookings=Count("id"),
+
+        pending_bookings=Count(
+            "id",
+            filter=Q(status="Pending"),
+        ),
+
+        approved_bookings=Count(
+            "id",
+            filter=Q(status="Approved"),
+        ),
+
+        rejected_bookings=Count(
+            "id",
+            filter=Q(status="Rejected"),
+        ),
+
+        completed_bookings=Count(
+            "id",
+            filter=Q(status="Completed"),
+        ),
+
+        cancelled_bookings=Count(
+            "id",
+            filter=Q(status="Cancelled"),
+        ),
+    )
+
+
+    # =====================================
+    # CREATE PDF RESPONSE
+    # =====================================
+
+    response = HttpResponse(
+        content_type="application/pdf"
+    )
+
+    response[
+        "Content-Disposition"
+    ] = 'attachment; filename="company_report.pdf"'
+
+
+    # =====================================
+    # CREATE PDF DOCUMENT
+    # =====================================
+
+    document = SimpleDocTemplate(
+        response,
+        pagesize=A4,
+        rightMargin=25,
+        leftMargin=25,
+        topMargin=30,
+        bottomMargin=30,
+    )
+
+
+    elements = []
+
+    styles = getSampleStyleSheet()
+
+
+    # =====================================
+    # CUSTOM STYLES
+    # =====================================
+
+    title_style = ParagraphStyle(
+        "ReportTitle",
+        parent=styles["Title"],
+        fontSize=22,
+        spaceAfter=10,
+    )
+
+    heading_style = ParagraphStyle(
+        "SectionHeading",
+        parent=styles["Heading2"],
+        fontSize=15,
+        spaceBefore=15,
+        spaceAfter=10,
+    )
+
+    normal_style = styles["Normal"]
+    table_text_style = ParagraphStyle(
+        "TableText",
+        parent=styles["Normal"],
+        fontSize=6.5,
+        leading=8,
+    )
+
+
+    # =====================================
+    # REPORT TITLE
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "Trek Sathi - Company Report",
+            title_style,
+        )
+    )
+
+
+    # =====================================
+    # COMPANY INFORMATION
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            f"<b>Company:</b> {company.company_name}",
+            normal_style,
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            f"<b>Report Generated:</b> "
+            f"{timezone.localtime().strftime('%d %B %Y, %I:%M %p')}",
+            normal_style,
+        )
+    )
+
+    elements.append(
+        Spacer(1, 20)
+    )
+
+
+    # =====================================
+    # PACKAGE STATISTICS
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "Package Statistics",
+            heading_style,
+        )
+    )
+
+
+    package_stats_data = [
+
+        ["Statistic", "Count"],
+
+        [
+            "Total Packages",
+            package_stats["total_packages"] or 0,
+        ],
+
+        [
+            "Published Packages",
+            package_stats["published_packages"] or 0,
+        ],
+
+        [
+            "Draft Packages",
+            package_stats["draft_packages"] or 0,
+        ],
+
+        [
+            "Hidden Packages",
+            package_stats["hidden_packages"] or 0,
+        ],
+    ]
+
+
+    package_stats_table = Table(
+        package_stats_data,
+        colWidths=[
+            3.5 * inch,
+            2 * inch,
+        ],
+    )
+
+    package_stats_table.setStyle(
+        TableStyle([
+
+            (
+                "BACKGROUND",
+                (0, 0),
+                (-1, 0),
+                colors.darkgreen,
+            ),
+
+            (
+                "TEXTCOLOR",
+                (0, 0),
+                (-1, 0),
+                colors.white,
+            ),
+
+            (
+                "FONTNAME",
+                (0, 0),
+                (-1, 0),
+                "Helvetica-Bold",
+            ),
+
+            (
+                "GRID",
+                (0, 0),
+                (-1, -1),
+                0.5,
+                colors.grey,
+            ),
+
+            (
+                "ALIGN",
+                (1, 1),
+                (1, -1),
+                "CENTER",
+            ),
+
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, -1),
+                "MIDDLE",
+            ),
+
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, 0),
+                8,
+            ),
+
+        ])
+    )
+
+    elements.append(
+        package_stats_table
+    )
+
+
+    elements.append(
+        Spacer(1, 20)
+    )
+
+
+    # =====================================
+    # BOOKING STATISTICS
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "Booking Statistics",
+            heading_style,
+        )
+    )
+
+
+    booking_stats_data = [
+
+        ["Statistic", "Count"],
+
+        [
+            "Total Bookings",
+            booking_stats["total_bookings"] or 0,
+        ],
+
+        [
+            "Pending",
+            booking_stats["pending_bookings"] or 0,
+        ],
+
+        [
+            "Approved",
+            booking_stats["approved_bookings"] or 0,
+        ],
+
+        [
+            "Rejected",
+            booking_stats["rejected_bookings"] or 0,
+        ],
+
+        [
+            "Completed",
+            booking_stats["completed_bookings"] or 0,
+        ],
+
+        [
+            "Cancelled",
+            booking_stats["cancelled_bookings"] or 0,
+        ],
+    ]
+
+
+    booking_stats_table = Table(
+        booking_stats_data,
+        colWidths=[
+            3.5 * inch,
+            2 * inch,
+        ],
+    )
+
+
+    booking_stats_table.setStyle(
+        TableStyle([
+
+            (
+                "BACKGROUND",
+                (0, 0),
+                (-1, 0),
+                colors.darkgreen,
+            ),
+
+            (
+                "TEXTCOLOR",
+                (0, 0),
+                (-1, 0),
+                colors.white,
+            ),
+
+            (
+                "FONTNAME",
+                (0, 0),
+                (-1, 0),
+                "Helvetica-Bold",
+            ),
+
+            (
+                "GRID",
+                (0, 0),
+                (-1, -1),
+                0.5,
+                colors.grey,
+            ),
+
+            (
+                "ALIGN",
+                (1, 1),
+                (1, -1),
+                "CENTER",
+            ),
+
+        ])
+    )
+
+
+    elements.append(
+        booking_stats_table
+    )
+
+
+    elements.append(
+        Spacer(1, 20)
+    )
+
+
+    # =====================================
+    # PACKAGE DETAILS TABLE
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "Package Details",
+            heading_style,
+        )
+    )
+
+
+    package_data = [
+
+        [
+            "Package",
+            "Trek",
+            "Start",
+            "End",
+            "Price",
+            "Max People",
+            "Status",
+        ]
+    ]
+
+    for package in packages:
+
+        package_data.append([
+
+            Paragraph(
+                str(package.title),
+                table_text_style,
+            ),
+
+            Paragraph(
+                str(package.trek.name),
+                table_text_style,
+            ),
+
+            Paragraph(
+                package.start_date.strftime("%d %b %Y"),
+                table_text_style,
+            ),
+
+            Paragraph(
+                package.end_date.strftime("%d %b %Y"),
+                table_text_style,
+            ),
+
+            Paragraph(
+                f"NPR {package.price_per_person}",
+                table_text_style,
+            ),
+
+            Paragraph(
+                str(package.max_participants),
+                table_text_style,
+            ),
+
+            Paragraph(
+                package.status,
+                table_text_style,
+            ),
+
+        ])
+
+        if packages.count() == 0:
+
+            package_data.append(
+                [
+                    "No packages found",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                ]
+            )
+
+
+    package_table = Table(
+        package_data,
+        repeatRows=1,
+        colWidths=[
+            1.25 * inch,  # Package
+            1.05 * inch,  # Trek
+            0.75 * inch,  # Start
+            0.75 * inch,  # End
+            0.85 * inch,  # Price
+            0.65 * inch,  # Max People
+            0.70 * inch,  # Status
+        ],
+    )
+
+
+    package_table.setStyle(
+        TableStyle([
+
+            (
+                "BACKGROUND",
+                (0, 0),
+                (-1, 0),
+                colors.darkgreen,
+            ),
+
+            (
+                "TEXTCOLOR",
+                (0, 0),
+                (-1, 0),
+                colors.white,
+            ),
+
+            (
+                "FONTNAME",
+                (0, 0),
+                (-1, 0),
+                "Helvetica-Bold",
+            ),
+
+            (
+                "FONTSIZE",
+                (0, 0),
+                (-1, -1),
+                7,
+            ),
+
+            (
+                "GRID",
+                (0, 0),
+                (-1, -1),
+                0.4,
+                colors.grey,
+            ),
+
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, -1),
+                "MIDDLE",
+            ),
+
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, 0),
+                7,
+            ),
+
+            (
+                "TOPPADDING",
+                (0, 0),
+                (-1, -1),
+                5,
+            ),
+
+            (
+                "BOTTOMPADDING",
+                (0, 1),
+                (-1, -1),
+                5,
+            ),
+
+        ])
+    )
+
+
+    elements.append(
+        package_table
+    )
+
+
+    elements.append(
+        Spacer(1, 20)
+    )
+
+
+    # =====================================
+    # RECENT BOOKING DETAILS
+    # =====================================
+
+    elements.append(
+        Paragraph(
+            "Recent Booking Details",
+            heading_style,
+        )
+    )
+
+
+    booking_data = [
+
+        [
+            "ID",
+            "Package",
+            "Trekker",
+            "People",
+            "Total Price",
+            "Status",
+            "Booking Date",
+        ]
+    ]
+
+
+    # Limit to latest 10 bookings
+    recent_bookings = bookings[:10]
+
+    for booking in recent_bookings:
+
+
+        trekker_name = (
+            booking.trekker.get_full_name()
+            or booking.trekker.username
+        )
+
+
+        booking_data.append([
+        
+            Paragraph(
+                str(booking.id),
+                table_text_style,
+            ),
+
+            Paragraph(
+                str(booking.package.title),
+                table_text_style,
+            ),
+
+            Paragraph(
+                str(trekker_name),
+                table_text_style,
+            ),
+
+            Paragraph(
+                str(booking.number_of_people),
+                table_text_style,
+            ),
+
+            Paragraph(
+                f"NPR {booking.total_price}",
+                table_text_style,
+            ),
+
+            Paragraph(
+                str(booking.status),
+                table_text_style,
+            ),
+
+            Paragraph(
+                booking.booking_date.strftime(
+                    "%d %b %Y"
+                ),
+                table_text_style,
+            ),
+
+        ])
+
+
+    if not recent_bookings:
+
+        booking_data.append(
+            [
+                "No bookings found",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            ]
+        )
+
+
+    booking_table = Table(
+        booking_data,
+        repeatRows=1,
+        colWidths=[
+            0.35 * inch,  # ID
+            1.15 * inch,  # Package
+            1.00 * inch,  # Trekker
+            0.50 * inch,  # People
+            0.75 * inch,  # Total Price
+            0.70 * inch,  # Status
+            0.85 * inch,  # Booking Date
+        ],
+    )
+
+
+    booking_table.setStyle(
+        TableStyle([
+
+            (
+                "BACKGROUND",
+                (0, 0),
+                (-1, 0),
+                colors.darkgreen,
+            ),
+
+            (
+                "TEXTCOLOR",
+                (0, 0),
+                (-1, 0),
+                colors.white,
+            ),
+
+            (
+                "FONTNAME",
+                (0, 0),
+                (-1, 0),
+                "Helvetica-Bold",
+            ),
+
+            (
+                "FONTSIZE",
+                (0, 0),
+                (-1, -1),
+                7,
+            ),
+
+            (
+                "GRID",
+                (0, 0),
+                (-1, -1),
+                0.4,
+                colors.grey,
+            ),
+
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, 0),
+                "MIDDLE",
+            ),
+
+            (
+                "TOPPADDING",
+                (0, 0),
+                (-1, -1),
+                5,
+            ),
+
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, -1),
+                5,
+            ),
+
+        ])
+    )
+
+
+    elements.append(
+        booking_table
+    )
+
+
+    # =====================================
+    # BUILD PDF
+    # =====================================
+
+    document.build(elements)
+
+
+    return response
+
