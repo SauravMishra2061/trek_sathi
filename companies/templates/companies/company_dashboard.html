@@ -106,17 +106,17 @@ company.status == "Suspended" %} -->
   <div class="quick-actions">
     {% if company.status == "Approved" %}
 
-    <a href="{% url 'company_packages' %}" class="primary-btn">
+    <a href="{% url 'add_package' %}" class="primary-btn">
       <i class="fa-solid fa-plus"></i>
 
       Create Package
     </a>
 
-    <a href="#" class="secondary-btn">
+    <!-- <a href="#" class="secondary-btn">
       <i class="fa-solid fa-mountain"></i>
 
       Request Trek
-    </a>
+    </a> -->
 
     {% else %}
 

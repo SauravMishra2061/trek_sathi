@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 
 from .forms import PackageForm
 from .models import Package, PackageImage, SavedPackage
@@ -17,8 +18,14 @@ from django.views.decorators.http import require_POST
 
 @login_required
 def package_list(request):
-    if not hasattr(request.user, "company"):
-        return redirect("trekker_dashboard")
+
+    if not hasattr(
+        request.user,
+        "company"
+    ):
+        return redirect(
+            "trekker_dashboard"
+        )
 
     company = request.user.company
 
@@ -38,12 +45,19 @@ def package_list(request):
 
 @login_required
 def add_package(request):
-    if not hasattr(request.user, "company"):
-        return redirect("trekker_dashboard")
+
+    if not hasattr(
+        request.user,
+        "company"
+    ):
+        return redirect(
+            "trekker_dashboard"
+        )
 
     company = request.user.company
 
     if company.status != "Approved":
+
         messages.error(
             request,
             "Your company must be approved before you can create packages.",
@@ -104,8 +118,6 @@ def add_package(request):
 
                         route_data["points"] = []
 
-                    # Ensure geometry exists
-
                     if "geometry" not in route_data:
 
                         route_data["geometry"] = None
@@ -114,11 +126,6 @@ def add_package(request):
 
                 # ---------------------------------
                 # Old format support
-                #
-                # [
-                #     {...},
-                #     {...}
-                # ]
                 # ---------------------------------
 
                 elif isinstance(
@@ -197,7 +204,13 @@ def add_package(request):
     )
 
 
+# =================================
+# PUBLIC PACKAGE DETAIL
+# =================================
+
 def package_detail(request, pk):
+
+    today = timezone.localdate()
 
     package = get_object_or_404(
         Package.objects.select_related(
@@ -207,6 +220,7 @@ def package_detail(request, pk):
         ),
         pk=pk,
         status="Published",
+        end_date__gte=today,
     )
 
     reviews = package.reviews.select_related(
@@ -220,7 +234,6 @@ def package_detail(request, pk):
     )["rating__avg"]
 
     user_booking = None
-
     is_saved = False
 
     if (
@@ -259,6 +272,10 @@ def package_detail(request, pk):
         },
     )
 
+
+# =================================
+# COMPANY PACKAGE DETAIL
+# =================================
 
 @login_required
 def company_package_detail(request, pk):
@@ -303,13 +320,12 @@ def company_package_detail(request, pk):
     )
 
 
+# =================================
+# EDIT PACKAGE
+# =================================
 
 @login_required
 def edit_package(request, pk):
-
-    # =================================
-    # CHECK COMPANY USER
-    # =================================
 
     if not hasattr(
         request.user,
@@ -322,10 +338,6 @@ def edit_package(request, pk):
 
     company = request.user.company
 
-    # =================================
-    # CHECK COMPANY APPROVAL
-    # =================================
-
     if company.status != "Approved":
 
         messages.error(
@@ -337,19 +349,11 @@ def edit_package(request, pk):
             "company_dashboard"
         )
 
-    # =================================
-    # GET PACKAGE
-    # =================================
-
     package = get_object_or_404(
         Package,
         pk=pk,
         company=company,
     )
-
-    # =================================
-    # EDIT PACKAGE
-    # =================================
 
     if request.method == "POST":
 
@@ -384,19 +388,6 @@ def edit_package(request, pk):
 
                 # =================================
                 # NEW ROUTE FORMAT
-                #
-                # {
-                #     "points": [
-                #         {
-                #             "name": "...",
-                #             "displayName": "...",
-                #             "latitude": ...,
-                #             "longitude": ...
-                #         }
-                #     ],
-                #
-                #     "geometry": "encoded-polyline"
-                # }
                 # =================================
 
                 if isinstance(
@@ -404,17 +395,12 @@ def edit_package(request, pk):
                     dict
                 ):
 
-                    # Make sure points exists
-                    # and is a list
-
                     if not isinstance(
                         route_data.get("points"),
                         list
                     ):
 
                         route_data["points"] = []
-
-                    # Make sure geometry exists
 
                     if "geometry" not in route_data:
 
@@ -427,14 +413,6 @@ def edit_package(request, pk):
 
                 # =================================
                 # OLD FORMAT SUPPORT
-                #
-                # [
-                #     {
-                #         "name": "...",
-                #         "latitude": ...,
-                #         "longitude": ...
-                #     }
-                # ]
                 # =================================
 
                 elif isinstance(
@@ -496,28 +474,16 @@ def edit_package(request, pk):
 
             package.save()
 
-            # =================================
-            # REDIRECT
-            # =================================
-
             return redirect(
                 "company_package_detail",
                 pk=package.pk,
             )
-
-    # =================================
-    # GET REQUEST
-    # =================================
 
     else:
 
         form = PackageForm(
             instance=package
         )
-
-    # =================================
-    # RENDER EDIT PAGE
-    # =================================
 
     return render(
         request,
@@ -527,6 +493,11 @@ def edit_package(request, pk):
             "package": package,
         },
     )
+
+
+# =================================
+# DELETE PACKAGE
+# =================================
 
 @login_required
 def delete_package(request, pk):
@@ -581,6 +552,10 @@ def delete_package(request, pk):
     )
 
 
+# =================================
+# SAVE / UNSAVE PACKAGE
+# =================================
+
 @login_required
 def save_package(
     request,
@@ -616,6 +591,10 @@ def save_package(
     )
 
 
+# =================================
+# SAVED PACKAGES
+# =================================
+
 @login_required
 def saved_packages(request):
 
@@ -628,9 +607,13 @@ def saved_packages(request):
             "company_dashboard"
         )
 
+    today = timezone.localdate()
+
     saved_packages = (
         SavedPackage.objects.filter(
-            trekker=request.user
+            trekker=request.user,
+            package__status="Published",
+            package__end_date__gte=today,
         )
         .select_related(
             "package",

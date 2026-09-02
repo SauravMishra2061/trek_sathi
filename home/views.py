@@ -1,31 +1,19 @@
 from django.shortcuts import render
+from django.utils import timezone
+
 from packages.models import Package
 from regions.models import Region
 
 
 def home(request):
 
+    today = timezone.localdate()
+
     latest_packages = (
-        Package.objects.filter(status="Published")
-        .select_related(
-            "company",
-            "trek",
-            "trek__region",
+        Package.objects.filter(
+            status="Published",
+            end_date__gte=today,
         )
-        .order_by("-created_at")[:3]
-    )
-
-    return render(
-        request,
-        "home/index.html",
-        {
-            "latest_packages": latest_packages,
-        },
-    )
-def home(request):
-
-    latest_packages = (
-        Package.objects.filter(status="Published")
         .select_related(
             "company",
             "trek",
@@ -35,7 +23,9 @@ def home(request):
     )
 
     regions = (
-        Region.objects.filter(is_active=True)
+        Region.objects.filter(
+            is_active=True
+        )
         .order_by("name")
     )
 
@@ -50,4 +40,7 @@ def home(request):
 
 
 def profile(request):
-    return render(request, "home/profile.html")
+    return render(
+        request,
+        "home/profile.html"
+    )

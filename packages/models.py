@@ -1,7 +1,10 @@
 from django.db import models
+from django.db.models import Sum
+from django.utils import timezone
+from django.contrib.auth.models import User
+
 from companies.models import Company
 from treks.models import Trek
-from django.contrib.auth.models import User
 
 
 class Package(models.Model):
@@ -30,7 +33,10 @@ class Package(models.Model):
         related_name="packages"
     )
 
-    # Main Cover Image
+    # =====================================
+    # MAIN COVER IMAGE
+    # =====================================
+
     cover_image = models.ImageField(
         upload_to="package_cover/",
         blank=True,
@@ -75,16 +81,10 @@ class Package(models.Model):
 
     itinerary = models.TextField()
 
-    # Stores trekking route locations
-    # Example:
-    # [
-    #   {
-    #       "name": "Lukla",
-    #       "displayName": "Lukla, Solukhumbu, Nepal",
-    #       "latitude": 27.6869,
-    #       "longitude": 86.7296
-    #   }
-    # ]
+    # =====================================
+    # TREKKING ROUTE
+    # =====================================
+
     route_points = models.JSONField(
         default=list,
         blank=True
@@ -104,11 +104,114 @@ class Package(models.Model):
         auto_now=True
     )
 
+    # =====================================
+    # DISPLAY PACKAGE
+    # =====================================
+
     def __str__(self):
-        return f"{self.title} - {self.company.company_name}"
+
+        return (
+            f"{self.title} - "
+            f"{self.company.company_name}"
+        )
+
+    # =====================================
+    # CHECK IF PACKAGE IS EXPIRED
+    # =====================================
+
+    @property
+    def is_expired(self):
+
+        return (
+            self.end_date
+            < timezone.localdate()
+        )
+
+    # =====================================
+    # CHECK IF PACKAGE HAS STARTED
+    # =====================================
+
+    @property
+    def has_started(self):
+
+        return (
+            self.start_date
+            <= timezone.localdate()
+        )
+
+    # =====================================
+    # OCCUPIED SLOTS
+    # =====================================
+
+    @property
+    def occupied_slots(self):
+
+        total = (
+            self.bookings.filter(
+                status__in=[
+                    "Pending",
+                    "Approved",
+                    "Completed",
+                ]
+            )
+            .aggregate(
+                total=Sum(
+                    "number_of_people"
+                )
+            )
+            .get("total")
+            or 0
+        )
+
+        return total
+
+    # =====================================
+    # REMAINING SLOTS
+    # =====================================
+
+    @property
+    def remaining_slots(self):
+
+        remaining = (
+            self.max_participants
+            - self.occupied_slots
+        )
+
+        return max(
+            0,
+            remaining
+        )
+
+    # =====================================
+    # CHECK IF PACKAGE IS FULL
+    # =====================================
+
+    @property
+    def is_full(self):
+
+        return (
+            self.remaining_slots <= 0
+        )
+
+    # =====================================
+    # CHECK IF PACKAGE CAN BE BOOKED
+    # =====================================
+
+    @property
+    def is_available_for_booking(self):
+
+        return (
+            self.status == "Published"
+            and not self.is_expired
+            and not self.has_started
+            and self.remaining_slots > 0
+        )
 
 
-# Package Gallery Images
+# =====================================
+# PACKAGE GALLERY IMAGES
+# =====================================
+
 class PackageImage(models.Model):
 
     package = models.ForeignKey(
@@ -122,10 +225,14 @@ class PackageImage(models.Model):
     )
 
     def __str__(self):
+
         return self.package.title
 
 
-# Saved Packages
+# =====================================
+# SAVED PACKAGES
+# =====================================
+
 class SavedPackage(models.Model):
 
     trekker = models.ForeignKey(
@@ -145,10 +252,15 @@ class SavedPackage(models.Model):
     )
 
     class Meta:
+
         unique_together = (
             "trekker",
             "package"
         )
 
     def __str__(self):
-        return f"{self.trekker.username} - {self.package.title}"
+
+        return (
+            f"{self.trekker.username} - "
+            f"{self.package.title}"
+        )

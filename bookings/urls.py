@@ -42,5 +42,10 @@ urlpatterns = [
         views.complete_booking,
         name="complete_booking",
     ),
+    path(
+    "cancel/<int:pk>/",
+    views.cancel_booking,
+    name="cancel_booking",
+    ),
     
 ]

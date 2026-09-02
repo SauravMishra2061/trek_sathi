@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from packages.models import Package
 from .models import Region
+from django.utils import timezone
 
 from .forms import RegionForm
 from django.shortcuts import get_object_or_404, redirect
@@ -121,10 +122,13 @@ def region_detail(request, pk):
         is_active=True
     )
 
+    today = timezone.localdate()
+
     packages = (
         Package.objects.filter(
             trek__region=region,
             status="Published",
+            end_date__gte=today,
         )
         .select_related(
             "company",

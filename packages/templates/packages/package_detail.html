@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/package_detail.css' %}" />
+
 <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -21,530 +23,607 @@
 
   <div class="package-hero">
 
-    {% if package.cover_image %}
 
-      <img
-        src="{{ package.cover_image.url }}"
-        alt="{{ package.title }}"
-      />
+{% if package.cover_image %}
 
-    {% elif package.trek.image %}
+  <img
+    src="{{ package.cover_image.url }}"
+    alt="{{ package.title }}"
+  />
 
-      <img
-        src="{{ package.trek.image.url }}"
-        alt="{{ package.trek.name }}"
-      />
+{% elif package.trek.image %}
+
+  <img
+    src="{{ package.trek.image.url }}"
+    alt="{{ package.trek.name }}"
+  />
+
+{% else %}
+
+  <div class="package-placeholder">
+    <i class="fa-solid fa-mountain"></i>
+  </div>
+
+{% endif %}
+
+
+  </div>
+
+  <div class="package-container">
+
+
+<!-- Header -->
+
+<div class="package-header">
+
+  <h1>{{ package.title }}</h1>
+
+  <p class="trek-name">
+    {{ package.trek.name }}
+  </p>
+
+
+  <div class="package-rating">
+
+    {% if average_rating %}
+
+      ⭐ {{ average_rating|floatformat:1 }}/5
+      ({{ reviews.count }} Review{{ reviews.count|pluralize }})
 
     {% else %}
 
-      <div class="package-placeholder">
-
-        <i class="fa-solid fa-mountain"></i>
-
-      </div>
+      No reviews yet
 
     {% endif %}
 
   </div>
 
 
-  <div class="package-container">
+  <div class="company-name">
 
-    <!-- Header -->
+    <i class="fa-solid fa-building"></i>
 
-    <div class="package-header">
+    {{ package.company.company_name }}
 
-      <h1>{{ package.title }}</h1>
+  </div>
 
-      <p class="trek-name">
-        {{ package.trek.name }}
-      </p>
+</div>
 
 
-      <div class="package-rating">
+<!-- Information -->
 
-        {% if average_rating %}
+<div class="info-grid">
 
-          ⭐ {{ average_rating|floatformat:1 }}/5
-          ({{ reviews.count }}Review{{ reviews.count|pluralize }})
+  <div class="info-card">
 
-        {% else %}
+    <i class="fa-solid fa-money-bill-wave"></i>
 
-          No reviews yet
+    <h4>Price</h4>
 
-        {% endif %}
+    <p>
+      NPR {{ package.price_per_person }}
+    </p>
 
-      </div>
+  </div>
 
 
-      <div class="company-name">
+  <div class="info-card">
 
-        <i class="fa-solid fa-building"></i>
+    <i class="fa-solid fa-calendar-days"></i>
 
-        {{ package.company.company_name }}
+    <h4>Duration</h4>
 
-      </div>
+    <p>
+      {{ package.duration }} Days
+    </p>
 
-    </div>
+  </div>
 
 
-    <!-- Information -->
+  <div class="info-card">
 
-    <div class="info-grid">
+    <i class="fa-solid fa-person-hiking"></i>
 
-      <div class="info-card">
+    <h4>Difficulty</h4>
 
-        <i class="fa-solid fa-money-bill-wave"></i>
+    <p>
+      {{ package.difficulty }}
+    </p>
 
-        <h4>Price</h4>
+  </div>
 
-        <p>
-          NPR {{ package.price_per_person }}
-        </p>
 
-      </div>
+  <div class="info-card">
 
+    <i class="fa-solid fa-mountain"></i>
 
-      <div class="info-card">
+    <h4>Altitude</h4>
 
-        <i class="fa-solid fa-calendar-days"></i>
+    <p>
+      {{ package.max_altitude }} m
+    </p>
 
-        <h4>Duration</h4>
+  </div>
 
-        <p>
-          {{ package.duration }} Days
-        </p>
 
-      </div>
+  <div class="info-card">
 
+    <i class="fa-solid fa-users"></i>
 
-      <div class="info-card">
+    <h4>Participants</h4>
 
-        <i class="fa-solid fa-person-hiking"></i>
+    <p>
+      {{ package.max_participants }}
+    </p>
 
-        <h4>Difficulty</h4>
+  </div>
 
-        <p>
-          {{ package.difficulty }}
-        </p>
 
-      </div>
+  <div class="info-card">
 
+    <i class="fa-solid fa-location-dot"></i>
 
-      <div class="info-card">
+    <h4>Region</h4>
 
-        <i class="fa-solid fa-mountain"></i>
+    <p>
+      {{ package.trek.region.name }}
+    </p>
 
-        <h4>Altitude</h4>
+  </div>
 
-        <p>
-          {{ package.max_altitude }} m
-        </p>
+</div>
 
-      </div>
 
+<!-- Package Actions -->
 
-      <div class="info-card">
+<div class="package-actions">
 
-        <i class="fa-solid fa-users"></i>
+  {% if user.is_authenticated %}
 
-        <h4>Participants</h4>
+    {% if not user.company %}
 
-        <p>
-          {{ package.max_participants }}
-        </p>
+      {% if not user_booking %}
 
-      </div>
-
-
-      <div class="info-card">
-
-        <i class="fa-solid fa-location-dot"></i>
-
-        <h4>Region</h4>
-
-        <p>
-          {{ package.trek.region.name }}
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <!-- Buttons -->
-
-    <div class="package-actions">
-
-      {% if user.is_authenticated %}
-
-        {% if not user.company %}
-
-          {% if not user_booking %}
-
-            <a
-              href="{% url 'book_package' package.pk %}"
-              class="primary-btn"
-            >
-
-              <i class="fa-solid fa-calendar-check"></i>
-
-              Book Now
-
-            </a>
-
-
-          {% elif user_booking.status == "Pending" %}
-
-            <button
-              class="primary-btn"
-              disabled
-            >
-
-              <i class="fa-solid fa-hourglass-half"></i>
-
-              Booking Pending
-
-            </button>
-
-
-          {% elif user_booking.status == "Approved" %}
-
-            <button
-              class="primary-btn"
-              disabled
-            >
-
-              <i class="fa-solid fa-circle-check"></i>
-
-              Already Booked
-
-            </button>
-
-
-          {% elif user_booking.status == "Completed" %}
-
-            {% if user_booking.review %}
-
-              <button
-                class="primary-btn"
-                disabled
-              >
-
-                <i class="fa-solid fa-star"></i>
-
-                Review Submitted
-
-              </button>
-
-            {% else %}
-
-              <a
-                href="{% url 'create_review' user_booking.pk %}"
-                class="primary-btn"
-              >
-
-                <i class="fa-solid fa-star"></i>
-
-                Give Review
-
-              </a>
-
-            {% endif %}
-
-
-          {% else %}
-
-            <a
-              href="{% url 'book_package' package.pk %}"
-              class="primary-btn"
-            >
-
-              <i class="fa-solid fa-rotate-right"></i>
-
-              Book Again
-
-            </a>
-
-          {% endif %}
-
-        {% endif %}
-
-      {% else %}
+        <!-- Book Now -->
 
         <a
-          href="{% url 'login' %}"
+          href="{% url 'book_package' package.pk %}"
           class="primary-btn"
         >
 
-          <i class="fa-solid fa-right-to-bracket"></i>
+          <i class="fa-solid fa-calendar-check"></i>
 
-          Login to Book
+          Book Now
 
         </a>
 
-      {% endif %}
 
+      {% elif user_booking.status == "Pending" %}
 
-      <!-- Save Package -->
+        <!-- Pending Booking -->
 
-      {% if user.is_authenticated and not user.company %}
-
-        <a
-          href="{% url 'save_package' package.pk %}"
-          class="secondary-btn"
+        <button
+          class="primary-btn"
+          disabled
         >
 
-          {% if is_saved %}
+          <i class="fa-solid fa-hourglass-half"></i>
 
-            <i class="fa-solid fa-heart"></i>
+          Booking Pending
 
-            Saved
+        </button>
 
-          {% else %}
 
-            <i class="fa-regular fa-heart"></i>
+        <!-- Cancel Pending Booking -->
 
-            Save Package
+        <form
+          method="POST"
+          action="{% url 'cancel_booking' user_booking.pk %}"
+          style="display: inline;"
+        >
 
-          {% endif %}
+          {% csrf_token %}
+
+          <button
+            type="submit"
+            class="cancel-btn"
+            onclick="return confirm('Are you sure you want to cancel this booking?');"
+          >
+
+            <i class="fa-solid fa-xmark"></i>
+
+            Cancel Booking
+
+          </button>
+
+        </form>
+
+
+      {% elif user_booking.status == "Approved" %}
+
+        <!-- Approved Booking -->
+
+        <button
+          class="primary-btn"
+          disabled
+        >
+
+          <i class="fa-solid fa-circle-check"></i>
+
+          Already Booked
+
+        </button>
+
+
+        <!-- Cancel Approved Booking -->
+
+        <form
+          method="POST"
+          action="{% url 'cancel_booking' user_booking.pk %}"
+          style="display: inline;"
+        >
+
+          {% csrf_token %}
+
+          <button
+            type="submit"
+            class="cancel-btn"
+            onclick="return confirm('Are you sure you want to cancel this booking?');"
+          >
+
+            <i class="fa-solid fa-xmark"></i>
+
+            Cancel Booking
+
+          </button>
+
+        </form>
+
+
+      {% elif user_booking.status == "Completed" %}
+
+        {% if user_booking.review %}
+
+          <button
+            class="primary-btn"
+            disabled
+          >
+
+            <i class="fa-solid fa-star"></i>
+
+            Review Submitted
+
+          </button>
+
+        {% else %}
+
+          <a
+            href="{% url 'create_review' user_booking.pk %}"
+            class="primary-btn"
+          >
+
+            <i class="fa-solid fa-star"></i>
+
+            Give Review
+
+          </a>
+
+        {% endif %}
+
+
+      {% else %}
+
+        <!-- Rejected or Cancelled -->
+
+        <a
+          href="{% url 'book_package' package.pk %}"
+          class="primary-btn"
+        >
+
+          <i class="fa-solid fa-rotate-right"></i>
+
+          Book Again
 
         </a>
 
       {% endif %}
 
+    {% endif %}
 
-      <!-- Enquiry -->
+  {% else %}
 
-      <a
-        href="{% url 'start_enquiry' package.pk %}"
-        class="secondary-btn"
-      >
+    <!-- Login -->
 
-        <i class="fa-solid fa-envelope"></i>
+    <a
+      href="{% url 'login' %}"
+      class="primary-btn"
+    >
 
-        Send Enquiry
+      <i class="fa-solid fa-right-to-bracket"></i>
 
-      </a>
+      Login to Book
 
-    </div>
-    
+    </a>
+
+  {% endif %}
 
 
-    <!-- Itinerary -->
+  <!-- Save Package -->
 
-    <div class="content-card">
+  {% if user.is_authenticated and not user.company %}
 
-      <h2>
+    <a
+      href="{% url 'save_package' package.pk %}"
+      class="secondary-btn"
+    >
 
-        <i class="fa-solid fa-route"></i>
+      {% if is_saved %}
 
-        Itinerary
+        <i class="fa-solid fa-heart"></i>
 
-      </h2>
+        Saved
 
-      <div class="content-text">
+      {% else %}
 
-        {{ package.itinerary|linebreaks }}
+        <i class="fa-regular fa-heart"></i>
 
-      </div>
+        Save Package
 
-    </div>
-    <!-- Trekking Route -->
+      {% endif %}
+
+    </a>
+
+  {% endif %}
+
+
+  <!-- Enquiry -->
+
+  <a
+    href="{% url 'start_enquiry' package.pk %}"
+    class="secondary-btn"
+  >
+
+    <i class="fa-solid fa-envelope"></i>
+
+    Send Enquiry
+
+  </a>
+
+</div>
+
+
+<!-- Itinerary -->
+
+<div class="content-card">
+
+  <h2>
+
+    <i class="fa-solid fa-route"></i>
+
+    Itinerary
+
+  </h2>
+
+  <div class="content-text">
+
+    {{ package.itinerary|linebreaks }}
+
+  </div>
+
+</div>
+
+
+<!-- Trekking Route -->
 
 {% if package.route_points %}
 
 <div class="content-card trekking-route-card">
 
-    <h2>
-        <i class="fa-solid fa-map-location-dot"></i>
-        Trekking Route
-    </h2>
+  <h2>
 
-    <p class="route-description">
-        Follow the route and locations included in this trekking package.
-    </p>
+    <i class="fa-solid fa-map-location-dot"></i>
 
-    <div class="route-detail-layout">
+    Trekking Route
 
-        <!-- Map -->
-
-        <div id="package-route-map"></div>
+  </h2>
 
 
-        <!-- Route Points -->
+  <p class="route-description">
 
-        <div class="route-detail-points">
+    Follow the route and locations included in this trekking package.
 
-            <h3>
-                <i class="fa-solid fa-location-dot"></i>
-                Route Points
-            </h3>
+  </p>
 
-            <div id="package-route-points"></div>
 
-        </div>
+  <div class="route-detail-layout">
+
+    <!-- Map -->
+
+    <div id="package-route-map"></div>
+
+
+    <!-- Route Points -->
+
+    <div class="route-detail-points">
+
+      <h3>
+
+        <i class="fa-solid fa-location-dot"></i>
+
+        Route Points
+
+      </h3>
+
+
+      <div id="package-route-points"></div>
 
     </div>
+
+  </div>
 
 </div>
 
 {% endif %}
 
 
-    <!-- Includes / Excludes -->
+<!-- Includes / Excludes -->
 
-    <div class="two-column">
+<div class="two-column">
 
-      <div class="content-card">
+  <div class="content-card">
 
-        <h2>
+    <h2>
 
-          <i class="fa-solid fa-circle-check"></i>
+      <i class="fa-solid fa-circle-check"></i>
 
-          Includes
+      Includes
 
-        </h2>
-
-        <div class="content-text">
-
-          {{ package.inclusions|linebreaks }}
-
-        </div>
-
-      </div>
+    </h2>
 
 
-      <div class="content-card">
+    <div class="content-text">
 
-        <h2>
-
-          <i class="fa-solid fa-circle-xmark"></i>
-
-          Excludes
-
-        </h2>
-
-        <div class="content-text">
-
-          {{ package.exclusions|linebreaks }}
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- Reviews -->
-
-    <div class="content-card">
-
-      <h2>
-
-        <i class="fa-solid fa-star"></i>
-
-        Reviews
-
-      </h2>
-
-
-      {% if reviews %}
-
-        {% for review in reviews %}
-
-          <div class="review-card">
-
-            <div class="review-top">
-
-              <strong>
-
-                {{ review.trekker.get_full_name|default:review.trekker.username }}
-
-              </strong>
-
-
-              <span>
-
-                {{ review.created_at|date:"M d, Y" }}
-
-              </span>
-
-            </div>
-
-
-            <div class="review-stars">
-
-              {% for i in "12345" %}
-
-                {% if forloop.counter <= review.rating %}
-
-                  <i class="fa-solid fa-star"></i>
-
-                {% else %}
-
-                  <i class="fa-regular fa-star"></i>
-
-                {% endif %}
-
-              {% endfor %}
-
-            </div>
-
-          </div>
-
-        {% endfor %}
-
-
-      {% else %}
-
-        <div class="empty-review">
-
-          <i class="fa-regular fa-comment"></i>
-
-          <p>
-            No reviews yet.
-          </p>
-
-        </div>
-
-      {% endif %}
+      {{ package.inclusions|linebreaks }}
 
     </div>
 
   </div>
 
+
+  <div class="content-card">
+
+    <h2>
+
+      <i class="fa-solid fa-circle-xmark"></i>
+
+      Excludes
+
+    </h2>
+
+
+    <div class="content-text">
+
+      {{ package.exclusions|linebreaks }}
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Reviews -->
+
+<div class="content-card">
+
+  <h2>
+
+    <i class="fa-solid fa-star"></i>
+
+    Reviews
+
+  </h2>
+
+
+  {% if reviews %}
+
+    {% for review in reviews %}
+
+      <div class="review-card">
+
+        <div class="review-top">
+
+          <strong>
+
+            {{ review.trekker.get_full_name|default:review.trekker.username }}
+
+          </strong>
+
+
+          <span>
+
+            {{ review.created_at|date:"M d, Y" }}
+
+          </span>
+
+        </div>
+
+
+        <div class="review-stars">
+
+          {% for i in "12345" %}
+
+            {% if forloop.counter <= review.rating %}
+
+              <i class="fa-solid fa-star"></i>
+
+            {% else %}
+
+              <i class="fa-regular fa-star"></i>
+
+            {% endif %}
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+    {% endfor %}
+
+
+  {% else %}
+
+    <div class="empty-review">
+
+      <i class="fa-regular fa-comment"></i>
+
+      <p>
+        No reviews yet.
+      </p>
+
+    </div>
+
+  {% endif %}
+
+</div>
+
+
+  </div>
+
 </section>
+
+<!-- Route Data -->
+
 {{ package.route_points|json_script:"package-route-data" }}
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
+
+<!-- Leaflet -->
 
 <script
-    src="https://unpkg.com/@mapbox/polyline@1.2.1/src/polyline.js">
-</script>
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+<!-- Polyline -->
+
+<script
+    src="https://unpkg.com/@mapbox/polyline@1.2.1/src/polyline.js"
+></script>
+
 <script>
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        console.log(
-            "TREKKER PACKAGE ROUTE MAP STARTED"
-        );
-
-
         const routeDataElement =
             document.getElementById(
                 "package-route-data"
             );
 
-
         const mapElement =
             document.getElementById(
                 "package-route-map"
             );
-
 
         const routePointsContainer =
             document.getElementById(
@@ -552,67 +631,16 @@ document.addEventListener(
             );
 
 
-        console.log(
-            "Route data:",
-            routeDataElement
-        );
-
-
-        console.log(
-            "Map element:",
-            mapElement
-        );
-
-
-        console.log(
-            "Leaflet loaded:",
-            typeof L !== "undefined"
-        );
-
-
-        /* =====================================
-           CHECK REQUIRED ELEMENTS
-        ===================================== */
-
-        if (!routeDataElement) {
-
-            console.warn(
-                "Route data element not found."
-            );
-
+        if (
+            !routeDataElement ||
+            !mapElement ||
+            typeof L === "undefined"
+        ) {
             return;
-
         }
 
-
-        if (!mapElement) {
-
-            console.warn(
-                "Route map container not found."
-            );
-
-            return;
-
-        }
-
-
-        if (typeof L === "undefined") {
-
-            console.error(
-                "Leaflet is not loaded."
-            );
-
-            return;
-
-        }
-
-
-        /* =====================================
-           PARSE ROUTE DATA
-        ===================================== */
 
         let savedRouteData;
-
 
         try {
 
@@ -621,15 +649,7 @@ document.addEventListener(
                     routeDataElement.textContent
                 );
 
-
-            console.log(
-                "Saved route data:",
-                savedRouteData
-            );
-
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "Unable to parse route data:",
@@ -637,30 +657,13 @@ document.addEventListener(
             );
 
             return;
-
         }
 
-
-        /* =====================================
-           SUPPORT OLD + NEW FORMAT
-        ===================================== */
 
         let routePoints = [];
 
         let routeGeometry = null;
 
-
-        /*
-         * OLD FORMAT
-         *
-         * [
-         *   {
-         *     name: "...",
-         *     latitude: ...,
-         *     longitude: ...
-         *   }
-         * ]
-         */
 
         if (
             Array.isArray(
@@ -672,16 +675,6 @@ document.addEventListener(
                 savedRouteData;
 
         }
-
-
-        /*
-         * NEW FORMAT
-         *
-         * {
-         *   points: [...],
-         *   geometry: "encoded-polyline"
-         * }
-         */
 
         else if (
 
@@ -696,7 +689,6 @@ document.addEventListener(
             routePoints =
                 savedRouteData.points;
 
-
             routeGeometry =
                 savedRouteData.geometry ||
                 null;
@@ -704,34 +696,12 @@ document.addEventListener(
         }
 
 
-        console.log(
-            "Route points:",
-            routePoints
-        );
-
-
-        console.log(
-            "Route geometry:",
-            routeGeometry
-        );
-
-
         if (
             routePoints.length === 0
         ) {
-
-            console.warn(
-                "No route points found."
-            );
-
             return;
-
         }
 
-
-        /* =====================================
-           INITIALIZE MAP
-        ===================================== */
 
         const map =
             L.map(
@@ -758,10 +728,6 @@ document.addEventListener(
         ).addTo(map);
 
 
-        /* =====================================
-           ADD MARKERS
-        ===================================== */
-
         const pointCoordinates = [];
 
 
@@ -770,44 +736,28 @@ document.addEventListener(
 
                 const latitude =
                     Number(
-                        point.latitude
+                        point.latitude ??
+                        point.lat
                     );
-
 
                 const longitude =
                     Number(
-                        point.longitude
+                        point.longitude ??
+                        point.lng
                     );
 
 
                 if (
-
-                    Number.isNaN(
-                        latitude
-                    ) ||
-
-                    Number.isNaN(
-                        longitude
-                    )
-
+                    Number.isNaN(latitude) ||
+                    Number.isNaN(longitude)
                 ) {
-
-                    console.warn(
-                        "Invalid route point:",
-                        point
-                    );
-
                     return;
-
                 }
 
 
                 const latLng = [
-
                     latitude,
-
                     longitude,
-
                 ];
 
 
@@ -815,8 +765,6 @@ document.addEventListener(
                     latLng
                 );
 
-
-                /* MARKER */
 
                 const marker =
                     L.marker(
@@ -840,8 +788,6 @@ document.addEventListener(
                 );
 
 
-                /* ROUTE POINT LIST */
-
                 if (
                     routePointsContainer
                 ) {
@@ -858,32 +804,18 @@ document.addEventListener(
 
                     routePoint.innerHTML = `
 
-                        <div
-                            class="route-point-number"
-                        >
-
+                        <div class="route-point-number">
                             ${index + 1}
-
                         </div>
 
-
-                        <div
-                            class="route-point-info"
-                        >
+                        <div class="route-point-info">
 
                             <strong>
-
-                                ${point.name ||
-                                "Route Point"}
-
+                                ${point.name || "Route Point"}
                             </strong>
 
-
                             <span>
-
-                                ${point.displayName ||
-                                ""}
-
+                                ${point.displayName || ""}
                             </span>
 
                         </div>
@@ -901,12 +833,7 @@ document.addEventListener(
         );
 
 
-        /* =====================================
-           DRAW ACTUAL TREKKING ROUTE
-        ===================================== */
-
-        let actualRouteCoordinates =
-            [];
+        let actualRouteCoordinates = [];
 
 
         if (
@@ -925,12 +852,6 @@ document.addEventListener(
                         routeGeometry
                     );
 
-
-                console.log(
-                    "Decoded route:",
-                    actualRouteCoordinates
-                );
-
             }
 
             catch (error) {
@@ -945,10 +866,6 @@ document.addEventListener(
         }
 
 
-        /* =====================================
-           ACTUAL ROUTE
-        ===================================== */
-
         if (
             actualRouteCoordinates.length > 1
         ) {
@@ -960,14 +877,11 @@ document.addEventListener(
 
                     {
 
-                        color:
-                            "#0b3d91",
+                        color: "#0b3d91",
 
-                        weight:
-                            5,
+                        weight: 5,
 
-                        opacity:
-                            0.9,
+                        opacity: 0.9,
 
                     }
 
@@ -987,17 +901,8 @@ document.addEventListener(
 
             );
 
-
-            console.log(
-                "Actual trekking route displayed."
-            );
-
         }
 
-
-        /* =====================================
-           FALLBACK ROUTE
-        ===================================== */
 
         else if (
             pointCoordinates.length > 1
@@ -1010,14 +915,11 @@ document.addEventListener(
 
                     {
 
-                        color:
-                            "#0b3d91",
+                        color: "#0b3d91",
 
-                        weight:
-                            4,
+                        weight: 4,
 
-                        opacity:
-                            0.8,
+                        opacity: 0.8,
 
                         dashArray:
                             "8, 8",
@@ -1040,17 +942,8 @@ document.addEventListener(
 
             );
 
-
-            console.log(
-                "Fallback route displayed."
-            );
-
         }
 
-
-        /* =====================================
-           SINGLE POINT
-        ===================================== */
 
         else if (
             pointCoordinates.length === 1
@@ -1064,10 +957,6 @@ document.addEventListener(
         }
 
 
-        /* =====================================
-           FIX MAP SIZE
-        ===================================== */
-
         setTimeout(
             function () {
 
@@ -1077,13 +966,9 @@ document.addEventListener(
             300
         );
 
-
-        console.log(
-            "TREKKER PACKAGE ROUTE MAP COMPLETE"
-        );
-
     }
 );
 
 </script>
+
 {% endblock %}

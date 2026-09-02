@@ -6,7 +6,9 @@ from bookings.forms import BookingForm
 from packages.models import Package
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-
+from django.db.models import Sum
+from django.utils import timezone
+from django.db import transaction
 
 @login_required
 def company_bookings(request):
@@ -139,37 +141,228 @@ def create_booking(request, package_id):
         status="Published",
     )
 
+    # =====================================
+    # COMPANY CANNOT BOOK
+    # =====================================
+
     if hasattr(request.user, "company"):
+
         messages.error(
             request,
             "Company accounts cannot book trekking packages.",
         )
+
         return redirect(
             "package_detail",
             pk=package.pk,
         )
 
+    # =====================================
+    # DATE VALIDATION
+    # =====================================
+
+    today = timezone.localdate()
+
+    if package.end_date < today:
+
+        messages.error(
+            request,
+            "This trekking package has already ended and cannot be booked.",
+        )
+
+        return redirect(
+            "package_detail",
+            pk=package.pk,
+        )
+
+    if package.start_date < today:
+
+        messages.error(
+            request,
+            "This trekking package has already started and cannot be booked.",
+        )
+
+        return redirect(
+            "package_detail",
+            pk=package.pk,
+        )
+
+    # =====================================
+    # HANDLE BOOKING
+    # =====================================
+
     if request.method == "POST":
-        form = BookingForm(request.POST)
+
+        form = BookingForm(
+            request.POST
+        )
 
         if form.is_valid():
-            booking = form.save(commit=False)
-            booking.trekker = request.user
-            booking.package = package
-            booking.total_price = (
-                package.price_per_person
-                * booking.number_of_people
+
+            requested_people = (
+                form.cleaned_data[
+                    "number_of_people"
+                ]
             )
-            booking.save()
+
+            # =====================================
+            # PREVENT OVERBOOKING
+            # =====================================
+
+            with transaction.atomic():
+
+                # Lock package while booking
+                package = (
+                    Package.objects
+                    .select_for_update()
+                    .get(
+                        pk=package.pk
+                    )
+                )
+
+                # Calculate occupied slots
+                occupied_slots = (
+                    Booking.objects.filter(
+                        package=package,
+                        status__in=[
+                            "Pending",
+                            "Approved",
+                            "Completed",
+                        ],
+                    )
+                    .aggregate(
+                        total=Sum(
+                            "number_of_people"
+                        )
+                    )
+                    .get("total")
+                    or 0
+                )
+
+                # Calculate available slots
+                available_slots = max(
+                    0,
+                    package.max_participants
+                    - occupied_slots
+                )
+
+                # =====================================
+                # PACKAGE FULL
+                # =====================================
+
+                if available_slots <= 0:
+
+                    messages.error(
+                        request,
+                        "Sorry, this package is fully booked.",
+                    )
+
+                    return redirect(
+                        "package_detail",
+                        pk=package.pk,
+                    )
+
+                # =====================================
+                # TOO MANY PEOPLE REQUESTED
+                # =====================================
+
+                if requested_people > available_slots:
+
+                    messages.error(
+                        request,
+                        (
+                            f"Only "
+                            f"{available_slots} "
+                            f"slot(s) are currently available."
+                        ),
+                    )
+
+                    return render(
+                        request,
+                        "bookings/create_booking.html",
+                        {
+                            "package": package,
+                            "form": form,
+                            "total_price": (
+                                package.price_per_person
+                            ),
+                            "available_slots": (
+                                available_slots
+                            ),
+                        },
+                    )
+
+                # =====================================
+                # CREATE BOOKING
+                # =====================================
+
+                booking = form.save(
+                    commit=False
+                )
+
+                booking.trekker = (
+                    request.user
+                )
+
+                booking.package = (
+                    package
+                )
+
+                booking.total_price = (
+                    package.price_per_person
+                    * requested_people
+                )
+
+                booking.status = (
+                    "Pending"
+                )
+
+                booking.save()
 
             messages.success(
                 request,
                 "Your booking request was submitted successfully.",
             )
 
-            return redirect("my_bookings")
+            return redirect(
+                "my_bookings"
+            )
+
     else:
+
         form = BookingForm()
+
+    # =====================================
+    # CALCULATE AVAILABLE SLOTS
+    # =====================================
+
+    occupied_slots = (
+        Booking.objects.filter(
+            package=package,
+            status__in=[
+                "Pending",
+                "Approved",
+                "Completed",
+            ],
+        )
+        .aggregate(
+            total=Sum(
+                "number_of_people"
+            )
+        )
+        .get("total")
+        or 0
+    )
+
+    available_slots = max(
+        0,
+        package.max_participants
+        - occupied_slots
+    )
+
+    # =====================================
+    # DISPLAY BOOKING PAGE
+    # =====================================
 
     return render(
         request,
@@ -177,6 +370,47 @@ def create_booking(request, package_id):
         {
             "package": package,
             "form": form,
-            "total_price": package.price_per_person,
+            "total_price": (
+                package.price_per_person
+            ),
+            "available_slots": (
+                available_slots
+            ),
         },
     )
+@login_required
+@require_POST
+def cancel_booking(request, pk):
+
+    # Get only the current user's booking
+    booking = get_object_or_404(
+        Booking,
+        pk=pk,
+        trekker=request.user,
+    )
+
+    # Only Pending or Approved bookings can be cancelled
+    if booking.status not in ["Pending", "Approved"]:
+
+        messages.error(
+            request,
+            "This booking cannot be cancelled.",
+        )
+
+        return redirect("my_bookings")
+
+    booking.status = "Cancelled"
+
+    booking.save(
+        update_fields=[
+            "status",
+            "updated_at",
+        ]
+    )
+
+    messages.success(
+        request,
+        "Your booking has been cancelled successfully.",
+    )
+
+    return redirect("my_bookings")

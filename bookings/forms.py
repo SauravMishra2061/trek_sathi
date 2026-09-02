@@ -1,11 +1,13 @@
 from django import forms
-from .models import Booking
 import re
+
+from .models import Booking
 
 
 class BookingForm(forms.ModelForm):
 
     class Meta:
+
         model = Booking
 
         fields = [
@@ -15,6 +17,7 @@ class BookingForm(forms.ModelForm):
         ]
 
         widgets = {
+
             "number_of_people": forms.NumberInput(
                 attrs={
                     "min": 1,
@@ -41,48 +44,100 @@ class BookingForm(forms.ModelForm):
             ),
         }
 
+    # =====================================
+    # NUMBER OF PEOPLE VALIDATION
+    # =====================================
+
     def clean_number_of_people(self):
-        number = self.cleaned_data.get("number_of_people")
+
+        number = self.cleaned_data.get(
+            "number_of_people"
+        )
 
         if number is None:
+
             raise forms.ValidationError(
                 "Please enter the number of people."
             )
 
         if number < 1:
+
             raise forms.ValidationError(
                 "Number of people must be at least 1."
             )
 
         return number
 
+
+    # =====================================
+    # EMERGENCY CONTACT VALIDATION
+    # =====================================
+
     def clean_emergency_contact(self):
-        phone = self.cleaned_data.get(
-            "emergency_contact",
-            ""
-        ).strip()
+
+        phone = (
+            self.cleaned_data.get(
+                "emergency_contact",
+                ""
+            )
+            .strip()
+        )
 
         if not phone:
+
             raise forms.ValidationError(
                 "Emergency contact number is required."
             )
 
-        # Allow only + and digits
-        if not re.fullmatch(r"\+?[0-9]+", phone):
+        # =====================================
+        # ALLOW ONLY + AT THE START
+        # AND NUMBERS
+        # =====================================
+
+        if not re.fullmatch(
+            r"\+?[0-9]+",
+            phone
+        ):
+
             raise forms.ValidationError(
-                "Emergency contact can contain only + and numbers."
+                "Emergency contact can contain only numbers and an optional + at the beginning."
             )
 
-        # + counts as one character
+        # =====================================
+        # LENGTH VALIDATION
+        # =====================================
+
         if len(phone) > 14:
+
             raise forms.ValidationError(
                 "Emergency contact cannot exceed 14 characters."
             )
 
-        # Prevent just "+" from being accepted
+        # =====================================
+        # PREVENT ONLY +
+        # =====================================
+
         if phone == "+":
+
             raise forms.ValidationError(
                 "Please enter a valid emergency contact number."
             )
 
         return phone
+
+
+    # =====================================
+    # SPECIAL REQUEST VALIDATION
+    # =====================================
+
+    def clean_special_request(self):
+
+        special_request = (
+            self.cleaned_data.get(
+                "special_request",
+                ""
+            )
+            .strip()
+        )
+
+        return special_request

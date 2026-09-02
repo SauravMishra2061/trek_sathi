@@ -22,29 +22,28 @@ def trekker_dashboard(request):
     review_count = Review.objects.filter(
         trekker=request.user
     ).count()
+
     upcoming_booking = (
         Booking.objects.filter(
-        trekker=request.user
+            trekker=request.user
         )
         .exclude(
-           status__in=["Completed", "Cancelled", "Rejected"]
+            status__in=["Completed", "Cancelled", "Rejected"]
         )
         .select_related(
-           "package",
-           "package__company",
-           "package__trek",
+            "package",
+            "package__company",
+            "package__trek",
         )
         .order_by("package__start_date")
-       .first()
+        .first()
     )
 
     context = {
-    
-       "booking_count": booking_count,
-       "completed_count": completed_count,
-       "review_count": review_count,
-       "upcoming_booking": upcoming_booking,
-
+        "booking_count": booking_count,
+        "completed_count": completed_count,
+        "review_count": review_count,
+        "upcoming_booking": upcoming_booking,
     }
 
     return render(
@@ -52,6 +51,8 @@ def trekker_dashboard(request):
         "dashboard/trekker_dashboard.html",
         context,
     )
+
+
 @login_required
 def my_bookings(request):
 
@@ -59,7 +60,9 @@ def my_bookings(request):
         return redirect("company_dashboard")
 
     bookings = (
-        Booking.objects.filter(trekker=request.user)
+        Booking.objects.filter(
+            trekker=request.user
+        )
         .select_related(
             "package",
             "package__company",
