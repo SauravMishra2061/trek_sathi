@@ -1,11 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from packages.models import Package
 from regions.models import Region
 
-
 def home(request):
+
+
+# =====================================
+# REDIRECT ONLY ADMIN USERS
+# =====================================
+
+    if (
+        request.user.is_authenticated
+        and (
+            request.user.is_superuser
+            or request.user.is_staff
+        )
+    ):
+        return redirect("admin_dashboard")
+
+    # =====================================
+    # PUBLIC HOMEPAGE
+    # =====================================
 
     today = timezone.localdate()
 
@@ -40,7 +57,10 @@ def home(request):
 
 
 def profile(request):
+
+
     return render(
         request,
         "home/profile.html"
     )
+
