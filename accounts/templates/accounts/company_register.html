@@ -1,104 +1,111 @@
 {% extends 'base.html' %} {% load static %} {% block title %}Company
 Registration{% endblock %} {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
 {% endblock %} {% block content %}
 
 <section class="auth-section">
   <div class="auth-card">
-    <h1>Register Your Company</h1>
+    <h1>Create Your Trek Sathi Account</h1>
 
-    <p class="subtitle">
-      Create your company account and start your verification process.
-    </p>
 
-    <form method="POST">
-      {% csrf_token %}
+<form method="POST">
+  {% csrf_token %}
 
-      <div class="input-group">
-        <i class="fa-solid fa-building"></i>
-        <input
-          type="text"
-          name="company_name"
-          placeholder="Company Name"
-          value="{{ company_name|default:'' }}"
-          required
-        />
-      </div>
+  <div class="input-group">
+    <i class="fa-solid fa-building"></i>
+    <input
+      type="text"
+      name="company_name"
+      placeholder=" "
+      value="{{ company_name|default:'' }}"
+      required
+    />
+    <label>Company Name</label>
+  </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-user"></i>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value="{{ username|default:'' }}"
-          required
-        />
-      </div>
+  <div class="input-group">
+    <i class="fa-solid fa-user"></i>
+    <input
+      type="text"
+      name="username"
+      placeholder=" "
+      value="{{ username|default:'' }}"
+      required
+    />
+    <label>Username</label>
+  </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-envelope"></i>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value="{{ email|default:'' }}"
-          required
-        />
-      </div>
+  <div class="input-group">
+    <i class="fa-solid fa-envelope"></i>
+    <input
+      type="email"
+      name="email"
+      placeholder=" "
+      value="{{ email|default:'' }}"
+      required
+    />
+    <label>Email Address</label>
+  </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-phone"></i>
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Phone Number"
-          value="{{ phone|default:'' }}"
-          inputmode="tel"
-          pattern="\+?[0-9]+"
-          maxlength="14"
-          oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
-          required
-        />
-      </div>
+  <div class="input-group">
+    <i class="fa-solid fa-phone"></i>
+    <input
+      type="tel"
+      name="phone"
+      placeholder=" "
+      value="{{ phone|default:'' }}"
+      inputmode="tel"
+      pattern="\+?[0-9]+"
+      maxlength="14"
+      oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
+      required
+    />
+    <label>Phone Number</label>
+  </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-id-card"></i>
-        <input
-          type="text"
-          name="registration_number"
-          placeholder="Government Registration Number"
-          value="{{ registration_number|default:'' }}"
-          required
-        />
-      </div>
+  <div class="input-group">
+    <i class="fa-solid fa-id-card"></i>
+    <input
+      type="text"
+      name="registration_number"
+      placeholder=" "
+      value="{{ registration_number|default:'' }}"
+      required
+    />
+    <label>Government Registration Number</label>
+  </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-lock"></i>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-      </div>
+  <div class="input-group">
+    <i class="fa-solid fa-lock"></i>
+    <input
+      type="password"
+      name="password"
+      placeholder=" "
+      required
+    />
+    <label>Password</label>
+  </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-lock"></i>
-        <input
-          type="password"
-          name="confirm_password"
-          placeholder="Confirm Password"
-          required
-        />
-      </div>
-      <button type="submit" class="auth-btn">Register Company</button>
-    </form>
+  <div class="input-group">
+    <i class="fa-solid fa-lock"></i>
+    <input
+      type="password"
+      name="confirm_password"
+      placeholder=" "
+      required
+    />
+    <label>Confirm Password</label>
+  </div>
 
-    <p class="bottom-text">
-      Already have an account?
-      <a href="{% url 'login_choice' %}"> Login </a>
-    </p>
+  <button type="submit" class="auth-btn">Register Company</button>
+</form>
+
+<p class="bottom-text">
+  Already have an account?
+  <a href="{% url 'login_choice' %}"> Login </a>
+</p>
+
   </div>
 </section>
 

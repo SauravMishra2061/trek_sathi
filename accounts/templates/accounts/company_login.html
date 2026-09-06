@@ -6,6 +6,7 @@ Company Login
 {% endblock %}
 
 {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 {% endblock %}
 
@@ -15,11 +16,7 @@ Company Login
 
     <div class="auth-card">
 
-        <h1>Company Login</h1>
-
-        <p class="subtitle">
-            Sign in to manage your trekking company and packages.
-        </p>
+        <h1>Login to Trek Sathi</h1>
 
         <form method="POST">
 
@@ -30,8 +27,9 @@ Company Login
                 <input
                     type="text"
                     name="username"
-                    placeholder="Username"
+                    placeholder=" "
                     required>
+                <label>Username</label>
             </div>
 
             <div class="input-group">
@@ -39,8 +37,9 @@ Company Login
                 <input
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder=" "
                     required>
+                <label>Password</label>
             </div>
 
             <button type="submit" class="auth-btn">
@@ -58,7 +57,7 @@ Company Login
 
         <p class="bottom-text">
             Don't have an account?
-        
+
             <a href="{% url 'company_register' %}">
                 Register Your Company
             </a>

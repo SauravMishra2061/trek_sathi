@@ -1,90 +1,116 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Trekker
-Registration{% endblock %} {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/auth.css' %}" />
-{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Trekker Registration
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
 
 <section class="auth-section">
-  <div class="auth-card">
-    <h1>Join Trek Sathi</h1>
 
-    <p class="subtitle">Discover Nepal, One Trek at a Time.</p>
+    <div class="auth-card">
 
-    <form method="POST">
-      {% csrf_token %}
+        <h1>Create Your Trek Sathi Account</h1>
 
-      <div class="input-group">
-        <i class="fa-solid fa-user"></i>
-        <input
-          type="text"
-          name="full_name"
-          placeholder="Full Name"
-          value="{{ full_name|default:'' }}"
-          required
-        />
-      </div>
+        <form method="POST">
 
-      <div class="input-group">
-        <i class="fa-solid fa-user-tag"></i>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value="{{ username|default:'' }}"
-          required
-        />
-      </div>
+            {% csrf_token %}
 
-      <div class="input-group">
-        <i class="fa-solid fa-envelope"></i>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value="{{ email|default:'' }}"
-          required
-        />
-      </div>
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input
+                    type="text"
+                    name="full_name"
+                    placeholder=" "
+                    value="{{ full_name|default:'' }}"
+                    required
+                >
+                <label>Full Name</label>
+            </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-phone"></i>
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Phone Number"
-          value="{{ phone|default:'' }}"
-          inputmode="tel"
-          pattern="\+?[0-9]+"
-          maxlength="14"
-          oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
-        />
-      </div>
+            <div class="input-group">
+                <i class="fa-solid fa-user-tag"></i>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder=" "
+                    value="{{ username|default:'' }}"
+                    required
+                >
+                <label>Username</label>
+            </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-lock"></i>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-      </div>
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder=" "
+                    value="{{ email|default:'' }}"
+                    required
+                >
+                <label>Email Address</label>
+            </div>
 
-      <div class="input-group">
-        <i class="fa-solid fa-lock"></i>
-        <input
-          type="password"
-          name="confirm_password"
-          placeholder="Confirm Password"
-          required
-        />
-      </div>
-      <button type="submit" class="auth-btn">Create Account</button>
-    </form>
-    <p class="bottom-text">
-      Already have an account?
-      <a href="{% url 'login_choice' %}">Login</a>
-    </p>
-  </div>
+            <div class="input-group">
+                <i class="fa-solid fa-phone"></i>
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder=" "
+                    value="{{ phone|default:'' }}"
+                    inputmode="tel"
+                    pattern="\+?[0-9]+"
+                    maxlength="14"
+                    oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
+                >
+                <label>Phone Number</label>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder=" "
+                    required
+                >
+                <label>Password</label>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    name="confirm_password"
+                    placeholder=" "
+                    required
+                >
+                <label>Confirm Password</label>
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login_choice' %}">
+                Login
+            </a>
+        </p>
+
+    </div>
+
 </section>
 
 {% endblock %}
+

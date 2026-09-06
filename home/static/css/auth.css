@@ -1,281 +1,428 @@
 /* ==========================================
-   Authentication Pages
+Authentication Pages
 ========================================== */
 
 .auth-section {
-  min-height: calc(100vh - 80px);
+min-height: calc(100vh - 80px);
 
-  display: flex;
+display: flex;
 
-  justify-content: center;
+justify-content: center;
 
-  align-items: center;
+align-items: center;
 
-  padding: 60px 20px;
+padding: 60px 20px;
 
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url('../images/hero.jpg');
+background:
+linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+url('../images/hero.jpg');
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 }
 
 .auth-card,
 .choice-box {
-  width: 100%;
+width: 100%;
 
-  max-width: 500px;
+max-width: 500px;
 
-  padding: 45px;
+padding: 45px;
 
-  border-radius: 22px;
+border-radius: 22px;
 
-  background: rgba(255, 255, 255, 0.15);
+background: rgba(255, 255, 255, 0.15);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+backdrop-filter: blur(18px);
+-webkit-backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255, 255, 255, 0.25);
+border: 1px solid rgba(255, 255, 255, 0.25);
 
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
 
-  animation: fadeIn 0.5s ease;
+animation: fadeIn 0.5s ease;
 }
+
+/* ==========================
+Headings
+========================== */
 
 .auth-card h1,
 .choice-box h1 {
-  color: #fff;
+color: #fff;
 
-  text-align: center;
+text-align: center;
 
-  margin-bottom: 10px;
+margin-bottom: 30px;
 
-  font-size: 2rem;
+font-size: 2rem;
 }
+
+/* ==========================
+Subtitle
+========================== */
 
 .subtitle,
 .choice-box p {
-  color: #eaeaea;
+color: #eaeaea;
 
-  text-align: center;
+text-align: center;
 
-  margin-bottom: 35px;
+margin-bottom: 35px;
 
-  line-height: 1.6;
+line-height: 1.6;
 }
 
 /* ==========================
-   Input Fields
+Input Fields
 ========================== */
 
 .input-group {
-  display: flex;
+position: relative;
 
-  align-items: center;
+display: flex;
 
-  margin-bottom: 18px;
+align-items: center;
 
-  background: rgba(255, 255, 255, 0.12);
+margin-bottom: 22px;
 
-  border: 1px solid rgba(255, 255, 255, 0.25);
+background: rgba(255, 255, 255, 0.12);
 
-  border-radius: 10px;
+border: 1px solid rgba(255, 255, 255, 0.25);
 
-  transition: 0.3s;
-}
+border-radius: 10px;
 
-.input-group i {
-  width: 55px;
-
-  color: #fff;
-
-  text-align: center;
-
-  font-size: 16px;
-}
-
-.input-group input {
-  flex: 1;
-
-  border: none;
-
-  background: transparent;
-
-  color: white;
-
-  padding: 15px 10px;
-
-  outline: none;
-
-  font-size: 15px;
-}
-
-.input-group input::placeholder {
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.input-group:focus-within {
-  border-color: #4da3ff;
-
-  background: rgba(255, 255, 255, 0.18);
+transition: 0.3s ease;
 }
 
 /* ==========================
-   Buttons
+Input Icons
+========================== */
+
+.input-group i {
+width: 55px;
+
+flex-shrink: 0;
+
+color: #fff;
+
+text-align: center;
+
+font-size: 16px;
+
+transition: 0.3s ease;
+}
+
+/* ==========================
+Input
+========================== */
+
+.input-group input {
+flex: 1;
+
+min-width: 0;
+
+border: none;
+
+background: transparent;
+
+color: #fff;
+
+padding: 15px 10px;
+
+outline: none;
+
+font-size: 15px;
+}
+
+/* Hide the original placeholder.
+Keep placeholder=" " in HTML so
+:placeholder-shown can detect empty fields. */
+
+.input-group input::placeholder {
+color: transparent;
+}
+
+/* ==========================
+Floating Label
+========================== */
+
+.input-group label {
+position: absolute;
+
+left: 55px;
+
+top: 50%;
+
+transform: translateY(-50%);
+
+padding: 0 6px;
+
+color: rgba(255, 255, 255, 0.75);
+
+font-size: 15px;
+
+font-weight: 400;
+
+background: transparent;
+
+pointer-events: none;
+
+transition:
+top 0.25s ease,
+transform 0.25s ease,
+font-size 0.25s ease,
+color 0.25s ease,
+background 0.25s ease;
+}
+
+/* ==========================
+Floating Label on Focus
+========================== */
+
+.input-group input:focus ~ label {
+top: 0;
+
+transform: translateY(-50%);
+
+padding: 0 6px;
+
+background: #315c8b;
+
+color: #4da3ff;
+
+font-size: 12px;
+
+font-weight: 600;
+}
+
+/* ==========================
+Keep Label Raised
+When Input Has Value
+========================== */
+
+.input-group input:not(:placeholder-shown) ~ label {
+top: 0;
+
+transform: translateY(-50%);
+
+padding: 0 6px;
+
+/* background: #315c8b; */
+
+color: rgba(255, 255, 255, 0.85);
+
+font-size: 12px;
+
+font-weight: 600;
+}
+
+/* ==========================
+Input Group Focus
+========================== */
+
+.input-group:focus-within {
+border-color: #4da3ff;
+
+background: rgba(255, 255, 255, 0.18);
+
+box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+}
+
+/* ==========================
+Focused Icon
+========================== */
+
+.input-group:focus-within i {
+color: #4da3ff;
+}
+
+/* ==========================
+Focused Label
+========================== */
+
+.input-group:focus-within label {
+color: #4da3ff;
+
+background: #315c8b;
+}
+
+/* ==========================
+Buttons
 ========================== */
 
 .auth-btn,
 .choice-btn {
-  display: block;
+display: block;
 
-  width: 100%;
+width: 100%;
 
-  padding: 15px;
+padding: 15px;
 
-  margin-top: 10px;
+margin-top: 10px;
 
-  border: none;
+border: none;
 
-  border-radius: 10px;
+border-radius: 10px;
 
-  background: #0d6efd;
+background: #0d6efd;
 
-  color: white;
+color: white;
 
-  text-align: center;
+text-align: center;
 
-  font-size: 16px;
+font-size: 16px;
 
-  font-weight: 600;
+font-weight: 600;
 
-  transition: 0.3s;
+transition: 0.3s;
 }
 
 .auth-btn:hover,
 .choice-btn:hover {
-  background: #0b5ed7;
+background: #0b5ed7;
 
-  transform: translateY(-3px);
+transform: translateY(-3px);
 
-  box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
+box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
 }
 
-/* Space between buttons on choice pages */
+/* ==========================
+Space Between Choice Buttons
+========================== */
 
 .choice-btn + .choice-btn {
-  margin-top: 15px;
+margin-top: 15px;
 }
 
 /* ==========================
-   Footer Text
+Choice Buttons
 ========================== */
 
-.bottom-text {
-  margin-top: 30px;
-
-  text-align: center;
-
-  color: #fff;
-}
-
-.bottom-text a {
-  display: block;
-
-  margin-top: 8px;
-
-  color: #4da3ff;
-
-  font-weight: 600;
-
-  transition: 0.3s;
-}
-
-.bottom-text a:hover {
-  color: #80c4ff;
-}
-
-/* ==========================
-   Animation
-========================== */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-
-    transform: translateY(0);
-  }
-}
-
-/* ==========================
-   Mobile
-========================== */
-
-@media (max-width: 576px) {
-  .auth-card,
-  .choice-box {
-    padding: 50px 45px;
-
-    border-radius: 18px;
-  }
-
-  .auth-card h1,
-  .choice-box h1 {
-    font-size: 1.7rem;
-  }
-}
 .choice-btn {
-  display: flex;
+display: flex;
 
-  align-items: center;
+align-items: center;
 
-  justify-content: center;
+justify-content: center;
 
-  gap: 12px;
+gap: 12px;
 
-  width: 100%;
+width: 100%;
 
-  padding: 16px;
+padding: 16px;
 
-  margin-bottom: 15px;
+margin-bottom: 15px;
 
-  border-radius: 10px;
+border-radius: 10px;
 
-  background: #0d6efd;
+background: #0d6efd;
 
-  color: white;
+color: white;
 
-  font-size: 16px;
+font-size: 16px;
 
-  font-weight: 600;
+font-weight: 600;
 
-  transition: 0.3s;
+transition: 0.3s;
 }
 
 .choice-btn i {
-  font-size: 18px;
+font-size: 18px;
 }
 
 .choice-btn:hover {
-  background: #0b5ed7;
+background: #0b5ed7;
 
-  transform: translateY(-3px);
+transform: translateY(-3px);
 
-  box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
+box-shadow: 0 10px 25px rgba(13, 110, 253, 0.35);
 }
+
+/* ==========================
+Footer Text
+========================== */
+
+.bottom-text {
+margin-top: 30px;
+
+text-align: center;
+
+color: #fff;
+}
+
+.bottom-text a {
+display: block;
+
+margin-top: 8px;
+
+color: #4da3ff;
+
+font-weight: 600;
+
+transition: 0.3s;
+}
+
+.bottom-text a:hover {
+color: #80c4ff;
+}
+
+/* ==========================
+Authentication Card Hover
+========================== */
+
 .auth-card {
-  transition: 0.35s;
+transition: 0.35s;
 }
 
 .auth-card:hover {
-  transform: translateY(-4px);
+transform: translateY(-4px);
 
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================
+Page Animation
+========================== */
+
+@keyframes fadeIn {
+from {
+opacity: 0;
+
+
+transform: translateY(20px);
+
+
+}
+
+to {
+opacity: 1;
+
+
+transform: translateY(0);
+
+
+}
+}
+
+/* ==========================
+Mobile
+========================== */
+
+@media (max-width: 576px) {
+.auth-card,
+.choice-box {
+padding: 50px 45px;
+
+
+border-radius: 18px;
+
+
+}
+
+.auth-card h1,
+.choice-box h1 {
+font-size: 1.7rem;
+}
 }
