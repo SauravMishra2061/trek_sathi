@@ -1,2 +1,5 @@
-ORS_API_KEY=
-DJANGO_SECRET_KEY=
+euta .env file banaunu ani aafai yo api key haru aafnu banaunu
+ani yei name ma rakhnu variable ko name yei rakhnu natra kaam gardaina
+
+ORS_API_KEY=copied api key
+DJANGO_SECRET_KEY=copied key
