@@ -40,25 +40,47 @@
                 <a href="{% url 'home' %}">Trek Sathi</a>
             </div>
 
-            <!-- Navigation Links -->
-            <ul class="nav-links">
 
-                <li><a href="{% url 'home' %}">Home</a></li>
+<!-- Navigation Links -->
+<ul class="nav-links">
 
-                <li><a href="#">Packages</a></li>
+    <li>
+        <a href="{% url 'home' %}#">
+            Home
+        </a>
+    </li>
 
-                <li><a href="#">Companies</a></li>
+    <li>
+        <a href="{% url 'home' %}#packages">
+            Packages
+        </a>
+    </li>
+        <li>
+        <a href="{% url 'home' %}#regions">
+            Regions
+        </a>
+    </li>
 
-                <li><a href="#">About</a></li>
 
-                <li><a href="#">Contact</a></li>
+    <li>
+        <a href="{% url 'home' %}#about">
+            About
+        </a>
+    </li>
 
-            </ul>
+    <li>
+        <a href="{% url 'home' %}#contact">
+            Contact
+        </a>
+    </li>
+
+</ul>
+
             <div class="menu-toggle">
             <i class="fa-solid fa-bars"></i>
             </div>
             <!-- Authentication Buttons -->
-           <div class="auth-menu">
+
 
 <div class="auth-menu">
     {% if user.is_authenticated %}

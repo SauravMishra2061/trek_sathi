@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.http import JsonResponse, Http404
+from django.views.decorators.http import require_POST
 
 from .forms import PackageForm
 from .models import Package, PackageImage, SavedPackage
@@ -12,9 +14,50 @@ import json
 import requests
 
 from django.conf import settings
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
 
+
+# =================================
+# PUBLIC PACKAGE LIST / SEARCH
+# =================================
+
+def public_package_list(request):
+
+    query = request.GET.get("q", "").strip()
+    today = timezone.localdate()
+
+    packages = (
+        Package.objects.filter(
+            status="Published",
+            end_date__gte=today,
+        )
+        .select_related(
+            "company",
+            "trek",
+            "trek__region",
+        )
+        .order_by("-created_at")
+    )
+
+    if query:
+        packages = packages.filter(
+            Q(title__icontains=query)
+            | Q(trek__name__icontains=query)
+            | Q(trek__region__name__icontains=query)
+        )
+
+    return render(
+        request,
+        "packages/public_package_list.html",
+        {
+            "packages": packages,
+            "query": query,
+        },
+    )
+
+
+# =================================
+# COMPANY PACKAGE LIST
+# =================================
 
 @login_required
 def package_list(request):
@@ -42,6 +85,10 @@ def package_list(request):
         },
     )
 
+
+# =================================
+# ADD PACKAGE
+# =================================
 
 @login_required
 def add_package(request):
@@ -182,9 +229,22 @@ def add_package(request):
                     image=image,
                 )
 
+        if "publish" in request.POST:
+            package.status = "Published"
+            package.save()
+
             messages.success(
                 request,
-                "Package created successfully.",
+                "Package published successfully."
+            )
+
+        else:
+            package.status = "Draft"
+            package.save()
+
+            messages.success(
+                request,
+                "Package saved as draft successfully."
             )
 
             return redirect(
@@ -212,6 +272,10 @@ def package_detail(request, pk):
 
     today = timezone.localdate()
 
+    # ---------------------------------
+    # Get the package first
+    # ---------------------------------
+
     package = get_object_or_404(
         Package.objects.select_related(
             "company",
@@ -219,22 +283,14 @@ def package_detail(request, pk):
             "trek__region",
         ),
         pk=pk,
-        status="Published",
-        end_date__gte=today,
     )
-
-    reviews = package.reviews.select_related(
-        "trekker"
-    ).order_by(
-        "-created_at"
-    )
-
-    average_rating = reviews.aggregate(
-        Avg("rating")
-    )["rating__avg"]
 
     user_booking = None
     is_saved = False
+
+    # ---------------------------------
+    # Check user's booking
+    # ---------------------------------
 
     if (
         request.user.is_authenticated
@@ -259,6 +315,46 @@ def package_detail(request, pk):
             trekker=request.user,
             package=package,
         ).exists()
+
+    # ---------------------------------
+    # PUBLIC ACCESS RULE
+    #
+    # Published + non-expired packages
+    # can be viewed by everyone.
+    #
+    # Expired / Hidden / Draft packages
+    # can only be viewed by a trekker
+    # who already has a booking.
+    # ---------------------------------
+
+    if (
+        package.status != "Published"
+        or package.end_date < today
+    ):
+
+        if not user_booking:
+
+            raise Http404(
+                "Package not found."
+            )
+
+    # ---------------------------------
+    # REVIEWS
+    # ---------------------------------
+
+    reviews = package.reviews.select_related(
+        "trekker"
+    ).order_by(
+        "-created_at"
+    )
+
+    average_rating = reviews.aggregate(
+        Avg("rating")
+    )["rating__avg"]
+
+    # ---------------------------------
+    # RENDER PACKAGE DETAIL
+    # ---------------------------------
 
     return render(
         request,

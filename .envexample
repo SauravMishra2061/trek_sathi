@@ -1,5 +1,14 @@
 euta .env file banaunu ani aafai yo api key haru aafnu banaunu
 ani yei name ma rakhnu variable ko name yei rakhnu natra kaam gardaina
+euta map tiler ni banaunu parxa api
 
-ORS_API_KEY=copied api key
-DJANGO_SECRET_KEY=copied key
+
+DJANGO_SECRET_KEY=your_secret_key
+ORS_API_KEY=your_ors_key
+MAPTILER_API_KEY=your_new_maptiler_key
+
+
+
+links
+https://cloud.maptiler.com/auth/widget?next=https://cloud.maptiler.com/maps/
+https://api.heigit.org/openrouteservice/v2/directions/foot-walking

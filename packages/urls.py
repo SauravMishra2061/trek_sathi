@@ -12,5 +12,5 @@ urlpatterns = [
     path("save/<int:package_id>/", views.save_package, name="save_package"),
     path("saved/",views.saved_packages,name="saved_packages"),
     path("api/calculate-route/",views.calculate_route,name="calculate_route"),    
-    
+    path("explore/", views.public_package_list, name="public_package_list"),
 ]

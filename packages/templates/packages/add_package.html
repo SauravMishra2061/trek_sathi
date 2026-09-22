@@ -266,7 +266,7 @@ Add Package
 
 <div class="form-actions">
 
-  <a
+  
     href="{% url 'package_list' %}"
     class="secondary-btn"
   >
@@ -380,7 +380,10 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 
 const CALCULATE_ROUTE_URL =
-  "{% url 'calculate_route' %}"
+  "{% url 'calculate_route' %}";
+
+const MAPTILER_API_KEY =
+  "{{ MAPTILER_API_KEY }}";
 
 </script>
 

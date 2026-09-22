@@ -105,6 +105,14 @@
     </p>
 
   </div>
+    <div class="info-card">
+    <i class="fa-regular fa-calendar"></i>
+    <div>
+        <span>Starting Date</span>
+        <strong>{{ package.start_date|date:"d M Y" }}</strong>
+    </div>
+  </div>
+
 
 
   <div class="info-card">
@@ -157,7 +165,6 @@
     </p>
 
   </div>
-
 
   <div class="info-card">
 
@@ -352,8 +359,8 @@
 
   {% if user.is_authenticated and not user.company %}
 
-    <a
-      href="{% url 'save_package' package.pk %}"
+    
+    <a href="{% url 'save_package' package.pk %}"
       class="secondary-btn"
     >
 
@@ -378,8 +385,8 @@
 
   <!-- Enquiry -->
 
-  <a
-    href="{% url 'start_enquiry' package.pk %}"
+  
+   <a href="{% url 'start_enquiry' package.pk %}"
     class="secondary-btn"
   >
 
@@ -610,6 +617,11 @@
 ></script>
 
 <script>
+    const MAPTILER_API_KEY =
+        "{{ MAPTILER_API_KEY }}";
+</script>
+
+<script>
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -714,14 +726,14 @@ document.addEventListener(
 
         L.tileLayer(
 
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            `https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_API_KEY}`,
 
             {
 
                 maxZoom: 19,
 
                 attribution:
-                    "&copy; OpenStreetMap contributors",
+                    '&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>',
 
             }
 

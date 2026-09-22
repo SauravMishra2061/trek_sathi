@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Explore Treks{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/packages.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="package-list-page">
+
+
+<div class="package-list-container">
+
+    <!-- Page Header -->
+
+    <div class="package-list-header">
+
+        <div>
+            {% if query %}
+                <h1>Search Results</h1>
+                <p>Packages matching "{{ query }}"</p>
+            {% else %}
+                <h1>Explore Trekking Packages</h1>
+                <p>Discover your next adventure with Trek Sathi.</p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'public_package_list' %}" class="all-packages-btn">
+            <i class="fa-solid fa-mountain-sun"></i>
+            All Packages
+        </a>
+
+    </div>
+
+
+    <!-- Search -->
+
+    <form method="GET" action="{% url 'public_package_list' %}" class="package-search">
+
+        <input
+            type="text"
+            name="q"
+            value="{{ query }}"
+            placeholder="Search treks, regions or packages..."
+        >
+
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Search
+        </button>
+
+    </form>
+
+
+    <!-- Package Grid -->
+
+    {% if packages %}
+
+    <div class="package-grid">
+
+        {% for package in packages %}
+
+        <div class="package-card">
+
+            <!-- Image -->
+
+            <div class="package-image">
+
+                {% if package.cover_image %}
+
+                    <img
+                        src="{{ package.cover_image.url }}"
+                        alt="{{ package.title }}"
+                    >
+
+                {% elif package.trek.image %}
+
+                    <img
+                        src="{{ package.trek.image.url }}"
+                        alt="{{ package.trek.name }}"
+                    >
+
+                {% else %}
+
+                    <div class="package-placeholder">
+                        <i class="fa-solid fa-mountain"></i>
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Content -->
+
+            <div class="package-content">
+
+                <h2>{{ package.title }}</h2>
+
+                <p class="package-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    {{ package.trek.region.name }}
+                </p>
+
+                <div class="package-info">
+
+                    <span>
+                        <i class="fa-solid fa-calendar-days"></i>
+                        {{ package.duration }} days
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-gauge-high"></i>
+                        {{ package.difficulty }}
+                    </span>
+
+                </div>
+
+                <div class="package-bottom">
+
+                    <div class="package-price">
+                        <small>From</small>
+                        <strong>Rs. {{ package.price_per_person }}</strong>
+                    </div>
+
+                    <a
+                        href="{% url 'package_detail' package.pk %}"
+                        class="view-package-btn"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <!-- Empty Result -->
+
+    <div class="no-packages">
+
+        <div class="no-packages-icon">
+            <i class="fa-solid fa-mountain"></i>
+        </div>
+
+        {% if query %}
+
+            <h2>No Packages Found</h2>
+
+            <p>
+                We couldn't find any trekking packages matching
+                "{{ query }}".
+            </p>
+
+            <a href="{% url 'public_package_list' %}">
+                View All Packages
+            </a>
+
+        {% else %}
+
+            <h2>No Trekking Packages Available</h2>
+
+            <p>
+                There are currently no published trekking packages.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+</section>
+
+{% endblock %}

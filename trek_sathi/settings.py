@@ -73,6 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'trek_sathi.context_processors.maptiler',
+
             ],
         },
     },
@@ -140,3 +142,4 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 # OpenRouteService API Key
 ORS_API_KEY = os.getenv("ORS_API_KEY")
+MAPTILER_API_KEY = os.getenv("MAPTILER_API_KEY")

@@ -19,6 +19,7 @@
   box-shadow: none;
 }
 
+
 /* =====================================
    SIDEBAR
 ===================================== */
@@ -47,6 +48,7 @@
 
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
 }
+
 
 /* =====================================
    PROFILE
@@ -87,6 +89,7 @@
   font-size: 0.82rem;
   color: rgba(255, 255, 255, 0.7);
 }
+
 
 /* =====================================
    NAVIGATION
@@ -134,6 +137,7 @@
   font-weight: 600;
 }
 
+
 /* =====================================
    LOGOUT
 ===================================== */
@@ -165,6 +169,7 @@
   background: #dc3545;
 }
 
+
 /* =====================================
    MAIN CONTENT
 ===================================== */
@@ -185,12 +190,14 @@
 
   overflow-x: hidden;
 }
+
 .dashboard-content {
   width: 100%;
   max-width: 1400px;
 
   margin: 0 auto;
 }
+
 
 /* =====================================
    PAGE HEADER
@@ -213,6 +220,7 @@
   color: #6b7280;
   font-size: 0.9rem;
 }
+
 
 /* =====================================
    WELCOME CARD
@@ -258,6 +266,7 @@
   color: #0b3d91;
   opacity: 0.15;
 }
+
 
 /* =====================================
    STATISTICS
@@ -315,6 +324,7 @@
   font-size: 0.88rem;
 }
 
+
 /* =====================================
    DASHBOARD BOTTOM
 ===================================== */
@@ -322,10 +332,11 @@
 .dashboard-bottom {
   display: grid;
 
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1.2fr 1fr;
 
   gap: 20px;
 }
+
 
 /* =====================================
    DASHBOARD CARD
@@ -351,7 +362,7 @@
 }
 
 .dashboard-card h2 {
-  margin: 0 0 20px;
+  margin: 0 0 30px;
   padding-bottom: 14px;
 
   color: #1f2937;
@@ -360,6 +371,7 @@
 
   border-bottom: 1px solid #e5e7eb;
 }
+
 
 /* =====================================
    EMPTY DASHBOARD CARD
@@ -416,12 +428,14 @@
   line-height: 1.6;
 }
 
+
 /* =====================================
    BOOKING PREVIEW
 ===================================== */
 
 .booking-preview {
   display: flex;
+
   gap: 18px;
 
   align-items: flex-start;
@@ -445,23 +459,395 @@
   object-fit: cover;
 }
 
+
+/* =====================================
+   BOOKING INFORMATION
+===================================== */
+
 .booking-info {
   flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
 }
 
 .booking-info h4 {
-  margin: 0 0 8px;
+  margin: 0;
 
   color: #1f2937;
 }
 
 .booking-info p {
-  margin: 5px 0;
+  margin: 0;
 
   color: #6b7280;
 
   font-size: 0.88rem;
 }
+
+
+/* =====================================
+   SAVED PACKAGES PREVIEW
+===================================== */
+
+.saved-packages-preview {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 25px;
+}
+
+
+/* Individual saved package */
+
+.saved-package-preview {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 18px;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+
+/* Last package should not have a border */
+
+.saved-package-preview:last-child {
+  padding-bottom: 0;
+
+  border-bottom: none;
+}
+
+
+/* Saved package icon */
+
+.saved-package-preview .dashboard-card-icon {
+  flex-shrink: 0;
+
+  margin-bottom: 0;
+}
+
+
+/* =====================================
+   SAVED STATUS
+===================================== */
+
+.booking-status.saved {
+  background: #fdf2f8;
+
+  color: #be185d;
+
+  align-self: flex-start;
+}
+
+
+/* =====================================
+   DASHBOARD LIST
+===================================== */
+
+.dashboard-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+/* =====================================
+   SAVED PACKAGE ITEM
+   OLD STYLE SUPPORT
+===================================== */
+
+.saved-package-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 10px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  transition: 0.2s ease;
+}
+
+.saved-package-item:hover {
+  background: #f8fafc;
+
+  border-color: #cbd5e1;
+}
+
+.saved-package-image {
+  width: 65px;
+  height: 55px;
+
+  flex-shrink: 0;
+
+  border-radius: 7px;
+
+  object-fit: cover;
+}
+
+.saved-package-placeholder {
+  width: 65px;
+  height: 55px;
+
+  flex-shrink: 0;
+
+  border-radius: 7px;
+
+  background: #eef4ff;
+
+  color: #0b3d91;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 20px;
+}
+
+.saved-package-info {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.saved-package-info h4 {
+  margin: 0 0 4px;
+
+  color: #1f2937;
+
+  font-size: 0.9rem;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.saved-package-info p {
+  margin: 2px 0;
+
+  color: #6b7280;
+
+  font-size: 0.78rem;
+}
+
+.saved-package-price {
+  color: #0b3d91;
+
+  font-weight: 600;
+}
+
+
+/* =====================================
+   BOOKING STATUS
+===================================== */
+
+.booking-status {
+  display: inline-block;
+
+  padding: 4px 8px;
+
+  border-radius: 20px;
+
+  font-size: 0.7rem;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  align-self: flex-start;
+}
+
+.booking-status.pending {
+  background: #fff7ed;
+
+  color: #c2410c;
+}
+
+.booking-status.approved {
+  background: #ecfdf5;
+
+  color: #047857;
+}
+
+.booking-status.completed {
+  background: #eff6ff;
+
+  color: #1d4ed8;
+}
+
+.booking-status.cancelled {
+  background: #fef2f2;
+
+  color: #dc2626;
+}
+
+.booking-status.rejected {
+  background: #fef2f2;
+
+  color: #b91c1c;
+}
+
+
+/* =====================================
+   VIEW ALL LINK
+===================================== */
+
+.dashboard-card-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 30px;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dashboard-card-header h2 {
+  margin: 0;
+
+  padding: 0;
+
+  border: none;
+}
+
+.dashboard-view-all {
+  color: #0b3d91;
+
+  text-decoration: none;
+
+  font-size: 0.78rem;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.dashboard-view-all:hover {
+  text-decoration: underline;
+}
+
+
+/* =====================================
+   SMALL EMPTY STATE
+===================================== */
+
+.dashboard-empty-small {
+  padding: 25px 10px;
+
+  text-align: center;
+
+  color: #6b7280;
+}
+
+.dashboard-empty-small i {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #94a3b8;
+
+  font-size: 25px;
+}
+
+.dashboard-empty-small p {
+  margin: 0;
+
+  font-size: 0.85rem;
+}
+
+
+/* =====================================
+   RECENT BOOKING ITEM
+===================================== */
+
+.recent-booking-item {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.recent-booking-item:last-child {
+  border-bottom: none;
+}
+
+.recent-booking-info {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.recent-booking-info h4 {
+  margin: 0 0 4px;
+
+  color: #1f2937;
+
+  font-size: 0.9rem;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.recent-booking-info p {
+  margin: 2px 0;
+
+  color: #6b7280;
+
+  font-size: 0.78rem;
+}
+
+
+/* =====================================
+   RECENT BOOKINGS CARD
+===================================== */
+
+.recent-bookings-card {
+  grid-column: 1 / -1;
+}
+
+.recent-bookings-card .dashboard-list {
+  gap: 0;
+}
+
 
 /* =====================================
    SCROLLBAR
@@ -477,18 +863,22 @@
 
 .dashboard-main::-webkit-scrollbar-thumb {
   background: #cbd5e1;
+
   border-radius: 10px;
 }
 
 .dashboard-main::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+
 /* =====================================
    FIX CONVERSATION WIDTH
 ===================================== */
 
 .dashboard-container {
   width: 100%;
+
   box-sizing: border-box;
 }
 
@@ -498,42 +888,65 @@
 
 .dashboard-main {
   flex: 1 1 auto;
+
   min-width: 0;
+
   width: auto;
+
   box-sizing: border-box;
 }
 
 .dashboard-content {
   width: 100%;
-  max-width: none;
-  box-sizing: border-box;
-   margin: 0;
-}
 
-/* Make conversation use the entire available content area */
-.conversation-container {
-  width: 100%;
   max-width: none;
+
   box-sizing: border-box;
+
   margin: 0;
 }
 
+
 /* =====================================
-   RESPONSIVE
+   CONVERSATION WIDTH
+===================================== */
+
+.conversation-container {
+  width: 100%;
+
+  max-width: none;
+
+  box-sizing: border-box;
+
+  margin: 0;
+}
+
+
+/* =====================================
+   RESPONSIVE - TABLET
 ===================================== */
 
 @media (max-width: 1000px) {
+
   .dashboard-sidebar {
     width: 220px;
+
     min-width: 220px;
   }
 
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
 }
 
+
+/* =====================================
+   RESPONSIVE - MOBILE
+===================================== */
+
 @media (max-width: 768px) {
+
   .dashboard-page {
     min-height: auto;
   }
@@ -544,17 +957,21 @@
 
   .dashboard-sidebar {
     width: 100%;
+
     min-width: 100%;
+
     min-height: auto;
   }
 
   .dashboard-nav {
     flex-direction: row;
+
     flex-wrap: wrap;
   }
 
   .dashboard-nav a {
     flex: 1;
+
     min-width: 150px;
   }
 
@@ -563,6 +980,10 @@
   }
 
   .dashboard-main {
+    margin-left: 0;
+
+    width: 100%;
+
     padding: 20px;
   }
 
@@ -574,19 +995,28 @@
     grid-template-columns: 1fr;
   }
 
+  .recent-bookings-card {
+    grid-column: auto;
+  }
+
   .welcome-card {
     padding: 25px;
   }
+
 }
 
+
 @media (max-width: 500px) {
+
   .dashboard-main {
     padding: 15px;
   }
 
   .welcome-card {
     flex-direction: column;
+
     align-items: flex-start;
+
     gap: 15px;
   }
 
@@ -604,6 +1034,12 @@
 
   .booking-image {
     width: 100%;
+
     height: 180px;
   }
+
+  .saved-package-preview {
+    padding-bottom: 20px;
+  }
+
 }

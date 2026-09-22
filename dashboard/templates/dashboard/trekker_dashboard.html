@@ -1,142 +1,286 @@
-{% extends "base.html" %} {% load static %} {% block title %} Dashboard
-{%endblock %} {% block extra_css %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
 
 <section class="dashboard-page">
+
   <div class="dashboard-container">
-    {% include "home/sidebar.html" %}
 
-    <section class="dashboard-main">
-      <div class="dashboard-content">
-        <!-- Welcome -->
+{% include "home/sidebar.html" %}
 
-        <div class="welcome-card">
-          <div class="welcome-text">
-            <h1>Hello, {{ request.user.username }} 👋</h1>
+<section class="dashboard-main">
+
+  <div class="dashboard-content">
+
+    <!-- =====================================
+         WELCOME
+    ====================================== -->
+
+    <div class="welcome-card">
+
+      <div class="welcome-text">
+
+        <h1>
+          Hello, {{ request.user.username }} 👋
+        </h1>
+
+        <p>
+          Welcome back to Trek Sathi. Manage your bookings, discover new
+          trekking adventures, and continue your journey.
+        </p>
+
+      </div>
+
+      <div class="welcome-icon">
+        <i class="fa-solid fa-mountain-sun"></i>
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         STATISTICS
+    ====================================== -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <i class="fa-solid fa-calendar-check"></i>
+
+        <h2>{{ booking_count }}</h2>
+
+        <span>Total Bookings</span>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <h2>{{ completed_count }}</h2>
+
+        <span>Completed Treks</span>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <i class="fa-solid fa-star"></i>
+
+        <h2>{{ review_count }}</h2>
+
+        <span>Reviews</span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         DASHBOARD BOTTOM
+    ====================================== -->
+
+    <div class="dashboard-bottom">
+
+
+      <!-- =====================================
+           UPCOMING BOOKING
+      ====================================== -->
+
+      <div class="dashboard-card">
+
+        <h2>Upcoming Booking</h2>
+
+        {% if upcoming_booking %}
+
+        <div class="booking-preview">
+
+          {% if upcoming_booking.package.cover_image %}
+
+          <img
+            src="{{ upcoming_booking.package.cover_image.url }}"
+            class="booking-image"
+            alt="{{ upcoming_booking.package.title }}"
+          />
+
+          {% else %}
+
+          <div class="dashboard-card-icon">
+            <i class="fa-solid fa-mountain"></i>
+          </div>
+
+          {% endif %}
+
+
+          <div class="booking-info">
+
+            <h4>
+              {{ upcoming_booking.package.title }}
+            </h4>
 
             <p>
-              Welcome back to Trek Sathi. Manage your bookings, discover new
-              trekking adventures, and continue your journey.
+              <i class="fa-solid fa-building"></i>
+              {{ upcoming_booking.package.company.company_name }}
             </p>
+
+            <p>
+              <i class="fa-solid fa-location-dot"></i>
+              {{ upcoming_booking.package.trek.region.name }}
+            </p>
+
+            <p>
+              <i class="fa-solid fa-calendar-days"></i>
+              {{ upcoming_booking.package.start_date }}
+            </p>
+
+            <span
+              class="booking-status {{ upcoming_booking.status|lower }}"
+            >
+              {{ upcoming_booking.status }}
+            </span>
+
           </div>
 
-          <div class="welcome-icon">
-            <i class="fa-solid fa-mountain-sun"></i>
-          </div>
         </div>
 
-        <!-- Statistics -->
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <i class="fa-solid fa-calendar-check"></i>
+        {% else %}
 
-            <h2>{{ booking_count }}</h2>
+        <div class="empty-dashboard-card">
 
-            <span>Total Bookings</span>
+          <div class="dashboard-card-icon">
+            <i class="fa-solid fa-suitcase-rolling"></i>
           </div>
 
-          <div class="stat-card">
-            <i class="fa-solid fa-circle-check"></i>
+          <h3>No Upcoming Treks</h3>
 
-            <h2>{{ completed_count }}</h2>
+          <p>
+            You don't have any active trek bookings.
+          </p>
 
-            <span>Completed Treks</span>
-          </div>
-
-          <div class="stat-card">
-            <i class="fa-solid fa-star"></i>
-
-            <h2>{{ review_count }}</h2>
-
-            <span>Reviews</span>
-          </div>
         </div>
 
-        <!-- Bottom -->
+        {% endif %}
 
-        <div class="dashboard-bottom">
-          <!-- Upcoming Booking -->
-
-          <div class="dashboard-card">
-            <h2>Upcoming Booking</h2>
-
-            {% if upcoming_booking %}
-
-            <div class="booking-preview">
-              {% if upcoming_booking.package.cover_image %}
-              <img
-                src="{{ upcoming_booking.package.cover_image.url }}"
-                class="booking-image"
-                alt="{{ upcoming_booking.package.title }}"
-              />
-              {% else %}
-
-              <div class="dashboard-card-icon">
-                <i class="fa-solid fa-mountain"></i>
-              </div>
-
-              {% endif %}
-
-              <div class="booking-info">
-                <h4>{{ upcoming_booking.package.title }}</h4>
-
-                <p>
-                  <i class="fa-solid fa-building"></i>
-                  {{ upcoming_booking.package.company.company_name }}
-                </p>
-
-                <p>
-                  <i class="fa-solid fa-location-dot"></i>
-                  {{ upcoming_booking.package.trek.region.name }}
-                </p>
-
-                <p>
-                  <i class="fa-solid fa-calendar-days"></i>
-                  {{ upcoming_booking.package.start_date }}
-                </p>
-
-                <span
-                  class="booking-status {{ upcoming_booking.status|lower }}"
-                >
-                  {{ upcoming_booking.status }}
-                </span>
-              </div>
-            </div>
-
-            {% else %}
-
-            <div class="empty-dashboard-card">
-              <div class="dashboard-card-icon">
-                <i class="fa-solid fa-suitcase-rolling"></i>
-              </div>
-
-              <h3>No Upcoming Treks</h3>
-
-              <p>You don't have any active trek bookings.</p>
-            </div>
-
-            {% endif %}
-          </div>
-
-          <!-- Saved Packages -->
-
-          <div class="dashboard-card">
-            <div class="empty-dashboard-card">
-              <div class="dashboard-card-icon">
-                <i class="fa-solid fa-heart"></i>
-              </div>
-
-              <h3>Saved Packages</h3>
-
-              <p>Your saved trekking packages will appear here.</p>
-            </div>
-          </div>
-        </div>
       </div>
-    </section>
+
+
+      <!-- =====================================
+           SAVED PACKAGES
+      ====================================== -->
+
+      <div class="dashboard-card">
+
+        <div class="dashboard-card-header">
+
+          <h2>Saved Packages</h2>
+
+          <a
+            href="{% url 'saved_packages' %}"
+            class="dashboard-view-all"
+          >
+            View All
+          </a>
+
+        </div>
+
+
+        {% if saved_packages %}
+
+        <div class="saved-packages-preview">
+
+          {% for saved in saved_packages %}
+
+          <a
+            href="{% url 'package_detail' saved.package.id %}"
+            class="booking-preview saved-package-preview"
+          >
+
+            <!-- Package Icon -->
+
+            <div class="dashboard-card-icon">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+
+
+            <!-- Package Information -->
+
+            <div class="booking-info">
+
+              <h4>
+                {{ saved.package.title }}
+              </h4>
+
+              <p>
+                <i class="fa-solid fa-building"></i>
+                {{ saved.package.company.company_name }}
+              </p>
+
+              <p>
+                <i class="fa-solid fa-location-dot"></i>
+                {{ saved.package.trek.region.name }}
+              </p>
+
+              <p>
+                <i class="fa-solid fa-tag"></i>
+                Rs. {{ saved.package.price_per_person }}
+              </p>
+
+              <span class="booking-status saved">
+                Saved
+              </span>
+
+            </div>
+
+          </a>
+
+          {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+        <div class="empty-dashboard-card">
+
+          <div class="dashboard-card-icon">
+            <i class="fa-regular fa-heart"></i>
+          </div>
+
+          <h3>No Saved Packages</h3>
+
+          <p>
+            You haven't saved any trekking packages yet.
+          </p>
+
+        </div>
+
+        {% endif %}
+
+      </div>
+
+    </div>
+
   </div>
+
+</section>
+
+
+  </div>
+
 </section>
 
 {% endblock %}

@@ -117,6 +117,7 @@ class TrekRequest(models.Model):
         blank=True,
         null=True
     )
+    admin_feedback = models.TextField(blank=True)
 
     status = models.CharField(
         max_length=20,
@@ -127,3 +128,5 @@ class TrekRequest(models.Model):
         ],
         default="Pending"
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

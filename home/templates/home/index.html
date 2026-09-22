@@ -6,7 +6,7 @@
      Hero Section
 ========================================== -->
 
-<section class="hero">
+<section class="hero" id="hero">
   <div class="hero-overlay">
     <div class="hero-content">
       <h1>Discover Nepal's <span>Best Trekking Adventures</span></h1>
@@ -18,18 +18,23 @@
       </p>
 
       <div class="hero-search">
-        <input type="text" placeholder="Search..." />
+<form method="GET" action="{% url 'public_package_list' %}" class="hero-search">
+    <input
+        type="text"
+        name="q"
+        placeholder="Search treks, regions or packages..."
+    />
 
-        <button>
-          <i class="fa-solid fa-magnifying-glass"></i>
-          Search
-        </button>
+    <button type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Search
+    </button>
+</form>
       </div>
 
       <div class="hero-buttons">
-        <a href="#" class="primary-btn"> Explore Packages </a>
+        <a href="#packages" class="primary-btn"> Explore Packages </a>
 
-        <a href="#" class="secondary-btn"> Become a Partner </a>
       </div>
     </div>
   </div>
@@ -43,7 +48,7 @@
      Recently Added Packages
 ========================================== -->
 
-<section class="featured-packages">
+<section class="featured-packages" id="packages"> 
   <div class="container">
     <h2>Latest Added Packages</h2>
 
@@ -80,10 +85,6 @@
             View Details
           </a>
         </div>
-        <a href="{% url 'start_enquiry' package.pk %}" class="secondary-btn">
-          <i class="fa-solid fa-envelope"></i>
-          Send Enquiry
-        </a>
       </div>
 
       {% empty %}
@@ -104,7 +105,7 @@
      Popular Trek Destinations
 ========================================== -->
 
-<section class="destinations">
+<section class="destinations" id="regions">
   <div class="container">
     <h2>Explore by Region</h2>
 
@@ -144,7 +145,7 @@
      Why Choose Trek Sathi
 ========================================== -->
 
-<section class="why-us">
+<section class="why-us" id="about">
   <div class="container">
     <div class="section-header">
       <h2>Why Choose Trek Sathi?</h2>
@@ -346,7 +347,7 @@
   </div>
 </section>
 <footer>
-  <div class="container">
+  <div class="container" id="contact">
     <div class="footer-grid">
       <div>
         <h3>Trek Sathi</h3>
@@ -362,9 +363,9 @@
 
         <ul>
           <li><a href="#">Home</a></li>
-          <li><a href="#">Packages</a></li>
-          <li><a href="#">Destinations</a></li>
-          <li><a href="#">Companies</a></li>
+          <li><a href="#packages">Packages</a></li>
+          <li><a href="#regions">Destinations</a></li>
+
         </ul>
       </div>
 
