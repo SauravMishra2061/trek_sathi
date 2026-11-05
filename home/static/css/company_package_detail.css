@@ -18,7 +18,7 @@
 
 .route-description {
     margin: 8px 0 22px;
-    color: #6b7280;
+    color: #64748B;
 }
 
 .route-detail-layout {
@@ -35,7 +35,7 @@
     height: 450px;
     border-radius: 14px;
     overflow: hidden;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #DBEAFE;
 }
 
 /* Route Points */
@@ -49,7 +49,7 @@
 .route-detail-points h3 {
     margin: 0 0 16px;
     font-size: 1.1rem;
-    color: #1f2937;
+    color: #1E5AA8;
 }
 
 #package-route-points {
@@ -65,9 +65,9 @@
 
     padding: 14px;
 
-    background: #f8fafc;
+    background: #F8FAFC;
 
-    border: 1px solid #e5e7eb;
+    border: 1px solid #DBEAFE;
     border-radius: 12px;
 
     transition: 0.2s ease;
@@ -76,7 +76,7 @@
 .route-detail-point:hover {
     transform: translateX(3px);
     border-color: #0d6efd;
-    background: #f0f7ff;
+    background: #EFF6FF;
 }
 
 /* Number */
@@ -109,12 +109,12 @@
 }
 
 .route-point-info strong {
-    color: #1f2937;
+    color: #1E5AA8;
     font-size: 0.95rem;
 }
 
 .route-point-info span {
-    color: #6b7280;
+    color: #64748B;
     font-size: 0.82rem;
 
     line-height: 1.4;

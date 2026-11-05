@@ -30,12 +30,12 @@
 .bookings-header h1 {
   margin: 0;
   font-size: 2rem;
-  color: #163a5f;
+  color: #1E5AA8;
 }
 
 .bookings-header p {
   margin-top: 8px;
-  color: #6b7b8c;
+  color: #64748B;
 }
 
 
@@ -78,14 +78,14 @@
   border: 1px solid rgba(0, 0, 0, 0.06);
 
   box-shadow:
-    0 8px 30px rgba(20, 50, 80, 0.08);
+    0 8px 30px rgba(30, 90, 168, 0.08);
 }
 
 .detail-card h2 {
   margin-top: 0;
   margin-bottom: 22px;
 
-  color: #163a5f;
+  color: #1E5AA8;
 
   font-size: 1.35rem;
 }
@@ -136,7 +136,7 @@
 
   text-align: left;
 
-  color: #52677d;
+  color: #64748B;
 
   font-weight: 600;
 }
@@ -146,7 +146,7 @@
 
   text-align: right;
 
-  color: #1d2f40;
+  color: #1E5AA8;
 
   font-weight: 600;
 }
@@ -169,7 +169,7 @@
 
   font-weight: 600;
 
-  color: #234a72;
+  color: #1E5AA8;
 }
 
 .form-control {
@@ -196,10 +196,10 @@
 .form-control:focus {
   outline: none;
 
-  border-color: #315c8b;
+  border-color: #3478D4;
 
   box-shadow:
-    0 0 0 4px rgba(49, 92, 139, 0.12);
+    0 0 0 4px rgba(30, 90, 168, 0.12);
 }
 
 textarea.form-control {
@@ -216,7 +216,7 @@ textarea.form-control {
 .form-help {
   margin-top: 7px;
 
-  color: #718096;
+  color: #64748B;
 
   font-size: 0.85rem;
 }
@@ -241,12 +241,12 @@ textarea.form-control {
 
   border-radius: 12px;
 
-  background: #edf6ff;
+  background: #EFF6FF;
 
   border-left:
-    4px solid #315c8b;
+    4px solid #3478D4;
 
-  color: #234a72;
+  color: #1E5AA8;
 
   font-weight: 600;
 }
@@ -266,8 +266,8 @@ textarea.form-control {
   background:
     linear-gradient(
       135deg,
-      #163a5f,
-      #315c8b
+      #1E5AA8,
+      #1E5AA8
     );
 
   color: #ffffff;
@@ -275,7 +275,7 @@ textarea.form-control {
   text-align: center;
 
   box-shadow:
-    0 10px 25px rgba(49, 92, 139, 0.2);
+    0 10px 25px rgba(30, 90, 168, 0.2);
 }
 
 .booking-total h3 {
@@ -304,6 +304,8 @@ textarea.form-control {
 ===================================== */
 
 .booking-main .primary-btn {
+  color: #FFFFFF;
+  background: #0D6EFD;
   width: 100%;
 
   min-height: 52px;

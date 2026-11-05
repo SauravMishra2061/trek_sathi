@@ -17,8 +17,8 @@ html {
 /* Body */
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: #F8FAFC;
+  color: #1E5AA8;
   line-height: 1.6;
 }
 
@@ -68,7 +68,7 @@ header {
 
   font-weight: 700;
 
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 .nav-links {
   display: flex;
@@ -108,9 +108,11 @@ header {
 /* Login Button */
 
 .login-btn {
+  border: 1px solid #2563EB;
+  background: #FFFFFF;
   padding: 10px 22px;
 
-  color: #333;
+  color: #2563EB;
 
   font-weight: 500;
 
@@ -118,8 +120,9 @@ header {
 }
 
 .login-btn:hover {
-  background: #eaf3ff;
-  color: #0d6efd;
+  border: 1px solid #2563EB;
+  background: #EFF6FF;
+  color: #2563EB;
   border-radius: 6px;
 }
 
@@ -128,9 +131,9 @@ header {
 .register-btn {
   padding: 10px 22px;
 
-  background: #0d6efd;
+  background: #0D6EFD;
 
-  color: white;
+  color: #FFFFFF;
 
   border-radius: 6px;
 
@@ -140,7 +143,8 @@ header {
 }
 
 .register-btn:hover {
-  background: #0b5ed7;
+  color: #FFFFFF;
+  background: #0B5ED7;
 
   transform: translateY(-2px);
 }
@@ -153,13 +157,13 @@ header {
   padding: 12px 18px;
 
   font-size: 15px;
-  color: #333;
+  color: #1E5AA8;
 
   transition: 0.3s;
 }
 
 .dropdown-content a:hover {
-  background: #f1f6ff;
+  background: #EFF6FF;
   color: #0d6efd;
 }
 
@@ -184,7 +188,7 @@ header {
 .hero {
   height: calc(100vh - 80px);
 
-  background-image: url('../images/hero.jpg');
+  background-image: url('../images/hero1.jpg');
 
   background-size: cover;
 
@@ -236,7 +240,7 @@ header {
 }
 
 .hero-content span {
-  color: #4da3ff;
+  color: #60A5FA;
 }
 .hero-content p {
   font-size: 1.2rem;
@@ -255,9 +259,9 @@ header {
   gap: 20px;
 }
 .primary-btn {
-  background: #0d6efd;
+  background: #0D6EFD;
 
-  color: white;
+  color: #FFFFFF;
 
   padding: 15px 35px;
 
@@ -267,14 +271,16 @@ header {
 }
 
 .primary-btn:hover {
-  background: #0b5ed7;
+  color: #FFFFFF;
+  background: #0B5ED7;
 
   transform: translateY(-3px);
 }
 .secondary-btn {
-  border: 2px solid white;
+  background: #FFFFFF;
+  border: 2px solid #2563EB;
 
-  color: white;
+  color: #2563EB;
 
   padding: 15px 35px;
 
@@ -284,9 +290,10 @@ header {
 }
 
 .secondary-btn:hover {
-  background: white;
+  border: 1px solid #2563EB;
+  background: #EFF6FF;
 
-  color: #0b3d91;
+  color: #2563EB;
 }
 /* ==========================================
    Hero Search
@@ -335,9 +342,9 @@ header {
 
   border: none;
 
-  background: #0d6efd;
+  background: #0D6EFD;
 
-  color: white;
+  color: #FFFFFF;
 
   font-size: 16px;
 
@@ -347,7 +354,8 @@ header {
 }
 
 .hero-search button:hover {
-  background: #0b5ed7;
+  color: #FFFFFF;
+  background: #0B5ED7;
 }
 /* ==========================================
    Featured Packages
@@ -356,13 +364,13 @@ header {
 .featured-packages {
   padding: 80px 0;
 
-  background: #f8f9fa;
+  background: #F8FAFC;
 }
 
 .featured-packages h2 {
   text-align: center;
 
-  color: #0b3d91;
+  color: #1E5AA8;
 
   font-size: 2.2rem;
 
@@ -372,7 +380,7 @@ header {
 .featured-packages p {
   text-align: center;
 
-  color: #666;
+  color: #64748B;
 
   margin-bottom: 45px;
 }
@@ -412,11 +420,11 @@ header {
 .package-info h3 {
   margin-bottom: 15px;
 
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 
 .duration {
-  color: #666;
+  color: #64748B;
 
   margin-bottom: 12px;
 }
@@ -435,9 +443,9 @@ header {
 
   padding: 10px 18px;
 
-  background: #0d6efd;
+  background: #0D6EFD;
 
-  color: white;
+  color: #FFFFFF;
 
   border-radius: 6px;
 
@@ -445,7 +453,8 @@ header {
 }
 
 .details-btn:hover {
-  background: #0b5ed7;
+  color: #FFFFFF;
+  background: #0B5ED7;
 }
 /* ==========================================
    Popular Destinations
@@ -465,13 +474,13 @@ header {
 .section-header h2 {
   font-size: 2.3rem;
 
-  color: #0b3d91;
+  color: #1E5AA8;
 
   margin-bottom: 15px;
 }
 
 .section-header p {
-  color: #666;
+  color: #64748B;
 
   max-width: 700px;
 
@@ -544,7 +553,7 @@ header {
 }
 
 .destination-overlay a:hover {
-  color: #4da3ff;
+  color: #60A5FA;
 }
 .destination-card {
   transition: transform 0.35s ease;
@@ -591,7 +600,7 @@ header {
 .why-us {
   padding: 90px 0;
 
-  background: #f4f9ff;
+  background: #EFF6FF;
 }
 
 .features-grid {
@@ -629,13 +638,13 @@ header {
 }
 
 .feature-card h3 {
-  color: #0b3d91;
+  color: #1E5AA8;
 
   margin-bottom: 15px;
 }
 
 .feature-card p {
-  color: #666;
+  color: #64748B;
 
   font-size: 15px;
 }
@@ -658,7 +667,7 @@ header {
 }
 
 .testimonial-card {
-  background: #f8f9fa;
+  background: #F8FAFC;
 
   padding: 30px;
 
@@ -684,7 +693,7 @@ header {
 }
 
 .review {
-  color: #555;
+  color: #64748B;
 
   margin-bottom: 25px;
 
@@ -710,13 +719,13 @@ header {
 }
 
 .reviewer h4 {
-  color: #0b3d91;
+  color: #1E5AA8;
 
   margin-bottom: 4px;
 }
 
 .reviewer span {
-  color: #777;
+  color: #64748B;
 
   font-size: 14px;
 }
@@ -807,7 +816,7 @@ header {
 .cta-btn-secondary:hover {
   background: white;
 
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 /* ==========================================
    Statistics
@@ -816,7 +825,7 @@ header {
 .statistics {
   padding: 80px 0;
 
-  background: #f8f9fa;
+  background: #F8FAFC;
 }
 
 .stats-grid {
@@ -854,7 +863,7 @@ header {
 }
 
 .stat-card h2 {
-  color: #0b3d91;
+  color: #1E5AA8;
 
   font-size: 2.3rem;
 
@@ -862,14 +871,14 @@ header {
 }
 
 .stat-card p {
-  color: #666;
+  color: #64748B;
 }
 /* ==========================================
    Footer
 ========================================== */
 
 footer {
-  background: #0b3d91;
+  background: #1E5AA8;
 
   color: white;
 
@@ -922,7 +931,7 @@ footer hr {
 ========================================== */
 
 footer {
-  background: #0b3d91;
+  background: #1E5AA8;
 
   color: white;
 
@@ -962,7 +971,7 @@ footer {
   display: none;
   font-size: 28px;
   cursor: pointer;
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 
 @media (max-width: 768px) {
@@ -1002,7 +1011,7 @@ footer {
 
   align-items: center;
 
-  background: #f8f9fa;
+  background: #F8FAFC;
 }
 
 .choice-box {
@@ -1020,13 +1029,13 @@ footer {
 }
 
 .choice-box h1 {
-  color: #0b3d91;
+  color: #1E5AA8;
 
   margin-bottom: 10px;
 }
 
 .choice-box p {
-  color: #666;
+  color: #64748B;
 
   margin-bottom: 35px;
 }
@@ -1038,9 +1047,9 @@ footer {
 
   margin-bottom: 18px;
 
-  background: #0d6efd;
+  background: #0D6EFD;
 
-  color: white;
+  color: #FFFFFF;
 
   border-radius: 8px;
 
@@ -1050,7 +1059,8 @@ footer {
 }
 
 .choice-btn:hover {
-  background: #0b5ed7;
+  color: #FFFFFF;
+  background: #0B5ED7;
 }
 .choice-box form {
   display: flex;
@@ -1061,7 +1071,7 @@ footer {
 .choice-box input {
   padding: 14px;
 
-  border: 1px solid #ddd;
+  border: 1px solid #DBEAFE;
 
   border-radius: 8px;
 
@@ -1119,7 +1129,7 @@ footer {
 
 .messages .warning {
   background: rgba(255, 193, 7, 0.95) !important;
-  color: #222 !important;
+  color: #1E5AA8 !important;
 }
 
 .messages .info {
@@ -1140,8 +1150,8 @@ footer {
 
   padding: 10px 20px;
 
-  background: #0d6efd;
-  color: white;
+  background: #0D6EFD;
+  color: #FFFFFF;
 
   border: none;
   border-radius: 30px;
@@ -1154,7 +1164,8 @@ footer {
 }
 
 .user-btn:hover {
-  background: #0b5ed7;
+  color: #FFFFFF;
+  background: #0B5ED7;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(13, 110, 253, 0.35);
 }
@@ -1191,7 +1202,7 @@ footer {
 
 .user-menu .dropdown-content a:hover {
   background: rgba(255, 255, 255, 0.15);
-  color: #4da3ff;
+  color: #60A5FA;
 }
 
 .user-menu:hover .dropdown-content {

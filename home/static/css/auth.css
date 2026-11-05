@@ -15,7 +15,7 @@ padding: 60px 20px;
 
 background:
 linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-url('../images/hero.jpg');
+url('../images/hero1.jpg');
 
 background-size: cover;
 background-position: center;
@@ -188,9 +188,9 @@ transform: translateY(-50%);
 
 padding: 0 6px;
 
-background: #315c8b;
+background: #1E5AA8;
 
-color: #4da3ff;
+color: #60A5FA;
 
 font-size: 12px;
 
@@ -223,11 +223,11 @@ Input Group Focus
 ========================== */
 
 .input-group:focus-within {
-border-color: #4da3ff;
+border-color: #3478D4;
 
 background: rgba(255, 255, 255, 0.18);
 
-box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.12);
 }
 
 /* ==========================
@@ -235,7 +235,7 @@ Focused Icon
 ========================== */
 
 .input-group:focus-within i {
-color: #4da3ff;
+color: #60A5FA;
 }
 
 /* ==========================
@@ -243,9 +243,9 @@ Focused Label
 ========================== */
 
 .input-group:focus-within label {
-color: #4da3ff;
+color: #60A5FA;
 
-background: #315c8b;
+background: #1E5AA8;
 }
 
 /* ==========================
@@ -266,9 +266,9 @@ border: none;
 
 border-radius: 10px;
 
-background: #0d6efd;
+background: #0D6EFD;
 
-color: white;
+color: #FFFFFF;
 
 text-align: center;
 
@@ -281,7 +281,8 @@ transition: 0.3s;
 
 .auth-btn:hover,
 .choice-btn:hover {
-background: #0b5ed7;
+  color: #FFFFFF;
+background: #0B5ED7;
 
 transform: translateY(-3px);
 
@@ -293,6 +294,8 @@ Space Between Choice Buttons
 ========================== */
 
 .choice-btn + .choice-btn {
+  color: #FFFFFF;
+  background: #0D6EFD;
 margin-top: 15px;
 }
 
@@ -317,9 +320,9 @@ margin-bottom: 15px;
 
 border-radius: 10px;
 
-background: #0d6efd;
+background: #0D6EFD;
 
-color: white;
+color: #FFFFFF;
 
 font-size: 16px;
 
@@ -329,11 +332,14 @@ transition: 0.3s;
 }
 
 .choice-btn i {
+  color: #FFFFFF;
+  background: #0D6EFD;
 font-size: 18px;
 }
 
 .choice-btn:hover {
-background: #0b5ed7;
+  color: #FFFFFF;
+background: #0B5ED7;
 
 transform: translateY(-3px);
 
@@ -357,7 +363,7 @@ display: block;
 
 margin-top: 8px;
 
-color: #4da3ff;
+color: #60A5FA;
 
 font-weight: 600;
 
@@ -365,7 +371,7 @@ transition: 0.3s;
 }
 
 .bottom-text a:hover {
-color: #80c4ff;
+color: #60A5FA;
 }
 
 /* ==========================

@@ -23,23 +23,25 @@
 
 .conversation-info h3 {
   margin: 0 0 6px;
-  color: #0b3d91;
+  color: #1E5AA8;
   font-size: 1.1rem;
 }
 
 .conversation-info p {
   margin: 4px 0;
-  color: #555;
+  color: #64748B;
   font-size: 0.9rem;
 }
 
 .conversation-info small {
   display: block;
   margin-top: 8px;
-  color: #888;
+  color: #64748B;
 }
 
 .conversation-card .primary-btn {
+  color: #FFFFFF;
+  background: #0D6EFD;
   flex-shrink: 0;
   padding: 9px 16px;
   font-size: 0.9rem;
@@ -56,28 +58,30 @@
 .empty-state i {
   font-size: 3rem;
   margin-bottom: 15px;
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 
 .empty-state h2 {
   margin-bottom: 8px;
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 
 .empty-state p {
-  color: #666;
+  color: #64748B;
 }
 
 .latest-message {
   margin-top: 8px !important;
-  color: #444 !important;
+  color: #64748B !important;
 }
 
 .latest-message strong {
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 
 .conversation-card .primary-btn {
+  color: #FFFFFF;
+  background: #0D6EFD;
   padding: 8px 14px;
   font-size: 0.85rem;
 }
@@ -89,6 +93,8 @@
   }
 
   .conversation-card .primary-btn {
+  color: #FFFFFF;
+  background: #0D6EFD;
     width: 100%;
     text-align: center;
   }

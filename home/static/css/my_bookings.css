@@ -24,13 +24,13 @@
 
 .bookings-header h1 {
   margin: 0;
-  color: #234a72;
+  color: #1E5AA8;
   font-size: 2.2rem;
 }
 
 .bookings-header p {
   margin-top: 8px;
-  color: #666;
+  color: #64748B;
   font-size: 1rem;
 }
 
@@ -44,7 +44,7 @@
 
 .booking-section h2 {
   margin-bottom: 20px;
-  color: #234a72;
+  color: #1E5AA8;
   font-size: 1.45rem;
   font-weight: 700;
 }
@@ -104,7 +104,7 @@
 
   flex-shrink: 0;
 
-  background: #eef5fb;
+  background: #EFF6FF;
 }
 
 .booking-image img {
@@ -132,12 +132,12 @@
   justify-content: center;
   align-items: center;
 
-  background: #eef5fb;
+  background: #EFF6FF;
 }
 
 .booking-image-placeholder i {
   font-size: 72px;
-  color: #315c8b;
+  color: #1E5AA8;
 }
 /* =====================================
    Content
@@ -155,7 +155,7 @@
 }
 
 .booking-content h3 {
-  color: #234a72;
+  color: #1E5AA8;
 
   font-size: 1.3rem;
 
@@ -173,7 +173,7 @@
 
   margin: 0;
 
-  color: #555;
+  color: #64748B;
 
   font-size: 0.95rem;
 }
@@ -181,7 +181,7 @@
 .booking-content p i {
   width: 18px;
 
-  color: #315c8b;
+  color: #1E5AA8;
 }
 
 /* =====================================
@@ -252,9 +252,9 @@
 
   padding: 12px;
 
-  background: #315c8b;
+  background: #0D6EFD;
 
-  color: white;
+  color: #FFFFFF;
 
   text-decoration: none;
 
@@ -266,7 +266,8 @@
 }
 
 .view-btn:hover {
-  background: #3468a1;
+  color: #FFFFFF;
+  background: #0B5ED7;
 
   transform: translateY(-2px);
 }
@@ -296,7 +297,7 @@
 
   border-radius: 50%;
 
-  background: #315c8b;
+  background: #1E5AA8;
 
   display: flex;
 
@@ -312,7 +313,7 @@
 }
 
 .empty-booking-state h3 {
-  color: #234a72;
+  color: #1E5AA8;
 
   margin-bottom: 12px;
 
@@ -320,7 +321,7 @@
 }
 
 .empty-booking-state p {
-  color: #666;
+  color: #64748B;
 
   max-width: 420px;
 
@@ -342,14 +343,14 @@
 
 .booking-card-heading h2 {
   margin: 6px 0 0;
-  color: #234a72;
+  color: #1E5AA8;
   font-size: 1.35rem;
   font-weight: 700;
 }
 
 .booking-reference {
   font-size: 0.8rem;
-  color: #888;
+  color: #64748B;
   font-weight: 600;
 }
 
@@ -373,7 +374,7 @@
 
 .booking-details i {
   width: 18px;
-  color: #315c8b;
+  color: #1E5AA8;
 }
 
 /* =====================================
@@ -385,12 +386,12 @@
   margin-bottom: 20px;
   padding: 15px;
   border-radius: 12px;
-  background: rgba(49, 92, 139, 0.08);
+  background: rgba(30, 90, 168, 0.08);
 }
 
 .special-request h3 {
   margin: 0 0 10px;
-  color: #234a72;
+  color: #1E5AA8;
   font-size: 1rem;
 }
 
@@ -416,12 +417,12 @@
 .booking-price span {
   display: block;
   font-size: 0.85rem;
-  color: #777;
+  color: #64748B;
 }
 
 .booking-price strong {
   font-size: 1.35rem;
-  color: #234a72;
+  color: #1E5AA8;
 }
 
 .booking-actions {
@@ -474,8 +475,8 @@
 
   padding: 8px 14px;
 
-  background: #fff8e1;
-  color: #b77900;
+  background: #0D6EFD;
+  color: #FFFFFF;
 
   border: 1px solid #f2cf65;
   border-radius: 7px;
@@ -491,8 +492,8 @@
 }
 
 .review-btn:hover {
-  background: #ffc107;
-  color: white;
+  background: #0B5ED7;
+  color: #FFFFFF;
 
   border-color: #ffc107;
 

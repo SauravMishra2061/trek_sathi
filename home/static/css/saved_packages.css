@@ -11,11 +11,11 @@
   align-items: center;
   gap: 10px;
   font-size: 2rem;
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 
 .saved-header p {
-  color: #666;
+  color: #64748B;
   margin-top: 8px;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .package-company {
-  color: #666;
+  color: #64748B;
   margin: 6px 0;
   display: flex;
   align-items: center;
@@ -39,7 +39,7 @@
   justify-content: space-between;
   margin: 8px 0;
   font-size: 0.9rem;
-  color: #666;
+  color: #64748B;
 }
 
 .package-meta span {
@@ -51,7 +51,7 @@
 .package-price {
   font-size: 1.15rem;
   font-weight: 700;
-  color: #0b3d91;
+  color: #1E5AA8;
   margin: 8px 0 12px;
 }
 
@@ -74,14 +74,29 @@
   flex: 1;
   text-align: center;
 }
+
+.package-buttons .primary-btn {
+  background: #0D6EFD;
+  color: #FFFFFF;
+  border: 1px solid #0D6EFD;
+}
+
+.package-buttons .primary-btn:hover {
+  background: #0B5ED7;
+  color: #FFFFFF;
+  border-color: #0B5ED7;
+}
+
 .package-buttons .secondary-btn {
-  background: #e74c3c;
-  color: white;
-  border: none;
+  background: #FFFFFF;
+  color: #2563EB;
+  border: 1px solid #2563EB;
 }
 
 .package-buttons .secondary-btn:hover {
-  background: #c0392b;
+  border: 1px solid #2563EB;
+  color: #2563EB;
+  background: #EFF6FF;
 }
 .empty-state {
   background: #fff;
@@ -99,11 +114,11 @@
 
 .empty-state h2 {
   margin-bottom: 10px;
-  color: #0b3d91;
+  color: #1E5AA8;
 }
 
 .empty-state p {
-  color: #666;
+  color: #64748B;
   margin-bottom: 25px;
 }
 

@@ -3,7 +3,7 @@
 ============================== */
 
 .package-detail-page {
-  background: #f5f8fc;
+  background: #F8FAFC;
   min-height: 100vh;
   padding-bottom: 60px;
 }
@@ -31,7 +31,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #315c8b;
+  background: #1E5AA8;
   color: white;
   font-size: 90px;
 }
@@ -65,13 +65,13 @@
 }
 
 .package-header h1 {
-  color: #234a72;
+  color: #1E5AA8;
   margin-bottom: 8px;
   font-size: 2.2rem;
 }
 
 .trek-name {
-  color: #666;
+  color: #64748B;
   font-size: 1rem;
   margin-bottom: 15px;
 }
@@ -83,7 +83,7 @@
 }
 
 .company-name {
-  color: #315c8b;
+  color: #1E5AA8;
   font-weight: 600;
 }
 
@@ -119,17 +119,17 @@
 
 .info-card i {
   font-size: 28px;
-  color: #315c8b;
+  color: #1E5AA8;
   margin-bottom: 10px;
 }
 
 .info-card h4 {
   margin-bottom: 8px;
-  color: #234a72;
+  color: #1E5AA8;
 }
 
 .info-card p {
-  color: #666;
+  color: #64748B;
 }
 
 /* ==============================
@@ -166,12 +166,13 @@
 }
 
 .primary-btn {
-  background: #315c8b;
-  color: #fff;
+  background: #0D6EFD;
+  color: #FFFFFF;
 }
 
 .primary-btn:hover {
-  background: #234a72;
+  color: #FFFFFF;
+  background: #0B5ED7;
   transform: translateY(-2px);
 }
 
@@ -181,17 +182,18 @@
 }
 
 .secondary-btn {
-  background: #ffffff;
+  background: #FFFFFF;
 
-  color: #315c8b;
+  color: #2563EB;
 
-  border: 2px solid #315c8b;
+  border: 2px solid #2563EB;
 }
 
 .secondary-btn:hover {
-  background: #315c8b;
+  border: 1px solid #2563EB;
+  background: #EFF6FF;
 
-  color: white;
+  color: #2563EB;
 }
 .cancel-btn {
     border: none;
@@ -227,7 +229,7 @@
 }
 
 .content-card h2 {
-  color: #234a72;
+  color: #1E5AA8;
 
   margin-bottom: 18px;
 
@@ -241,13 +243,13 @@
 }
 
 .content-card h2 i {
-  color: #315c8b;
+  color: #1E5AA8;
 }
 
 .content-text {
   line-height: 1.9;
 
-  color: #555;
+  color: #64748B;
 }
 
 /* ==============================
@@ -271,9 +273,9 @@
 
   border-radius: 14px;
 
-  background: #f8fafc;
+  background: #F8FAFC;
 
-  border-left: 5px solid #315c8b;
+  border-left: 5px solid #3478D4;
 
   margin-bottom: 18px;
 }
@@ -287,11 +289,11 @@
 }
 
 .review-top strong {
-  color: #234a72;
+  color: #1E5AA8;
 }
 
 .review-top span {
-  color: #888;
+  color: #64748B;
 
   font-size: 0.9rem;
 }
@@ -303,7 +305,7 @@
 }
 
 .review-card p {
-  color: #555;
+  color: #64748B;
 
   line-height: 1.7;
 
@@ -315,13 +317,13 @@
 
   padding: 30px;
 
-  color: #777;
+  color: #64748B;
 }
 
 .empty-review i {
   font-size: 40px;
 
-  color: #315c8b;
+  color: #1E5AA8;
 
   margin-bottom: 15px;
 }
@@ -334,7 +336,7 @@
 }
 
 .route-description {
-    color: #666;
+    color: #64748B;
     margin-bottom: 25px;
 }
 
@@ -353,8 +355,8 @@
 }
 
 .route-detail-points {
-    background: #f8fbff;
-    border: 1px solid #e2eaf3;
+    background: #EFF6FF;
+    border: 1px solid #DBEAFE;
     border-radius: 14px;
     padding: 20px;
     max-height: 450px;
@@ -364,7 +366,7 @@
 .route-detail-points h3 {
     margin-top: 0;
     margin-bottom: 20px;
-    color: #0b3d91;
+    color: #1E5AA8;
 }
 
 .route-detail-point {
@@ -390,7 +392,7 @@
 
     border-radius: 50%;
 
-    background: #0b3d91;
+    background: #1E5AA8;
     color: white;
 
     font-weight: 600;
@@ -403,12 +405,12 @@
 }
 
 .route-point-info strong {
-    color: #222;
+    color: #1E5AA8;
 }
 
 .route-point-info span {
     font-size: 0.85rem;
-    color: #777;
+    color: #64748B;
 }
 
 
