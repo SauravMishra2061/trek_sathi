@@ -831,7 +831,7 @@ def generate_company_report(request):
                 "BACKGROUND",
                 (0, 0),
                 (-1, 0),
-                colors.darkgreen,
+                colors.HexColor("#1E5AA8"),
             ),
 
             (
@@ -954,7 +954,7 @@ def generate_company_report(request):
                 "BACKGROUND",
                 (0, 0),
                 (-1, 0),
-                colors.darkgreen,
+                colors.HexColor("#1E5AA8"),
             ),
 
             (
@@ -1103,7 +1103,7 @@ def generate_company_report(request):
                 "BACKGROUND",
                 (0, 0),
                 (-1, 0),
-                colors.darkgreen,
+                colors.HexColor("#1E5AA8"),
             ),
 
             (
@@ -1294,7 +1294,7 @@ def generate_company_report(request):
                 "BACKGROUND",
                 (0, 0),
                 (-1, 0),
-                colors.darkgreen,
+                colors.HexColor("#1E5AA8"),
             ),
 
             (

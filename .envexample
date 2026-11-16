@@ -4,7 +4,7 @@ euta map tiler ni banaunu parxa api
 
 
 DJANGO_SECRET_KEY=your_secret_key
-ORS_API_KEY=your_ors_key
+ORS_API_KEY=your_ors_key :open route service
 MAPTILER_API_KEY=your_new_maptiler_key
 
 
